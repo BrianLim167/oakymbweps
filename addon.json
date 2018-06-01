@@ -1,0 +1,11 @@
+{
+	"title"		:	"Oaky MB Weps",
+	"type"		:	"Weapon",
+	"tags"		:	[ "roleplay" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}

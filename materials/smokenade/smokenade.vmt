@@ -1,0 +1,18 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "smokenade/smokenade"
+	"$surfaceprop" "metal"
+    	"$envmap" "env_cubemap"
+   	"$envmapcontrast" 0.72
+    	"$envmaptint" "[.032 .032 .032]"
+	"$selfillum"	"1"
+
+
+	"$phong" "1" 
+	"$phongboost" "1" 
+	"$phongfresnelranges" "[ 1 12 62]"
+	"$phongexponent" "32"
+
+	"$bumpmap" "smokenade/smokenade_normal"
+	"$normalmapalphaenvmapmask" "1"
+}

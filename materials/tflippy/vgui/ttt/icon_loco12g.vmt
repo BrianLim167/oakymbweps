@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "tflippy/vgui/ttt/icon_loco12g"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$translucent" "1"
+}

@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture"	"models\weapons\v_models\stoke_spas12\peace"
+	"$bumpmap" 	"models\weapons\v_models\stoke_spas12\peace-n"
+	
+}
