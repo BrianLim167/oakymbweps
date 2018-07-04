@@ -40,7 +40,9 @@ SWEP.AimPatternY = function(t)
 end
 SWEP.BloomRecoverRate 	= 0.05
 SWEP.AimRecoverRate		= 0.21
-SWEP.AimKick			= 0.0
+SWEP.AimKick			= 0.01
+SWEP.Primary.ShoveY         = 0.3
+SWEP.Primary.ShoveX         = 0.4
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false

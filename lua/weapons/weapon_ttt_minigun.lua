@@ -27,7 +27,7 @@ SWEP.NoSights = true
 SWEP.Kind = WEAPON_EQUIP1
 
 SWEP.Primary.Delay	   = 0.08
-SWEP.Primary.Recoil	  = 0.5
+SWEP.Primary.Recoil	  = 0.005
 SWEP.Primary.Automatic   = true
 SWEP.ViewModelFOV  = 50
 SWEP.ViewModelFlip = false
@@ -41,6 +41,10 @@ SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1.2
 SWEP.JumpPenalty			 	 	= 2
 SWEP.MaxCone 					 	= 0.065
+
+SWEP.AimKick				= 0.05
+SWEP.Primary.ShoveY         = 0.1
+SWEP.Primary.ShoveX         = 0.3
 
 SWEP.CanBuy = { ROLE_TRAITOR }
 SWEP.LimitedStock = true
@@ -64,20 +68,26 @@ SWEP.SpinTime = 0.2
 
 function SWEP:Deploy()
 	self:SendWeaponAnim(ACT_VM_DRAW)
-	timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	if self.Owner:SteamID() then
+		timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	end
 	SpinMod = SpinMod-SpinMod+1
 	self.IsShooting = false
 	return true
 end
 
 function SWEP:OnRemove()
-    timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	if self.Owner:SteamID() then
+		timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	end
 	SpinMod = SpinMod-SpinMod+1
 	self.IsShooting = false
 end
 
 function SWEP:Holster()
-    timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	if self.Owner:SteamID() then
+		timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	end
 	SpinMod = SpinMod-SpinMod+1
 	self.IsShooting = false
 	return true
@@ -92,9 +102,12 @@ end
 hook.Add("TTTPlayerSpeed", "MinigunSpeed", MinigunSpeedMod )
 
 function SWEP:Think()
+	self:ThinkBase()
 	if self.IsShooting == true and IsValid(self.Owner) and self.Owner:IsTerror() then
 		if self.Owner:KeyReleased( IN_ATTACK) then
-			timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+			if self.Owner:SteamID() then
+				timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+			end
 			SpinMod = SpinMod-SpinMod+1
 			self.IsShooting = false 
 		end
@@ -120,17 +133,8 @@ function SWEP:PrimaryAttack(worldsnd)
 					SpinMod = math.Approach( SpinMod, 5,  0.22)	
 				end)
 		end
-		if not worldsnd then
-			self:EmitSound( self.Primary.Sound, self.Primary.SoundLevel )
-		elseif SERVER then
-			sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
-		end
 		
-		self:ShootBullet( self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone() )
-		self:TakePrimaryAmmo( 1 )
-		
-		if not IsValid(self.Owner) or self.Owner:IsNPC() or (not self.Owner.ViewPunch) then return end
-		self.Owner:ViewPunch( Angle( math.Rand(-0.1,-0.07) * self.Primary.Recoil, math.Rand(-0.05,0.05) *self.Primary.Recoil, 0 ) )
+		self:PrimaryAttackBase(worldsnd)
 		
 		if SERVER then
 			self.Owner:LagCompensation(false)

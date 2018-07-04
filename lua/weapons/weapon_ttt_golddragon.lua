@@ -58,6 +58,8 @@ SWEP.AimPatternY 		= function(t)
 SWEP.BloomRecoverRate 	= 0.00205
 SWEP.AimRecoverRate		= 0.1
 SWEP.AimKick			= 0.05
+SWEP.Primary.ShoveY         = 0.2
+SWEP.Primary.ShoveX         = 0.3
 
 SWEP.AutoSpawnable = false
 SWEP.Kind = WEAPON_EQUIP

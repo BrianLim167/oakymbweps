@@ -33,11 +33,13 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 0
+		return 1 * t
 	end
 SWEP.BloomRecoverRate 	= 0.0075
 SWEP.AimRecoverRate		= 0.25
-SWEP.AimKick			= 1.75
+SWEP.AimKick			= 3
+SWEP.Primary.ShoveY         = 1
+SWEP.Primary.ShoveX         = 1.15
 
 SWEP.HeadshotMultiplier = 4
 

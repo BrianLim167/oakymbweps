@@ -9,6 +9,12 @@ SWEP.Kind = WEAPON_NONE
 SWEP.CanBuy = nil
 
 if CLIENT then
+	SWEP.aimy = 0
+	SWEP.aimx = 0
+	SWEP.aimpunch = 0
+end
+
+if CLIENT then
    SWEP.EquipMenuData = nil
    SWEP.Icon = "vgui/ttt/icon_nades"
 end
@@ -100,6 +106,8 @@ SWEP.AimPatternY 		= function(t)
 SWEP.BloomRecoverRate 	= 0.005
 SWEP.AimRecoverRate		= 0.35
 SWEP.AimKick			= 0.05
+SWEP.Primary.ShoveY         = 0.01
+SWEP.Primary.ShoveX         = 0.2
 
 --SWEP.Penetration 						= 0
 --work on this later
@@ -222,6 +230,7 @@ function SWEP:PrimaryAttackBase(worldsnd)
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
    
    self:SetAimPunch( self:GetAimPunch() + 1 )
+   if CLIENT then self.aimpunch = self.aimpunch+1 end
 	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self:GetBloom() ) .. " " .. tostring( 167 ) )
    self:SetBloom( self:GetBloom() + self.Primary.Recoil )
    if self:GetBloom() < -self.Primary.Cone then
@@ -253,7 +262,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    bullet.Force  = dmg * 0.4
    bullet.Damage = dmg + self:HollowDamageTarget( attacker, tr, dmginfo )
    bullet.Callback = function( attacker, tr, dmginfo)
-		--self:HollowDamageTarget( attacker, tr, dmginfo )
+		self:Callback( attacker, tr, dmginfo )
 	end
 	--bullet.Callback = function(a, b, c)
 	--return self:BulletPenetrate(0, a, b, c) end
@@ -262,6 +271,9 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    -- Owner can die after firebullets
 	   
 	self:ShootBulletBase( dmg, recoil, numbul, cone )
+end
+
+function SWEP:Callback( attacker, tr, dmginfo )
 end
 
 function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
@@ -275,8 +287,21 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	
 	local dy = self.AimPatternY(self:GetAimPunch()+1) - self.AimPatternY(self:GetAimPunch()-0)
 	local dx = self.AimPatternX(self:GetAimPunch()+1) - self.AimPatternX(self:GetAimPunch()-0)
-	self:SetAimY(self:GetAimY() + dy)
-	self:SetAimX(self:GetAimX() + dx)
+	
+	local aimy = self:GetAimY()+dy
+	local aimx = self:GetAimX()+dx
+	
+	self:SetAimY(aimy)
+	self:SetAimX(aimx)
+	--self.Owner:ViewPunch( Angle(-0.1*self:GetAimY()*dy,-0.5*1*dx,0))
+	self.Owner:ViewPunch( -self.Owner:GetViewPunchAngles()-(Angle(0.5*aimy,0.5*aimx,0)) )
+	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
+	if CLIENT then 
+		dy = self.AimPatternY(self.aimpunch+1) - self.AimPatternY(self.aimpunch)
+		dx = self.AimPatternX(self.aimpunch+1) - self.AimPatternX(self.aimpunch)
+		self.aimy = self.aimy + dy
+		self.aimx = self.aimx + dx
+	end
 		
 	--[[
    if ((game.SinglePlayer() and SERVER) or
@@ -335,21 +360,42 @@ function SWEP:AimPunchEvent()
 		else
 			aimy = 0
 			aimx = 0
+			self.Owner:SetViewPunchAngles( Angle(0,0,0) )
 		end
 	end
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
+	self:SetAimAngles(Angle(-aimy,-aimx,0))
+	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self.Owner:GetViewPunchAngles() ) .. " " .. tostring( 167 ) )
+	if CLIENT then
 	
-	aimy = -aimy
-	aimx = -aimx
+		aimy = self.aimy
+		aimx = self.aimx
+		aimr = math.sqrt( math.pow(aimy, 2), math.pow(aimx, 2) )
+		
+		
+		if aimr > 0 then
+			
+			self.aimpunch = math.max( 0, self.aimpunch * (1 - self.AimRecoverRate/aimr) )
+			
+			aimynew = aimy - self.AimRecoverRate * (aimy/aimr) 
+			aimxnew = aimx - self.AimRecoverRate * (aimx/aimr) 
+			if aimynew > 0 then
+				aimy = aimynew
+				aimx = aimxnew
+			else
+				aimy = 0
+				aimx = 0
+			end
+		end
+	end
+	
+	self.aimy = aimy
+	self.aimx = aimx
 	
 	-- view punch counteracts aim punch so that the view doesn't completely follow the bullets
 	--self.Owner:SetViewPunchAngles(Angle(0.25 * aimy, 0.25 * aimx, 0))
-	self:SetAimAngles(Angle(aimy,aimx,0))
 	
-	if IsFirstTimePredicted() then
-	end
-   --self.Owner:ViewPunch(Angle(math.Rand(-100,-50) * self.Primary.Recoil, math.Rand(-0.1,0.1) * self.Primary.Recoil, 0 ))
 end
 
 function SWEP:Reload()
@@ -361,6 +407,10 @@ function SWEP:Reload()
     self:SetIronsights(false)
     self:SetZoom(false)
 	self:ResetData()
+	if CLIENT then 
+		self.aimy = 0
+		self.aimx = 0
+	end
 end
 
 function SWEP:Holster()
@@ -380,6 +430,7 @@ function SWEP:ThinkBase()
 	--local inaccMult = 1 + self.Owner:GetWalkSpeed() * 0.75
 end
 
+--[[
 function SWEP:CalcView(ply, pos, ang, fov)
 	local view = {}
 	
@@ -391,19 +442,30 @@ function SWEP:CalcView(ply, pos, ang, fov)
 	
 	return view
 end
+]]--
+
+
+
 
 local function CalcViewPunch(ply, pos, ang, fov)
 	local view = {}
 	local wep = ply:GetActiveWeapon()
+	local aimy = 0
+	local aimx = 0
 	
-	local aimy = wep:CallOnClient("GetAimY","")
-	local aimx = wep:CallOnClient("GetAimX","")
+	if false and wep and ply and ply:Alive() and !ply:IsNPC() and IsValid(ply) and IsValid(wep) then
+	
+		aimy = wep.aimy or 0
+		aimx = wep.aimx or 0
+		--ply:PrintMessage(HUD_PRINTTALK, tostring( wep.aimy ) .. " " .. tostring( 1 ) )
+	
+	end
 	
 	view.origin = pos
 	view.angles = ang + Angle(-0.25*aimy, -0.25*aimx, 0)
 	view.fov = fov
-	view.drawviewer = true
-	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self:GetBloom() ) .. " " .. tostring( 167 ) )
+	view.drawviewer = false
+	--ply:PrintMessage(HUD_PRINTTALK, tostring( aimy ) .. " " .. tostring( 167 ) )
 	
 	return view
 end

@@ -21,30 +21,32 @@ if ROLE_SURVIVALIST then
 end
 
 SWEP.Primary.Damage      = 14
-SWEP.Primary.Delay       = 0.0575
-SWEP.Primary.Cone        = 0.04
+SWEP.Primary.Delay       = 0.0615
+SWEP.Primary.Cone        = 0.019
 SWEP.Primary.ClipSize    = 30
 SWEP.Primary.ClipMax     = 60
 SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Automatic   = true
 SWEP.Primary.Ammo        = "smg1"
-SWEP.Primary.Recoil      = 0.00125
+SWEP.Primary.Recoil      = 0.0225
 SWEP.Primary.Sound       = Sound( "Weapon_mac10.shot" )
 SWEP.HeadshotMultiplier = 2
-SWEP.CrouchBonus 				 	= 0.7
+SWEP.CrouchBonus 				 	= 0.9
 SWEP.MovePenalty			 	 	= 0.025
 SWEP.JumpPenalty			 	 	= 1.2
-SWEP.MaxCone 					 	= 0.05
+SWEP.MaxCone 					 	= 0.07
 
 SWEP.AimPatternX 		= function(t)
 		return 0.0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 0.225 * t
+		return 1.4 * t
 	end
-SWEP.BloomRecoverRate 	= 0.005
-SWEP.AimRecoverRate		= 0.75
-SWEP.AimKick			= 0.075
+SWEP.BloomRecoverRate 	= 0.00425
+SWEP.AimRecoverRate		= 0.225
+SWEP.AimKick			= 0.225
+SWEP.Primary.ShoveY         = 0.2
+SWEP.Primary.ShoveX         = 0.325
 
 SWEP.AutoSpawnable = true
 

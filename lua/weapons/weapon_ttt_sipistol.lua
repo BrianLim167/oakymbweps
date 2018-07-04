@@ -20,7 +20,7 @@ end
 
 SWEP.Base                  = "weapon_ttt_brekiy_base"
 
-SWEP.Primary.Recoil		   = 0.0035
+SWEP.Primary.Recoil		   = 0.035
 SWEP.Primary.Damage        = 24
 SWEP.Primary.Delay         = 0.28
 SWEP.Primary.Cone          = 0.015
@@ -43,9 +43,11 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 20 * t / (t + 15)
 	end
-SWEP.BloomRecoverRate 	= 0.05
+SWEP.BloomRecoverRate 	= 0.005
 SWEP.AimRecoverRate		= 0.15
 SWEP.AimKick			= 0.05
+SWEP.Primary.ShoveY         = 0.1
+SWEP.Primary.ShoveX         = 0.3
 
 SWEP.Kind                  = WEAPON_EQUIP
 SWEP.CanBuy                = {ROLE_TRAITOR} -- only traitors can buy

@@ -33,7 +33,7 @@ SWEP.Primary.Automatic		= true
 SWEP.Primary.Ammo			= "smg1"
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
-SWEP.Primary.Recoil		= 0.00015
+SWEP.Primary.Recoil		= 0.035
 SWEP.Primary.Sound		= Sound( "Weapon_ump45.shot" )
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.25
@@ -44,11 +44,11 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 1.75 * t
+		return 1.25 * t
 	end
-SWEP.BloomRecoverRate 	= 0.05
-SWEP.AimRecoverRate		= 0.35
-SWEP.AimKick			= 1
+SWEP.BloomRecoverRate 	= 0.005
+SWEP.AimRecoverRate		= 0.15
+SWEP.AimKick			= 0.8
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false
@@ -61,65 +61,25 @@ SWEP.HeadshotMultiplier = 2
 SWEP.IronSightsPos = Vector(-8.735, -10, 4.039)
 SWEP.IronSightsAng = Vector(-1.201, -0.201, -2)
 
-function SWEP:ShootBullet( dmg, recoil, numbul, cone )
-   local sights = self:GetIronsights()
+function SWEP:Callback( att, tr, dmginfo )
+	if SERVER or (CLIENT and IsFirstTimePredicted()) then
+	   local ent = tr.Entity
+	   if (not tr.HitWorld) and IsValid(ent) then
+		  local edata = EffectData()
 
-   numbul = numbul or 1
-   cone   = cone   or 0.01
+		  edata:SetEntity(ent)
+		  edata:SetMagnitude(3)
+		  edata:SetScale(2)
 
-   -- 10% accuracy bonus when sighting
-   cone = sights and (cone * 0.9) or cone
+		  util.Effect("TeslaHitBoxes", edata)
 
-   local bullet = {}
-   bullet.Num    = numbul
-   bullet.Src    = self.Owner:GetShootPos()
-   bullet.Dir    = self.Owner:GetAimVector()
-   bullet.Spread = Vector( cone, cone, 0 )
-   bullet.Tracer = 4
-   bullet.Force  = 5
-   bullet.Damage = dmg
-
-   bullet.Callback = function(att, tr, dmginfo)
-						self:HollowDamageTarget( attacker, tr, dmginfo )
-                        if SERVER or (CLIENT and IsFirstTimePredicted()) then
-                           local ent = tr.Entity
-                           if (not tr.HitWorld) and IsValid(ent) then
-                              local edata = EffectData()
-
-                              edata:SetEntity(ent)
-                              edata:SetMagnitude(3)
-                              edata:SetScale(2)
-
-                              util.Effect("TeslaHitBoxes", edata)
-
-                              if SERVER and ent:IsPlayer() then
-                                 local eyeang = ent:EyeAngles()
-                                 local j = 10
-                                 eyeang.pitch = math.Clamp(eyeang.pitch + math.Rand(-j, j), -90, 90)
-                                 eyeang.yaw = math.Clamp(eyeang.yaw + math.Rand(-j, j), -90, 90)
-                                 ent:SetEyeAngles(eyeang)
-                              end
-                           end
-                        end
-                     end
-
-
-   self.Owner:FireBullets( bullet )
-   self:SendWeaponAnim(self.PrimaryAnim)
-   
-   self.IsAimRecover = false
-   timer.Create( "AimRecoverPause", self.Primary.Delay, 1, function() self.IsAimRecover = true end )
-
-   -- Owner can die after firebullets, giving an error at muzzleflash
-   if not IsValid(self.Owner) or not self.Owner:Alive() then return end
-
-   self.Owner:MuzzleFlash()
-   self.Owner:SetAnimation( PLAYER_ATTACK1 )
-
-   if self.Owner:IsNPC() then return end
-	   
-	local eyeang = self.Owner:EyeAngles()
-	eyeang.pitch = eyeang.pitch - (math.Rand(self.AimKick / 2, self.AimKick))
-	eyeang.yaw = eyeang.yaw - (math.Rand(-self.AimKick / 4, self.AimKick / 4))
-	self.Owner:SetEyeAngles(eyeang)
+		  if SERVER and ent:IsPlayer() then
+			 local eyeang = ent:EyeAngles()
+			 local j = 10
+			 eyeang.pitch = math.Clamp(eyeang.pitch + math.Rand(-j, j), -90, 90)
+			 eyeang.yaw = math.Clamp(eyeang.yaw + math.Rand(-j, j), -90, 90)
+			 ent:SetEyeAngles(eyeang)
+		  end
+	   end
+	end
 end

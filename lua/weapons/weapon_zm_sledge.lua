@@ -16,31 +16,33 @@ SWEP.Spawnable = true
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M249
 
-SWEP.Primary.Damage = 14
+SWEP.Primary.Damage = 15
 SWEP.Primary.Delay = 0.0775
-SWEP.Primary.Cone = 0.08
+SWEP.Primary.Cone = 0.05
 SWEP.Primary.ClipSize = 100
 SWEP.Primary.ClipMax = 100
 SWEP.Primary.DefaultClip	= 100
 SWEP.Primary.Automatic		= true
 SWEP.Primary.Ammo			= "AirboatGun"
 SWEP.AutoSpawnable      = true
-SWEP.Primary.Recoil			= 0.0
+SWEP.Primary.Recoil			= 0.0125
 SWEP.Primary.Sound			= Sound("Weapon_m249.shot")
-SWEP.CrouchBonus 				 	= 0.7
-SWEP.MovePenalty			 	 	= 9999
-SWEP.JumpPenalty			 	 	= 9999
+SWEP.CrouchBonus 				 	= 0.85
+SWEP.MovePenalty			 	 	= 0.2
+SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.25
 
 SWEP.AimPatternX 		= function(t)
 		return 0.01 * t * math.sin(0.8 * t)
 	end
 SWEP.AimPatternY 		= function(t)
-		return 20 * t / (t + 5)
+		return 30 * t / (t + 30)
 	end
-SWEP.BloomRecoverRate 	= 0.045
-SWEP.AimRecoverRate		= 1.85
-SWEP.AimKick			= 0.05
+SWEP.BloomRecoverRate 	= 0.0025
+SWEP.AimRecoverRate		= 0.085
+SWEP.AimKick			= 0.3
+SWEP.Primary.ShoveY         = 0.4
+SWEP.Primary.ShoveX         = 0.5
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false

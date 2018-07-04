@@ -12,8 +12,8 @@ SWEP.HoldType = "smg"
 
 SWEP.Primary.Ammo = "Pistol"
 SWEP.Primary.Delay = 0.075
-SWEP.Primary.Recoil = 0.0035
-SWEP.Primary.Cone = 0.045
+SWEP.Primary.Recoil = 0.015
+SWEP.Primary.Cone = 0.035
 SWEP.Primary.Damage = 8
 SWEP.Primary.HollowRating = 7
 SWEP.Primary.Automatic = true
@@ -32,11 +32,13 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 20 * t / (t + 25)
+		return 50 * t / (t + 25)
 	end
-SWEP.BloomRecoverRate 	= 0.0025
-SWEP.AimRecoverRate		= 0.35
+SWEP.BloomRecoverRate 	= 0.0045
+SWEP.AimRecoverRate		= 0.25
 SWEP.AimKick			= 0.05
+SWEP.Primary.ShoveY         = 0.2
+SWEP.Primary.ShoveX         = 0.3
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false

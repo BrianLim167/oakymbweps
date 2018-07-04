@@ -40,6 +40,8 @@ end
 SWEP.BloomRecoverRate 	= 0.05
 SWEP.AimRecoverRate		= 0.145
 SWEP.AimKick 			= 0.015
+SWEP.Primary.ShoveY         = 0.25
+SWEP.Primary.ShoveX         = 0.5
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false

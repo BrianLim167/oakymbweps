@@ -22,7 +22,7 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.Damage	= 4
 SWEP.HeadshotMultiplier = 1.5
 SWEP.Primary.NumShots = 20
-SWEP.Primary.Cone = 0.064
+SWEP.Primary.Cone = 0.06
 SWEP.Primary.Delay = 0.35
 SWEP.Primary.Recoil	= 0.035
 
@@ -30,11 +30,13 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 0.375 * t
+		return 0.5 * t
 	end
 SWEP.BloomRecoverRate 	= 0.005
 SWEP.AimRecoverRate		= 0.35
-SWEP.AimKick			= 6
+SWEP.AimKick			= 5
+SWEP.Primary.ShoveY         = 0.4
+SWEP.Primary.ShoveX         = 2
 
 SWEP.Primary.ClipSize = 2
 SWEP.Primary.ClipMax = 20

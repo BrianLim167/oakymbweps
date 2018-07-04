@@ -22,7 +22,7 @@ SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Sound = Sound("Weapon_DetRev.Single")
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.55
-SWEP.MovePenalty			 	 	= 2
+SWEP.MovePenalty			 	 	= 1
 SWEP.JumpPenalty			 	 	= 10
 SWEP.MaxCone 					 	= 0.09
 
@@ -32,9 +32,11 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 7.5 * t
 	end
-SWEP.BloomRecoverRate 	= 0.05
+SWEP.BloomRecoverRate 	= 0.0035
 SWEP.AimRecoverRate		= 0.95
 SWEP.AimKick			= 2.5
+SWEP.Primary.ShoveY         = 0.1
+SWEP.Primary.ShoveX         = 0.5
 
 -- Model properties
 SWEP.UseHands = true

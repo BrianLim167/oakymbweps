@@ -19,14 +19,14 @@ SWEP.HoldType = "ar2"
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 1.5
 SWEP.Primary.Recoil = 0
-SWEP.Primary.Cone = 0.025
+SWEP.Primary.Cone = 0.015
 SWEP.Primary.Damage = 55
 SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 10
 SWEP.Primary.DefaultClip = 10
 SWEP.Primary.Sound = Sound( "Weapon_m4s.shot")
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
-SWEP.HeadshotMultiplier = 2.5
+SWEP.HeadshotMultiplier = 4
 SWEP.Primary.NumShots	= 1
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.05
@@ -42,7 +42,9 @@ SWEP.AimPatternY 		= function(t)
 	end
 SWEP.BloomRecoverRate 	= 0.0075
 SWEP.AimRecoverRate		= 0.25
-SWEP.AimKick			= 1.75
+SWEP.AimKick			= 2.75
+SWEP.Primary.ShoveY         = 0.5
+SWEP.Primary.ShoveX         = 1.0
 
 --- Model settings
 SWEP.UseHands = true

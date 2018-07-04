@@ -29,7 +29,7 @@ SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = false
-SWEP.Primary.NumShots = 12
+SWEP.Primary.NumShots = 14
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.HeadshotMultiplier = 2
@@ -50,11 +50,13 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 16*t
+		return 5*t
 	end
 SWEP.BloomRecoverRate 	= 0.175
 SWEP.AimRecoverRate		= 0.75
-SWEP.AimKick			= 5
+SWEP.AimKick			= 4
+SWEP.Primary.ShoveY         = 0.9
+SWEP.Primary.ShoveX         = 1.7
 
 SWEP.IronSightsPos = Vector(-6.881, -9.214, 2.66)
 SWEP.IronSightsAng = Vector(-0.101, -0.7, -0.201)

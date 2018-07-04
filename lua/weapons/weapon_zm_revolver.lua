@@ -25,7 +25,7 @@ end
 
 
 SWEP.Primary.Ammo       = "AlyxGun"
-SWEP.Primary.Recoil		= 0.0085
+SWEP.Primary.Recoil		= 0.085
 SWEP.Primary.Damage = 49
 SWEP.Primary.Delay = 0.275
 SWEP.Primary.Cone = 0.02
@@ -43,11 +43,13 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 20 * t
+		return 10 * t
 	end
-SWEP.BloomRecoverRate 	= 0.05
+SWEP.BloomRecoverRate 	= 0.005
 SWEP.AimRecoverRate		= 0.85
-SWEP.AimKick			= 6
+SWEP.AimKick			= 5
+SWEP.Primary.ShoveY         = 0.4
+SWEP.Primary.ShoveX         = 1.0
 
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
