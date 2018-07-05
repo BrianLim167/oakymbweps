@@ -409,7 +409,8 @@ function GM:OnEntityCreated(ent)
 end
 
 hook.Add( "PreDrawHalos", "AddHalos", function()
-   if client:GetSerialkiller() then
+	local client = LocalPlayer()
+   if client and client:GetSerialkiller() then
 	local staff = {}
 	local jesty = {}
 

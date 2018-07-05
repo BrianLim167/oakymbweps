@@ -14,10 +14,10 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_PISTOL
 
 SWEP.Base = "weapon_ttt_brekiy_base"
-SWEP.Primary.Recoil	= 0.03
+SWEP.Primary.Recoil	= 0.027
 SWEP.Primary.Damage = 25
-SWEP.Primary.Delay = 0.365
-SWEP.Primary.Cone = 0.015
+SWEP.Primary.Delay = 0.38
+SWEP.Primary.Cone = 0.0185
 SWEP.Primary.ClipSize = 20
 SWEP.Primary.Automatic = true
 SWEP.Primary.DefaultClip = 20

@@ -40,7 +40,7 @@ SWEP.Kind                  = WEAPON_NADE
 SWEP.IsGrenade             = true
 
 SWEP.was_thrown            = false
-SWEP.detonate_timer        = 5
+SWEP.detonate_timer        = 4
 SWEP.DeploySpeed           = 1.5
 
 AccessorFunc(SWEP, "det_time", "DetTime")
@@ -147,9 +147,10 @@ function SWEP:Throw()
       self.was_thrown = true
 
       local ang = ply:EyeAngles()
-      local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())+ (ang:Forward() * 8) + (ang:Right() * 10)
+      local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset()) -3*ang:Up() --+ (ang:Forward() * 8) + (ang:Right() * 10)
       local target = ply:GetEyeTraceNoCursor().HitPos
-      local tang = (target-src):Angle() -- A target angle to actually throw the grenade to the crosshair instead of forwards
+      --local tang = (target-src):Angle() -- A target angle to actually throw the grenade to the crosshair instead of forwards
+	  local tang = ang + Angle(4,0,0)
       -- Makes the grenade go upwards
       if tang.p < 90 then
          tang.p = -10 + tang.p * ((90 + 10) / 90)
@@ -158,8 +159,9 @@ function SWEP:Throw()
          tang.p = -10 + tang.p * -((90 + 10) / 90)
       end
       tang.p=math.Clamp(tang.p,-90,90) -- Makes the grenade not go backwards :/
-      local vel = math.min(1000, (90 - tang.p) * 10)
-      local thr = tang:Forward() * vel + ply:GetVelocity()
+      --local vel = math.min(1000, (90 - tang.p) * 10)
+	  local vel = 1000
+      local thr = tang:Forward() * vel + 2*ply:GetVelocity()
       self:CreateGrenade(src, Angle(0,0,0), thr, Vector(600, math.random(-1200, 1200), 0), ply)
 
       self:SetThrowTime(0)
