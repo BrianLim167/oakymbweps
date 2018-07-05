@@ -105,7 +105,7 @@ SWEP.AimPatternY 		= function(t)
 	end
 SWEP.BloomRecoverRate 	= 0.005
 SWEP.AimRecoverRate		= 0.35
-SWEP.AimKick			= 0.05
+SWEP.AimKick			= 0
 SWEP.Primary.ShoveY         = 0.01
 SWEP.Primary.ShoveX         = 0.2
 
@@ -278,15 +278,18 @@ end
 
 function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
    if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end
-	   
-	local eyeang
-	eyeang = self.Owner:EyeAngles()
-	eyeang.pitch = eyeang.pitch - (math.Rand(self.AimKick / 2, self.AimKick))
-	eyeang.yaw = eyeang.yaw - (math.Rand(-self.AimKick / 4, self.AimKick / 4))
-	self.Owner:SetEyeAngles(eyeang)
 	
-	local dy = self.AimPatternY(self:GetAimPunch()+1) - self.AimPatternY(self:GetAimPunch()-0)
-	local dx = self.AimPatternX(self:GetAimPunch()+1) - self.AimPatternX(self:GetAimPunch()-0)
+	if ((game.SinglePlayer() and SERVER) or
+       ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) and self.AimKick > 0 then
+		local eyeang
+		eyeang = self.Owner:EyeAngles()
+		eyeang.pitch = eyeang.pitch - (math.Rand(self.AimKick / 2, self.AimKick))
+		eyeang.yaw = eyeang.yaw - (math.Rand(-self.AimKick / 4, self.AimKick / 4))
+		self.Owner:SetEyeAngles(eyeang)
+	end
+	
+	local dy = self.AimPatternY(self:GetAimPunch()+1) - self.AimPatternY(self:GetAimPunch())
+	local dx = self.AimPatternX(self:GetAimPunch()+1) - self.AimPatternX(self:GetAimPunch())
 	
 	local aimy = self:GetAimY()+dy
 	local aimx = self:GetAimX()+dx
@@ -294,13 +297,16 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
 	--self.Owner:ViewPunch( Angle(-0.1*self:GetAimY()*dy,-0.5*1*dx,0))
-	self.Owner:ViewPunch( -self.Owner:GetViewPunchAngles()-(Angle(0.5*aimy,0.5*aimx,0)) )
+	self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.5*(Angle(aimy,aimx,0))) )
 	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
-	if CLIENT then 
+	--self.Owner:SetViewPunchAngles( self.Owner:GetViewPunchAngles() - 0.5*Angle(aimy, aimx, 0) )
+	if false and CLIENT then 
 		dy = self.AimPatternY(self.aimpunch+1) - self.AimPatternY(self.aimpunch)
 		dx = self.AimPatternX(self.aimpunch+1) - self.AimPatternX(self.aimpunch)
-		self.aimy = self.aimy + dy
-		self.aimx = self.aimx + dx
+		aimy = self.aimy + dy
+		aimx = self.aimx + dx
+		self.aimy = aimy
+		self.aimx = aimx
 	end
 		
 	--[[
@@ -367,7 +373,7 @@ function SWEP:AimPunchEvent()
 	self:SetAimX(aimx)
 	self:SetAimAngles(Angle(-aimy,-aimx,0))
 	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self.Owner:GetViewPunchAngles() ) .. " " .. tostring( 167 ) )
-	if CLIENT then
+	if false and CLIENT then
 	
 		aimy = self.aimy
 		aimx = self.aimx
@@ -393,8 +399,11 @@ function SWEP:AimPunchEvent()
 	self.aimy = aimy
 	self.aimx = aimx
 	
-	-- view punch counteracts aim punch so that the view doesn't completely follow the bullets
-	--self.Owner:SetViewPunchAngles(Angle(0.25 * aimy, 0.25 * aimx, 0))
+	--self.Owner:SetViewPunchAngles(-Angle(0.5 * aimy, 0.5 * aimx, 0))
+	--self.Owner:SetViewPunchAngles( self.Owner:GetViewPunchAngles() + 0.5*(Angle(self:GetAimY(), self:GetAimX(), 0) - Angle(aimy, aimx, 0)) )
+	if aimr > 0 then
+		--self.Owner:SetViewPunchAngles( (1+0.2/aimr)*self.Owner:GetViewPunchAngles() )
+	end
 	
 end
 
@@ -453,7 +462,7 @@ local function CalcViewPunch(ply, pos, ang, fov)
 	local aimy = 0
 	local aimx = 0
 	
-	if false and wep and ply and ply:Alive() and !ply:IsNPC() and IsValid(ply) and IsValid(wep) then
+	if wep and ply and ply:Alive() and !ply:IsNPC() and IsValid(ply) and IsValid(wep) then
 	
 		aimy = wep.aimy or 0
 		aimx = wep.aimx or 0
@@ -469,4 +478,4 @@ local function CalcViewPunch(ply, pos, ang, fov)
 	
 	return view
 end
-hook.Add( "CalcView", "CalcViewPunch", CalcViewPunch )
+--hook.Add( "CalcView", "CalcViewPunch", CalcViewPunch )

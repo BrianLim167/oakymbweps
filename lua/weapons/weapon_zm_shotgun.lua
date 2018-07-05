@@ -22,14 +22,14 @@ end
 
 
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Damage = 4
-SWEP.Primary.Cone = 0.025
+SWEP.Primary.Damage = 5
+SWEP.Primary.Cone = 0.022
 SWEP.Primary.Delay = 0.55
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24
 SWEP.Primary.DefaultClip = 6
 SWEP.Primary.Automatic = false
-SWEP.Primary.NumShots = 14
+SWEP.Primary.NumShots = 12
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.HeadshotMultiplier = 2
@@ -44,7 +44,7 @@ SWEP.ViewModelFOV		= 64
 SWEP.ViewModel			= "models/weapons/cstrike/c_shot_xm1014.mdl"
 SWEP.WorldModel			= "models/weapons/w_shot_xm1014.mdl"
 SWEP.Primary.Sound		= Sound("Weapon_xm1014.shot")
-SWEP.Primary.Recoil		= 0.03
+SWEP.Primary.Recoil		= 0.08
 
 SWEP.AimPatternX 		= function(t)
 		return 0
@@ -52,9 +52,9 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 5*t
 	end
-SWEP.BloomRecoverRate 	= 0.175
+SWEP.BloomRecoverRate 	= 0.008
 SWEP.AimRecoverRate		= 0.75
-SWEP.AimKick			= 4
+SWEP.AimKick			= 2.5
 SWEP.Primary.ShoveY         = 0.9
 SWEP.Primary.ShoveX         = 1.7
 
