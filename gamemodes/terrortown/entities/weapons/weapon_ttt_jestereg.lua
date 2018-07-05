@@ -24,3 +24,9 @@ SWEP.LimitedStock           = true -- only buyable once
 SWEP.WeaponID              = AMMO_M16
 
 SWEP.Primary.Damage = 0
+
+function SWEP:PreDrop()
+   self:SetZoom(false)
+   self:SetIronsights(false)
+   return self.BaseClass.BaseClass.PreDrop(self)
+end

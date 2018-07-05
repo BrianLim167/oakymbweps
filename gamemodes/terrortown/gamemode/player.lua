@@ -797,6 +797,52 @@ local function CheckCreditAward(victim, attacker)
 end
 
 function GM:DoPlayerDeath(ply, attacker, dmginfo)
+	local function DropAmmo(ply, wep)
+	   if not IsValid(ply) then return end
+
+	   if not wep then return end
+
+	   if not wep.AmmoEnt then return end
+	   
+		--ply:PrintMessage(HUD_PRINTTALK, tostring( "" .. " " .. tostring( 167 ) ) )
+
+	   local amt = ply:GetAmmoCount(wep.Primary.Ammo)
+	   ply:RemoveAmmo(amt, wep.Primary.Ammo)
+	   if amt < 1 then
+		  --LANG.Msg(ply, "drop_no_ammo")
+		  return
+	   end
+
+	   local pos, ang = ply:GetShootPos(), ply:EyeAngles()
+	   local dir = (ang:Forward() * 32) + (ang:Right() * 6) + (ang:Up() * -5)
+
+	   local tr = util.QuickTrace(pos, dir, ply)
+	   if tr.HitWorld then return end
+
+	   local box = ents.Create(wep.AmmoEnt)
+	   if not IsValid(box) then return end
+
+	   box:SetPos(pos + dir)
+	   box:SetOwner(ply)
+	   box:Spawn()
+
+	   box:PhysWake()
+
+	   local phys = box:GetPhysicsObject()
+	   if IsValid(phys) then
+		  phys:ApplyForceCenter(ang:Forward() * 1000)
+		  phys:ApplyForceOffset(VectorRand(), vector_origin)
+	   end
+
+	   box.AmmoAmount = amt
+
+	   timer.Simple(2, function()
+						  if IsValid(box) then
+							 box:SetOwner(nil)
+						  end
+					   end)
+					   
+	end
 
    if ply:GetRole() == ROLE_JESTER then  
         local HeadIndex = ply:LookupBone( "ValveBiped.bip01_pelvis" )  
@@ -963,12 +1009,18 @@ end
       -- him. This is ugly, and we have to return the first one to prevent crazy
       -- shit.
    end
+   
+   -- Drop all ammo
+   for k, wep in pairs(weapons.GetList()) do
+		DropAmmo(ply,wep)
+	end
 
    -- Drop all weapons
    for k, wep in pairs(ply:GetWeapons()) do
       WEPS.DropNotifiedWeapon(ply, wep, true) -- with ammo in them
       wep:DampenDrop()
    end
+   
 
    if IsValid(ply.hat) then
       ply.hat:Drop()

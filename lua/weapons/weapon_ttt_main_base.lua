@@ -145,7 +145,7 @@ if CLIENT then
 
       local x = math.floor(ScrW() / 2.0)
       local y = math.floor(ScrH() / 2.0)
-      local scale = math.max(0.05,  10 * self:GetPrimaryCone())
+      local scale = math.max(0.05,  20 * self:GetPrimaryCone())
 
 	  --[[
       local LastShootTime = self:LastShootTime()
@@ -383,6 +383,7 @@ end
 -- does not occur when a drop happens for some reason. Hence this thing.
 function SWEP:PreDrop()
    if SERVER and IsValid(self.Owner) and self.Primary.Ammo != "none" then
+	--[[
       local ammo = self:Ammo1()
 
       -- Do not drop ammo if we have another gun that uses this type
@@ -396,7 +397,7 @@ function SWEP:PreDrop()
 
       if ammo > 0 then
          self.Owner:RemoveAmmo(ammo, self.Primary.Ammo)
-      end
+      end]]--
    end
 end
 
