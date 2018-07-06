@@ -30,7 +30,7 @@ SWEP.HeadshotMultiplier = 4
 SWEP.Primary.NumShots	= 1
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.05
-SWEP.JumpPenalty			 	 	= 3
+SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.065
 SWEP.IronSightsConeMultiplier		= 0.001
 

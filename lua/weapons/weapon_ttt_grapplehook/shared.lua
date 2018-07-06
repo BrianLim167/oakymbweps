@@ -9,7 +9,7 @@ SWEP.Spawnable                  = true
 SWEP.AdminSpawnable             = false
 if CLIENT then
  
-   SWEP.Slot         = 6
+   SWEP.Slot         = 2
  
    SWEP.ViewModelFlip = false
  
@@ -25,7 +25,7 @@ if SERVER then
    resource.AddFile("materials/lks/icon_lks_crossbow.png")
 end
  
-SWEP.SlotPos                    = 0
+--SWEP.SlotPos                    = 0
 SWEP.DrawAmmo                   = true
 SWEP.DrawCrosshair              = true
 SWEP.ViewModel                  = "models/weapons/v_crossbow.mdl"
@@ -39,7 +39,7 @@ SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Ammo       = "none"
  
-SWEP.Kind = WEAPON_EQUIP
+SWEP.Kind = WEAPON_HEAVY--EQUIP
 SWEP.CanBuy = {ROLE_DETECTIVE} -- only detectives can buy
 SWEP.LimitedStock = false -- only buyable once
 SWEP.WeaponID = AMMO_GRAPPLE

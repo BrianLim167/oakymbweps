@@ -17,7 +17,7 @@ SWEP.IsSilent = false
 SWEP.NoSights = false
 SWEP.Primary.Ammo 				= "SMG1"
 SWEP.Primary.Delay 				= 0.125
-SWEP.Primary.Recoil 			= 0.015
+SWEP.Primary.Recoil 			= 0.005
 SWEP.Primary.Cone 				= 0.01
 SWEP.Primary.Damage 			= 19
 SWEP.Primary.Automatic 			= true
@@ -27,8 +27,8 @@ SWEP.Primary.DefaultClip 		= 30
 SWEP.Primary.Sound 				= Sound( "Weapon_ak47.shot" )
 SWEP.HeadshotMultiplier 		= 2.5
 SWEP.CrouchBonus 				= 0.7
-SWEP.MovePenalty			 	= 2.75
-SWEP.JumpPenalty			 	= 6
+SWEP.MovePenalty			 	= 1.75
+SWEP.JumpPenalty			 	= 0.4
 SWEP.MaxCone 					= 0.095
 
 SWEP.AimPatternX		= function(t)
@@ -37,7 +37,7 @@ end
 SWEP.AimPatternY		= function(t)
 	return 4 / (1 + math.pow(1.35, -t*5 + 10)) + 1.25*t - 0.01*t
 end
-SWEP.BloomRecoverRate 	= 0.05
+SWEP.BloomRecoverRate 	= 0.00056
 SWEP.AimRecoverRate		= 0.145
 SWEP.AimKick 			= 0.015
 SWEP.Primary.ShoveY         = 0.25

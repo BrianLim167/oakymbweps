@@ -33,11 +33,11 @@ SWEP.Primary.Automatic		= true
 SWEP.Primary.Ammo			= "smg1"
 SWEP.AutoSpawnable      = false
 SWEP.AmmoEnt = "item_ammo_smg1_ttt"
-SWEP.Primary.Recoil		= 0.035
+SWEP.Primary.Recoil		= 0.01
 SWEP.Primary.Sound		= Sound( "Weapon_ump45.shot" )
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.25
-SWEP.JumpPenalty			 	 	= 3
+SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.06
 
 SWEP.AimPatternX 		= function(t)
@@ -46,7 +46,7 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 1.25 * t
 	end
-SWEP.BloomRecoverRate 	= 0.005
+SWEP.BloomRecoverRate 	= 0.00151
 SWEP.AimRecoverRate		= 0.15
 SWEP.AimKick			= 0.8
 

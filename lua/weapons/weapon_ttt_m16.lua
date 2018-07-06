@@ -16,7 +16,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_M16
 
 SWEP.Primary.Delay		= 0.1
-SWEP.Primary.Recoil		= 0.01
+SWEP.Primary.Recoil		= 0.004
 SWEP.Primary.Automatic = true
 SWEP.Primary.Ammo = "SMG1"
 SWEP.Primary.Damage = 17
@@ -29,8 +29,8 @@ SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 SWEP.HeadshotMultiplier = 2.5
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.25
-SWEP.JumpPenalty			 	 	= 1.2
-SWEP.MaxCone 					 	= 0.06
+SWEP.JumpPenalty			 	 	= 0.2
+SWEP.MaxCone 					 	= 0.1
 
 SWEP.AimPatternX = function(t)
 	return 1*t - 0.22*math.pow(t,2.5) - 0.25*(math.pow(1.5,1*t)-1) + 16*math.pow(2,-math.pow(0.7*(t-6.25),2)) + 0.05*t*math.sin(14*t)
@@ -38,7 +38,7 @@ end
 SWEP.AimPatternY = function(t)
 	return -0.3*t + 0.00685*math.pow(t,3) + 16 / (1 + math.pow(2, -t + 1.9))
 end
-SWEP.BloomRecoverRate 	= 0.05
+SWEP.BloomRecoverRate 	= 0.00058
 SWEP.AimRecoverRate		= 0.21
 SWEP.AimKick			= 0.01
 SWEP.Primary.ShoveY         = 0.3

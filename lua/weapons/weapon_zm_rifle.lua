@@ -26,7 +26,7 @@ SWEP.Primary.DefaultClip = 10
 SWEP.IronSightsConeMultiplier		= 0.01
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.05
-SWEP.JumpPenalty			 	 	= 3
+SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.065
 
 SWEP.AimPatternX 		= function(t)

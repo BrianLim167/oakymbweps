@@ -35,7 +35,7 @@ SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 1
 SWEP.MovePenalty			 	 	= 0.25
-SWEP.JumpPenalty			 	 	= 5
+SWEP.JumpPenalty			 	 	= 0.5
 SWEP.MaxCone 					 	= 0.2
 
 SWEP.UseHands			= true

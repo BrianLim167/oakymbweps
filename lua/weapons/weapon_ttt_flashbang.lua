@@ -6,7 +6,7 @@ if (CLIENT) then --the init.lua stuff goes in here
 
 
 	SWEP.PrintName = "Flashbang"
-	SWEP.SlotPos = 2
+	SWEP.SlotPos = 3
 	SWEP.IconLetter			= "g"
 	SWEP.NameOfSWEP			= "weapon_ttt_flashbang" --always make this the name of the folder the SWEP is in.
 	
@@ -39,7 +39,7 @@ SWEP.NoSights = true
 
 SWEP.was_thrown = false
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_NADE
 SWEP.CanBuy = {ROLE_TRAITOR} -- only traitors can buy
 SWEP.LimitedStock = false
 SWEP.Icon = "VGUI/ttt/icon_nades"

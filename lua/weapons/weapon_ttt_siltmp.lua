@@ -22,7 +22,7 @@ SWEP.Primary.DefaultClip = 30
 SWEP.Primary.Sound = Sound("Weapon_tmp.shot")
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.025
-SWEP.JumpPenalty			 	 	= 1.2
+SWEP.JumpPenalty			 	 	= 0.4
 SWEP.MaxCone 					 	= 0.05
 
 SWEP.AimPatternX 		= function(t)
@@ -31,7 +31,7 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 1.25 * t
 	end
-SWEP.BloomRecoverRate 	= 0.0075
+SWEP.BloomRecoverRate 	= 0.00054
 SWEP.AimRecoverRate		= 0.2
 SWEP.AimKick			= 0.075
 SWEP.Primary.ShoveY         = 0.1

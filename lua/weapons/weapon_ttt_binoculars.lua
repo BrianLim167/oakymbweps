@@ -40,6 +40,7 @@ SWEP.Kind = WEAPON_EQUIP2
 SWEP.CanBuy = {ROLE_DETECTIVE} -- only detectives can buy
 SWEP.WeaponID = AMMO_BINOCULARS
 
+SWEP.InLoadoutFor = {ROLE_DETECTIVE}
 
 SWEP.AllowDrop = true
 

@@ -23,7 +23,7 @@ SWEP.Primary.Sound = Sound("Weapon_DetRev.Single")
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.55
 SWEP.MovePenalty			 	 	= 1
-SWEP.JumpPenalty			 	 	= 10
+SWEP.JumpPenalty			 	 	= 0.2
 SWEP.MaxCone 					 	= 0.09
 
 SWEP.AimPatternX 		= function(t)

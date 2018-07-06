@@ -58,10 +58,10 @@ include("player_ext.lua")
 include("player.lua")
 
 -- Round times
-CreateConVar("ttt_roundtime_minutes", "10", FCVAR_NOTIFY)
-CreateConVar("ttt_preptime_seconds", "30", FCVAR_NOTIFY)
-CreateConVar("ttt_posttime_seconds", "30", FCVAR_NOTIFY)
-CreateConVar("ttt_firstpreptime", "60")
+CreateConVar("ttt_roundtime_minutes", "2", FCVAR_NOTIFY)
+CreateConVar("ttt_preptime_seconds", "20", FCVAR_NOTIFY)
+CreateConVar("ttt_posttime_seconds", "10", FCVAR_NOTIFY)
+CreateConVar("ttt_firstpreptime", "40")
 
 -- Haste mode
 local ttt_haste = CreateConVar("ttt_haste", "1", FCVAR_NOTIFY)
@@ -84,13 +84,13 @@ CreateConVar("ttt_survivalist_pct", "0.13", FCVAR_NOTIFY)
 CreateConVar("ttt_survivalist_min_players", "2")
 CreateConVar("ttt_survivalist_realmin_players", "2")
 
-CreateConVar("ttt_jester_pct", "0", FCVAR_NOTIFY)
+CreateConVar("ttt_jester_pct", "0.13", FCVAR_NOTIFY)
 CreateConVar("ttt_jester_min_players", "6")
 CreateConVar("ttt_jester_realmin_players", "6")
 
 CreateConVar("ttt_phoenix_pct", "0", FCVAR_NOTIFY)
-CreateConVar("ttt_phoenix_min_players", "5")
-CreateConVar("ttt_phoenix_realmin_players", "5")
+CreateConVar("ttt_phoenix_min_players", "999")
+CreateConVar("ttt_phoenix_realmin_players", "999")
 
 CreateConVar("ttt_serialkiller_pct", "0.13", FCVAR_NOTIFY)
 CreateConVar("ttt_serialkiller_max", "1")
@@ -111,12 +111,12 @@ CreateConVar("ttt_credits_detectivekill", "1")
 CreateConVar("ttt_credits_alonebonus", "1")
 
 -- Detective credits
-CreateConVar("ttt_det_credits_starting", "1")
+CreateConVar("ttt_det_credits_starting", "2")
 CreateConVar("ttt_det_credits_traitorkill", "0")
 CreateConVar("ttt_det_credits_traitordead", "1")
 
 -- Survivalist credits
-CreateConVar("ttt_sur_credits_starting", "1")
+CreateConVar("ttt_sur_credits_starting", "2")
 
 -- SerialKiller credits
 CreateConVar("ttt_sk_credits_starting", "6")
@@ -144,24 +144,24 @@ CreateConVar("ttt_randomnewroles", "1")
 
 CreateConVar("ttt_randomnewroles_survivalist", "1")
 CreateConVar("ttt_randomnewroles_jester", "1")
-CreateConVar("ttt_randomnewroles_phoenix", "1")
+CreateConVar("ttt_randomnewroles_phoenix", "2")
 CreateConVar("ttt_randomnewroles_serialkiller", "1")
 CreateConVar("ttt_randomnewroles_infected", "1")
 
 CreateConVar("ttt_randomnewroles_ran_survivalist", "2")
-CreateConVar("ttt_randomnewroles_ran_jester", "2")
-CreateConVar("ttt_randomnewroles_ran_phoenix", "2")
-CreateConVar("ttt_randomnewroles_ran_serialkiller", "7")
-CreateConVar("ttt_randomnewroles_ran_infected", "7")
+CreateConVar("ttt_randomnewroles_ran_jester", "4")
+CreateConVar("ttt_randomnewroles_ran_phoenix", "16")
+CreateConVar("ttt_randomnewroles_ran_serialkiller", "8")
+CreateConVar("ttt_randomnewroles_ran_infected", "16")
 
 --JesterCommands
-CreateConVar("jesterwinstate", "3")
+CreateConVar("jesterwinstate", "4")
 CreateConVar("jestercomments", "1")
 CreateConVar("jesterwinrandom", "1")
 CreateConVar("jesterrandomcomments", "1")
 
-CreateConVar("jestertraitor", "0")
-CreateConVar("jesterinfected", "0")
+CreateConVar("jestertraitor", "1")
+CreateConVar("jesterinfected", "1")
 
 --weaponslimit--
 CreateConVar("weaponsrandom", "0")
@@ -1743,10 +1743,10 @@ function GM:TTTCheckForWin()
       return WIN_INFECTED
 -- ultimately if no one is alive, traitors win
    elseif not traitor_alive and not innocent_alive and not serialkiller_alive and not infected_alive and jester_alive then
-      return WIN_BEES
+      return WIN_TRAITOR
 -- ultimately if no one is alive, traitors win
    elseif not traitor_alive and not innocent_alive and not serialkiller_alive and  not infected_alive and not jester_alive and jesterkilled == 0 then
-      return WIN_BEES
+      return WIN_TRAITOR
 -- ultimately Jester wins
    elseif not jester_alive and jesterkilled == 1 and GetConVar("jesterwinstate"):GetInt() == 1 then
       return WIN_JESTER

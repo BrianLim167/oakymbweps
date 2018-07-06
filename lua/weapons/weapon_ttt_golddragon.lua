@@ -46,7 +46,7 @@ SWEP.Primary.Recoil      = 0.0175
 SWEP.Primary.Sound       = "weapons/ree/kslh/kslh1.wav"
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1.5
-SWEP.JumpPenalty			 	 	= 3
+SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.06
 
 SWEP.AimPatternX 		= function(t)

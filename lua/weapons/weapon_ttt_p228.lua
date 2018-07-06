@@ -11,8 +11,8 @@ SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.HoldType = "pistol"
 
 SWEP.Primary.Ammo = "Pistol"
-SWEP.Primary.Delay = 0.075
-SWEP.Primary.Recoil = 0.0075
+SWEP.Primary.Delay = 0.125
+SWEP.Primary.Recoil = 0.00625
 SWEP.Primary.Cone = 0.0155
 SWEP.Primary.Damage = 13
 SWEP.Primary.Automatic = false
@@ -32,11 +32,11 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 1.75 * t
 	end
-SWEP.BloomRecoverRate 	= 0.025
+SWEP.BloomRecoverRate 	= 0.00075
 SWEP.AimRecoverRate		= 0.175
 SWEP.AimKick			= 1.1
-SWEP.Primary.ShoveY         = 0.1
-SWEP.Primary.ShoveX         = 0.2
+SWEP.Primary.ShoveY         = 0.2
+SWEP.Primary.ShoveX         = 0.4
 
 -- Model properties
 SWEP.UseHands = true

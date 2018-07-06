@@ -33,7 +33,7 @@ SWEP.Primary.Sound       = Sound( "Weapon_mac10.shot" )
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.9
 SWEP.MovePenalty			 	 	= 0.025
-SWEP.JumpPenalty			 	 	= 1.2
+SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.07
 
 SWEP.AimPatternX 		= function(t)

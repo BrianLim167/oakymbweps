@@ -27,7 +27,7 @@ SWEP.NoSights = true
 SWEP.Kind = WEAPON_EQUIP1
 
 SWEP.Primary.Delay	   = 0.08
-SWEP.Primary.Recoil	  = 0.005
+SWEP.Primary.Recoil	  = 0.003
 SWEP.Primary.Automatic   = true
 SWEP.ViewModelFOV  = 50
 SWEP.ViewModelFlip = false
@@ -42,6 +42,8 @@ SWEP.MovePenalty			 	 	= 1.2
 SWEP.JumpPenalty			 	 	= 2
 SWEP.MaxCone 					 	= 0.065
 
+SWEP.BloomRecoverRate 	= 0.001
+SWEP.AimRecoverRate		= 0.35
 SWEP.AimKick				= 0.05
 SWEP.Primary.ShoveY         = 0.1
 SWEP.Primary.ShoveX         = 0.3

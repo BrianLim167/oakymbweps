@@ -13,7 +13,7 @@ SWEP.HoldType = "ar2"
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 0.475
 SWEP.Primary.Recoil = 0.025
-SWEP.Primary.Cone = 0.0275
+SWEP.Primary.Cone = 0.0175
 SWEP.Primary.Damage = 60
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 5
@@ -24,8 +24,8 @@ SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier = 5
 SWEP.IronSightsConeMultiplier		= 0.05
 SWEP.CrouchBonus 				 	= 0.7
-SWEP.MovePenalty			 	 	= 3
-SWEP.JumpPenalty			 	 	= 5
+SWEP.MovePenalty			 	 	= 1
+SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.2
 
 SWEP.AimPatternX 		= function(t)
@@ -34,7 +34,7 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 0.875 * t
 	end
-SWEP.BloomRecoverRate 	= 0.0075
+SWEP.BloomRecoverRate 	= 0.0025
 SWEP.AimRecoverRate		= 0.075
 SWEP.AimKick			= 0.01
 SWEP.Primary.ShoveY         = 0.3

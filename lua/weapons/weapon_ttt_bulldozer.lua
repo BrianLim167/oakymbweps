@@ -41,7 +41,7 @@ SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 1
 SWEP.MovePenalty			 	 	= 0
-SWEP.JumpPenalty			 	 	= 1
+SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.15
 
 SWEP.AimPatternX 		= function(t)
@@ -50,7 +50,7 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 2.25*t
 	end
-SWEP.BloomRecoverRate 	= 0.075
+SWEP.BloomRecoverRate 	= 0.001
 SWEP.AimRecoverRate		= 0.3
 SWEP.AimKick			= 4
 SWEP.Primary.ShoveY         = 0.2

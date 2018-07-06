@@ -329,7 +329,7 @@ function SWEP:GetPrimaryCone()
    cone = math.max(0.001, cone)
 	cone = cone + ((self.MovePenalty / 100) * self.Owner:GetVelocity():Length()*cone)
 	if self.Owner:Crouching() then cone = cone * self.CrouchBonus end
-	if !self.Owner:IsOnGround() then cone = cone * self.JumpPenalty end
+	if !self.Owner:IsOnGround() then cone = cone * (self.JumpPenalty + 1) end
 	if self:GetIronsights() then cone = cone * (self.IronSightsConeMultiplier or 0.7) end
 	if self.MaxCone < cone then cone = self.MaxCone end
    return cone

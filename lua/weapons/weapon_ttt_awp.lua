@@ -23,8 +23,8 @@ SWEP.Primary.Sound = Sound( "Weapon_m4s.shot" )
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier = 2.5
 SWEP.CrouchBonus 				 	= 0.7
-SWEP.MovePenalty			 	 	= 5
-SWEP.JumpPenalty			 	 	= 6
+SWEP.MovePenalty			 	 	= 1
+SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.1
 SWEP.IronSightsConeMultiplier		= 0.001
 
