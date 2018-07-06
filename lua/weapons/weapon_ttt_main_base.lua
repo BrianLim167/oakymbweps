@@ -145,7 +145,7 @@ if CLIENT then
 
       local x = math.floor(ScrW() / 2.0)
       local y = math.floor(ScrH() / 2.0)
-      local scale = math.max(0.05,  20 * self:GetPrimaryCone())
+      local scale = math.max(0.05,  45 * self:GetPrimaryCone())
 
 	  --[[
       local LastShootTime = self:LastShootTime()
@@ -169,7 +169,7 @@ if CLIENT then
                               255 * alpha)
       end
 
-      local gap = math.floor(20 * scale * (sights and 0.8 or 1))
+      local gap = math.floor(20 * scale)
       local length = math.max( 10, math.floor(gap + (25 * crosshair_size:GetFloat()) * scale) )
       surface.DrawLine( x - length, y, x - gap, y )
       surface.DrawLine( x + length, y, x + gap, y )

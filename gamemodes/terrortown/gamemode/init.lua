@@ -84,11 +84,11 @@ CreateConVar("ttt_survivalist_pct", "0.13", FCVAR_NOTIFY)
 CreateConVar("ttt_survivalist_min_players", "2")
 CreateConVar("ttt_survivalist_realmin_players", "2")
 
-CreateConVar("ttt_jester_pct", "0.13", FCVAR_NOTIFY)
+CreateConVar("ttt_jester_pct", "0", FCVAR_NOTIFY)
 CreateConVar("ttt_jester_min_players", "6")
 CreateConVar("ttt_jester_realmin_players", "6")
 
-CreateConVar("ttt_phoenix_pct", "0.13", FCVAR_NOTIFY)
+CreateConVar("ttt_phoenix_pct", "0", FCVAR_NOTIFY)
 CreateConVar("ttt_phoenix_min_players", "5")
 CreateConVar("ttt_phoenix_realmin_players", "5")
 
@@ -140,7 +140,7 @@ CreateConVar("ttt_namechange_kick", "1", FCVAR_NOTIFY)
 CreateConVar("ttt_namechange_bantime", "10")
 
 --newroles
-CreateConVar("ttt_randomnewroles", "0")
+CreateConVar("ttt_randomnewroles", "1")
 
 CreateConVar("ttt_randomnewroles_survivalist", "1")
 CreateConVar("ttt_randomnewroles_jester", "1")
@@ -155,7 +155,7 @@ CreateConVar("ttt_randomnewroles_ran_serialkiller", "7")
 CreateConVar("ttt_randomnewroles_ran_infected", "7")
 
 --JesterCommands
-CreateConVar("jesterwinstate", "1")
+CreateConVar("jesterwinstate", "3")
 CreateConVar("jestercomments", "1")
 CreateConVar("jesterwinrandom", "1")
 CreateConVar("jesterrandomcomments", "1")
