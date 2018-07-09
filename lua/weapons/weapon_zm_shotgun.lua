@@ -23,7 +23,7 @@ end
 
 SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Damage = 5
-SWEP.Primary.Cone = 0.022
+SWEP.Primary.Cone = 0.017
 SWEP.Primary.Delay = 0.55
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24

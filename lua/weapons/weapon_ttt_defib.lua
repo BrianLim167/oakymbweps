@@ -11,11 +11,16 @@ SWEP.HoldType = "slam"
 SWEP.ViewModel = Model("models/weapons/v_c4.mdl")
 SWEP.WorldModel = Model("models/weapons/w_c4.mdl")
 
+util.PrecacheModel( "particle/particle_smokegrenade" ) 
+util.PrecacheModel( "particle/particle_noisesphere" ) 
+
 --- TTT Vars
 SWEP.Kind = WEAPON_EQUIP2
 SWEP.AutoSpawnable = false
 SWEP.CanBuy = {ROLE_TRAITOR}
 SWEP.LimitedStock = true
+
+SWEP.TimeToDefib = 10
 
 if CLIENT then
   SWEP.PrintName = "Defibrillator"
@@ -43,7 +48,7 @@ if CLIENT then
     local outlineCol, progressCol, progressText = color_white, color_white, ""
 
     if state == STATE_PROGRESS then
-      local startTime, endTime = self:GetDefibStartTime(), self:GetDefibStartTime() + 4
+      local startTime, endTime = self:GetDefibStartTime(), self:GetDefibStartTime() + self.TimeToDefib - 0.5
 
       progress = math.TimeFraction(startTime, endTime, CurTime())
 
@@ -149,7 +154,7 @@ function SWEP:BeginDefib(ply, ragdoll)
   self.TargetPly = ply
   self.TargetRagdoll = ragdoll
 
-  self:SetNextPrimaryFire(CurTime() + 6)
+  self:SetNextPrimaryFire(CurTime() + self.TimeToDefib + 1)
 end
 
 function SWEP:FireError(err)
@@ -205,7 +210,7 @@ function SWEP:Think()
       return
     end
 
-    if CurTime() >= self:GetDefibStartTime() + 5 then
+    if CurTime() >= self:GetDefibStartTime() + self.TimeToDefib then
       if self:HandleRespawn() then
         self:FireSuccess()
       else
@@ -236,6 +241,69 @@ function SWEP:HandleRespawn()
   ply:SetCredits(credits)
   ply:SetPos(spawnPos)
   ply:SetEyeAngles(Angle(0, ragdoll:GetAngles().y, 0))
+  
+	local cues = {
+	   Sound("ttt/thump01e.mp3"),
+	   Sound("ttt/thump02e.mp3")
+	};
+	sound.Play(table.Random(cues), spawnPos, 160, 100, 1)
+
+   local smokeparticles = {
+	  Model("particle/particle_smokegrenade"),
+	  Model("particle/particle_noisesphere")
+   };
+
+   function CreateSmoke(center)
+		if CLIENT then
+		  local em = ParticleEmitter(center) 
+
+		  local r = 20
+		  for i=1, 20 do
+			 local prpos = VectorRand() * r
+			 prpos.z = prpos.z + 32
+			 local p = em:Add(table.Random(smokeparticles), center + prpos)
+			 if p then
+				local gray = math.random(150, 240)
+				p:SetColor(gray, gray, gray)
+				p:SetStartAlpha(255)
+				p:SetEndAlpha(200)
+				p:SetVelocity(VectorRand() * math.Rand(1200, 1600))
+				p:SetLifeTime(0)
+				
+				p:SetDieTime(math.Rand(50, 70))
+
+				p:SetStartSize(math.random(140, 150))
+				p:SetEndSize(math.random(1, 40))
+				p:SetRoll(math.random(-180, 180))
+				p:SetRollDelta(math.Rand(-0.1, 0.1))
+				p:SetAirResistance(500)
+
+				p:SetCollide(true)
+				p:SetBounce(0.4)
+
+				--p:SetLighting(false)
+			 end
+		  end
+
+		  em:Finish()
+		end
+   end
+	local spos = spawnPos
+	local trs = util.TraceLine({start=spos + Vector(0,0,64), endpos=spos + Vector(0,0,-128), filter={ragdoll,ply}})
+	util.Decal("SmallScorch", trs.HitPos + trs.HitNormal, trs.HitPos - trs.HitNormal) 
+
+	--if tr.Fraction != 1.0 then
+	--	spos = tr.HitPos + tr.HitNormal * 0.6
+	--end
+	if trs.Fraction != 1.0 then
+		spos = trs.HitPos + trs.HitNormal * 10
+	end
+
+	-- Smoke particles can't get cleaned up when a round restarts, so prevent
+	-- them from existing post-round.
+	if GetRoundState() != ROUND_POST then 
+		CreateSmoke(spos)
+	end
 
   ragdoll:Remove()
   self:EmitSound(healsound)

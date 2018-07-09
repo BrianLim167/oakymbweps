@@ -190,7 +190,14 @@ function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
    if IsValid(ply) and (ply:Crouching() or ply:GetMaxSpeed() < 150 or ply:IsSpec()) then
       -- do not play anything, just prevent normal sounds from playing
       return true
-   end
+	else
+		if SERVER then
+			--ply:PrintMessage(HUD_PRINTTALK, tostring( 1 ) .. " " .. tostring( 167 ) )
+			ply:EmitSound( sound, 85, 100, 1, CHAN_BODY )
+			--sound.Play( sound, ply:GetPos(), 180, 100, 1 )
+		end
+		return true
+	end
 end
 
 

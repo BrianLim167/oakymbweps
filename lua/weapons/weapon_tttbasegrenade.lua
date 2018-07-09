@@ -123,7 +123,7 @@ function SWEP:BlowInFace()
 
    local ang = ply:GetAngles()
    local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
-   src = src + (ang:Right() * 10)
+   src = src -5*ang:Up()--+ (ang:Right() * 10)
 
    self:CreateGrenade(src, Angle(0,0,0), Vector(0,0,1), Vector(0,0,1), ply)
 

@@ -14,9 +14,9 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_PISTOL
 
 SWEP.Base = "weapon_ttt_brekiy_base"
-SWEP.Primary.Recoil	= 0.027
+SWEP.Primary.Recoil	= 0.025
 SWEP.Primary.Damage = 22
-SWEP.Primary.Delay = 0.38
+SWEP.Primary.Delay = 0.32
 SWEP.Primary.Cone = 0.0185
 SWEP.Primary.ClipSize = 20
 SWEP.Primary.Automatic = true
@@ -40,8 +40,8 @@ SWEP.AimPatternY 		= function(t)
 SWEP.BloomRecoverRate 	= 0.0012
 SWEP.AimRecoverRate		= 0.075
 SWEP.AimKick			= 0.15
-SWEP.Primary.ShoveY         = 0.17
-SWEP.Primary.ShoveX         = 0.45
+SWEP.Primary.ShoveY         = 0.5
+SWEP.Primary.ShoveX         = 1.0
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false

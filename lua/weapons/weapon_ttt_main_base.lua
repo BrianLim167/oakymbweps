@@ -84,7 +84,7 @@ end
 
 SWEP.Base = "weapon_base"
 
-SWEP.Category           = "TTT"
+--SWEP.Category           = "TTT"
 SWEP.Spawnable          = false
 
 SWEP.IsGrenade = false
@@ -177,7 +177,7 @@ if CLIENT then
       surface.DrawLine( x, y + length, x, y + gap )
    end
 
-   local GetPTranslation = LANG.GetParamTranslation
+   local GetPTranslation = LANG and LANG.GetParamTranslation
 
    -- Many non-gun weapons benefit from some help
    local help_spec = {text = "", font = "TabLarge", xalign = TEXT_ALIGN_CENTER}

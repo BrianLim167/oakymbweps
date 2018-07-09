@@ -45,7 +45,7 @@ end
 --SWEP.
 
 function SWEP:SetupDataTablesBase()
-	self:SetupDataTablesMain()
+	if self.SetupDataTablesMain then self:SetupDataTablesMain() end
 	self:NetworkVar( "Float", 0, "Bloom"		)
 	self:NetworkVar( "Float", 1, "AimPunch"		)
 	self:NetworkVar( "Float", 2, "AimY"			)

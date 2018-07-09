@@ -32,9 +32,9 @@ SWEP.Primary.Automatic   = true
 SWEP.ViewModelFOV  = 50
 SWEP.ViewModelFlip = false
 SWEP.CSMuzzleFlashes = true
-SWEP.Primary.ClipSize	= 250
+SWEP.Primary.ClipSize	= 200
 SWEP.Primary.ClipMax	 = 0
-SWEP.Primary.DefaultClip = 250
+SWEP.Primary.DefaultClip = 200
 SWEP.Primary.Ammo		= "AirboatGun"
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7
@@ -96,11 +96,10 @@ function SWEP:Holster()
 end
 
 function MinigunSpeedMod(ply, speed)
-	if ply:HasWeapon("ttt_minigun") then
-		return 0.75
+	if ply:HasWeapon("weapon_ttt_minigun") then
+		return 0.69
 	end
 end
-
 hook.Add("TTTPlayerSpeed", "MinigunSpeed", MinigunSpeedMod )
 
 function SWEP:Think()

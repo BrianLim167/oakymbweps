@@ -155,7 +155,7 @@ CreateConVar("ttt_randomnewroles_ran_serialkiller", "8")
 CreateConVar("ttt_randomnewroles_ran_infected", "16")
 
 --JesterCommands
-CreateConVar("jesterwinstate", "4")
+CreateConVar("jesterwinstate", "5")
 CreateConVar("jestercomments", "1")
 CreateConVar("jesterwinrandom", "1")
 CreateConVar("jesterrandomcomments", "1")
