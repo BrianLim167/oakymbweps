@@ -18,8 +18,8 @@ end
 if CLIENT then
 
    local smokeparticles = {
-	  Model("particle/mat1"),
-      --Model("particle/particle_smokegrenade"),
+	  --Model("particle/mat1"),
+      Model("particle/particle_smokegrenade"),
       --Model("particle/particle_noisesphere")
    };
 
@@ -27,30 +27,31 @@ if CLIENT then
       local em = ParticleEmitter(center)
 
       local r = self:GetRadius()
-      for i=1, 30 do
+      for i=1, 100 do
          local prpos = VectorRand() * r
          prpos.z = prpos.z + 32
          local p = em:Add(table.Random(smokeparticles), center + prpos)
          if p then
-            local gray = math.random(75, 200)
+            local gray = math.random(100, 110)
             p:SetColor(gray, gray, gray)
-            p:SetStartAlpha(205)
-            p:SetEndAlpha(200)
-            p:SetVelocity(VectorRand() * math.Rand(900, 1800))
+			--p:SetColor(render.ComputeLighting(p:GetPos(), Vector(0,0,1)))
+            p:SetStartAlpha(240)
+            p:SetEndAlpha(230)
+            p:SetVelocity(VectorRand() * math.Rand(1600, 2400))
             p:SetLifeTime(0)
             
-            p:SetDieTime(math.Rand(50, 70))
+            p:SetDieTime(math.Rand(40, 50))
 
-            p:SetStartSize(math.random(140, 150))
+            p:SetStartSize(math.random(70, 80))
             p:SetEndSize(math.random(1, 40))
             p:SetRoll(math.random(-180, 180))
             p:SetRollDelta(math.Rand(-0.1, 0.1))
-            p:SetAirResistance(500)
+            p:SetAirResistance(800)
 
             p:SetCollide(true)
             p:SetBounce(0.4)
 
-            p:SetLighting(false)
+            p:SetLighting(true)
          end
       end
 

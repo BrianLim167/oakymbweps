@@ -89,6 +89,23 @@ function ENT:Explode(tr)
 
       sound.Play(zapsound, pos, 100, 100)
    else
+	local pos = self:GetPos()
+	local index = self:EntIndex()
+	timer.Simple(0.1, function()
+		local boomlight = DynamicLight( index )
+		if ( boomlight ) then
+			boomlight.pos = pos+Vector(0,0,10)
+			boomlight.r = 230
+			boomlight.g = 160
+			boomlight.b = 60
+			boomlight.brightness = 3
+			boomlight.Decay = 1000
+			boomlight.Size = 1000
+			boomlight.DieTime = CurTime() + 1
+			boomlight.style = 0
+		end
+	end)
+	
       local spos = self:GetPos()
       local trs = util.TraceLine({start=spos + Vector(0,0,64), endpos=spos + Vector(0,0,-128), filter=self})
       util.Decal("SmallScorch", trs.HitPos + trs.HitNormal, trs.HitPos - trs.HitNormal)      

@@ -283,7 +283,7 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
    if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end
 	
 	if ((game.SinglePlayer() and SERVER) or
-       ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) and self.AimKick > 0 then
+       ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
 	   
 		local rh = self.Owner:LookupAttachment("anim_attachment_RH")
 		local rhposang = self.Owner:GetAttachment(rh)

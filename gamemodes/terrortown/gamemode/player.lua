@@ -2075,6 +2075,7 @@ end
 
 function GM:OnNPCKilled() end
 
+--[[
 function GM:SetPlayerSpeed( ply, walk, run )
 	ply:SetWalkSpeed( walk )
 	ply:SetRunSpeed( run )
@@ -2083,7 +2084,7 @@ function GM:SetPlayerSpeed( ply, walk, run )
 		ply:SetWalkSpeed( 0.1*walk )
 		ply:SetRunSpeed( 0.1*run )
 	end
-end
+end]]--
 
 -- Drowning and such
 local tm = nil

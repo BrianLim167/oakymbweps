@@ -54,6 +54,23 @@ function ENT:Explode( tr )
 
       self:Remove()
    else
+	local pos = self:GetPos()
+	local index = self:EntIndex()
+	timer.Simple(0.1, function()
+		local boomlight = DynamicLight( index )
+		if ( boomlight ) then
+			boomlight.pos = pos+Vector(0,0,10)
+			boomlight.r = 200
+			boomlight.g = 130
+			boomlight.b = 30
+			boomlight.brightness = 3
+			boomlight.Decay = 1000
+			boomlight.Size = 1200
+			boomlight.DieTime = CurTime() + 1
+			boomlight.style = 0
+		end
+	end)
+	
       local spos = self:GetPos()
       local trs = util.TraceLine( { start=spos + Vector( 0, 0, 64 ), endpos = spos + Vector( 0, 0, -128 ), filter = self } )
       util.Decal( "Scorch", trs.HitPos + trs.HitNormal, trs.HitPos - trs.HitNormal )

@@ -46,6 +46,7 @@ function ENT:Initialize()
    self.next_hurt = CurTime() + self.hurt_interval + math.Rand(0, 3)
 
    self:SetBurning(false)
+   self.IsLit = false
 
    if self.dietime == 0 then self.dietime = CurTime() + 20 end
 end
@@ -116,6 +117,22 @@ function RadiusDamage(dmginfo, pos, radius, inflictor)
 end
 
 function ENT:OnRemove()
+	if CLIENT and self:GetBurning() then
+		local pos = self:GetPos()
+		local index = self:EntIndex()
+		local dyinglight = DynamicLight( index )
+		if ( dyinglight ) then
+			dyinglight.pos = pos+Vector(0,0,10)
+			dyinglight.r = 240
+			dyinglight.g = 120
+			dyinglight.b = 30
+			dyinglight.brightness = 1
+			dyinglight.Decay = 1000
+			dyinglight.Size = 500
+			dyinglight.DieTime = CurTime() + 1
+			dyinglight.style = 0
+		end
+	end
    if IsValid(self.firechild) then
       self.firechild:Remove()
    end
@@ -144,6 +161,28 @@ function ENT:Explode()
 end
 
 function ENT:Think()
+	if (CLIENT and self:GetBurning()) then
+		local pos = self:GetPos()
+		local index = self:EntIndex()
+		local lifelight = DynamicLight( index )
+		if ( lifelight ) then
+			lifelight.pos = pos+Vector(0,0,10)
+			lifelight.r = 240
+			lifelight.g = 120
+			lifelight.b = 30
+			lifelight.brightness = 1
+			lifelight.Decay = 0
+			lifelight.Size = 500
+			lifelight.DieTime = CurTime() + 0.015
+			lifelight.style = 0
+		end
+		if (false and !self.IsLit) then
+			self.IsLit = true
+			timer.Simple(13, function()
+			end)
+		end
+	end
+		
    if CLIENT then return end
 
    if self.dietime < CurTime() then
