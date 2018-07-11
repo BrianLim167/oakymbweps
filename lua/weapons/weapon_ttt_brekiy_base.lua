@@ -72,6 +72,9 @@ SWEP.Weight             = 5
 SWEP.AutoSwitchTo       = false
 SWEP.AutoSwitchFrom     = false
 
+SWEP.ShortLightBrightness = -1
+SWEP.LongLightBrightness = -5
+
 SWEP.Primary.Sound          = Sound( "Weapon_Pistol.Empty" )
 SWEP.Primary.Recoil         = 1.5
 SWEP.Primary.Damage         = 1
@@ -281,6 +284,32 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	
 	if ((game.SinglePlayer() and SERVER) or
        ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) and self.AimKick > 0 then
+	   
+		local shortlight = DynamicLight( LocalPlayer():EntIndex() )
+		if ( shortlight ) then
+			shortlight.pos = LocalPlayer():GetShootPos()
+			shortlight.r = 200
+			shortlight.g = 160
+			shortlight.b = 80
+			shortlight.brightness = self.ShortLightBrightness
+			shortlight.Decay = 1000
+			shortlight.Size = 400
+			shortlight.DieTime = CurTime() + 0.05
+			shortlight.style = 0
+		end
+		local longlight = DynamicLight( self:EntIndex() )
+		if ( longlight ) then
+			longlight.pos = LocalPlayer():GetShootPos()
+			longlight.r = 255
+			longlight.g = 180
+			longlight.b = 25
+			longlight.brightness = self.LongLightBrightness
+			longlight.Decay = 500
+			longlight.Size = 5000
+			longlight.DieTime = CurTime() + 0.05
+			longlight.style = 0
+		end
+	
 		local eyeang
 		eyeang = self.Owner:EyeAngles()
 		eyeang.pitch = eyeang.pitch - (math.Rand(self.AimKick / 2, self.AimKick))

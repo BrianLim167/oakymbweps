@@ -20,6 +20,9 @@ end
 
 SWEP.Base                  = "weapon_ttt_brekiy_base"
 
+SWEP.ShortLightBrightness = -10
+SWEP.LongLightBrightness = -50
+
 SWEP.Primary.Recoil		   = 0.025
 SWEP.Primary.Damage        = 24
 SWEP.Primary.Delay         = 0.28

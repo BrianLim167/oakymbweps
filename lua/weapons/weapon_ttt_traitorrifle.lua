@@ -16,6 +16,9 @@ end
 SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.HoldType = "ar2"
 
+SWEP.ShortLightBrightness = -10
+SWEP.LongLightBrightness = -50
+
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 1.5
 SWEP.Primary.Recoil = 0
