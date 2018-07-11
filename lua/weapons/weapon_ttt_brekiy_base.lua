@@ -285,9 +285,11 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	if ((game.SinglePlayer() and SERVER) or
        ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) and self.AimKick > 0 then
 	   
-		local shortlight = DynamicLight( LocalPlayer():EntIndex() )
+		local rh = self.Owner:LookupAttachment("anim_attachment_RH")
+		local rhposang = self.Owner:GetAttachment(rh)
+		local shortlight = DynamicLight( self:EntIndex() )
 		if ( shortlight ) then
-			shortlight.pos = LocalPlayer():GetShootPos()
+			shortlight.pos = rhposang.Pos + rhposang.Ang:Forward()*self:OBBMaxs().x
 			shortlight.r = 200
 			shortlight.g = 160
 			shortlight.b = 80
@@ -299,7 +301,7 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 		end
 		local longlight = DynamicLight( self:EntIndex() )
 		if ( longlight ) then
-			longlight.pos = LocalPlayer():GetShootPos()
+			longlight.pos = rhposang.Pos + rhposang.Ang:Forward()*self:OBBMaxs().x
 			longlight.r = 255
 			longlight.g = 180
 			longlight.b = 25
