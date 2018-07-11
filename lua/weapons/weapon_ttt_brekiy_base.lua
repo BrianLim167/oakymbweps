@@ -72,8 +72,8 @@ SWEP.Weight             = 5
 SWEP.AutoSwitchTo       = false
 SWEP.AutoSwitchFrom     = false
 
-SWEP.ShortLightBrightness = -1
-SWEP.LongLightBrightness = -5
+SWEP.ShortLightBrightness = 1
+SWEP.LongLightBrightness = -1
 
 SWEP.Primary.Sound          = Sound( "Weapon_Pistol.Empty" )
 SWEP.Primary.Recoil         = 1.5
@@ -285,6 +285,11 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	if ((game.SinglePlayer() and SERVER) or
        ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
 	   
+	   local ShortLightBrightness = (self.Owner == LocalPlayer() and -0 or 0) + self.ShortLightBrightness
+	   local LongLightBrightness = (self.Owner == LocalPlayer() and -0 or 0) + self.LongLightBrightness
+	   local ShortRange = (self.Owner == LocalPlayer() and -0 or 0) + 250
+	   local LongRange = (self.Owner == LocalPlayer() and -0 or 0) + 600
+	   
 		local rh = self.Owner:LookupAttachment("anim_attachment_RH")
 		local rhposang = self.Owner:GetAttachment(rh)
 		local shortlight = DynamicLight( self:EntIndex() )
@@ -293,22 +298,22 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 			shortlight.r = 200
 			shortlight.g = 160
 			shortlight.b = 80
-			shortlight.brightness = self.ShortLightBrightness
-			shortlight.Decay = 1000
-			shortlight.Size = 400
-			shortlight.DieTime = CurTime() + 0.05
+			shortlight.brightness = ShortLightBrightness
+			shortlight.Decay = 250
+			shortlight.Size = ShortRange
+			shortlight.DieTime = CurTime() + 0.04
 			shortlight.style = 0
 		end
-		local longlight = DynamicLight( self:EntIndex() )
+		--local longlight = DynamicLight( self:EntIndex() )
 		if ( longlight ) then
 			longlight.pos = rhposang.Pos + rhposang.Ang:Forward()*self:OBBMaxs().x
 			longlight.r = 255
 			longlight.g = 180
 			longlight.b = 25
-			longlight.brightness = self.LongLightBrightness
-			longlight.Decay = 500
-			longlight.Size = 5000
-			longlight.DieTime = CurTime() + 0.05
+			longlight.brightness = LongLightBrightness
+			longlight.Decay = 250
+			longlight.Size = LongRange
+			longlight.DieTime = CurTime() + 0.04
 			longlight.style = 0
 		end
 	
