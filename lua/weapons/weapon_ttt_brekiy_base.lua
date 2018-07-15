@@ -64,6 +64,8 @@ SWEP.Weight             = 5
 SWEP.AutoSwitchTo       = false
 SWEP.AutoSwitchFrom     = false
 
+SWEP.IsLooted			= false
+
 SWEP.ShortLightBrightness = 1
 SWEP.LongLightBrightness = -1
 
