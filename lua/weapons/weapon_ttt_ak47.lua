@@ -32,13 +32,13 @@ SWEP.JumpPenalty			 	= 0.4
 SWEP.MaxCone 					= 0.095
 
 SWEP.AimPatternX		= function(t)
-	return -0.06*t - 0.85*(math.pow(1.5,0.85*t)-1) + 8.1*math.pow(2,-math.pow(0.6*(t-6.5),2)) + 0.006*math.tan(.233*(t)) + 0.1*t*math.sin(16*t) --+ 8.5*math.pow(2,-math.pow(1*(t-6.6),2)) + -3.3*math.pow(6,-math.pow(5*(t-5.7),2)) --+ 1.1*math.pow(10,-math.pow(t-6.5,2))
+	return 3*t - 2.2*math.pow(t,1.5) + 4.5*math.pow(2,-math.pow(5*(t-2.525),2)) - 4*math.pow(2,-math.pow(24*(t-2.575),2)) + 2.5*math.pow(2,-math.pow(100*(t-2.63),2))-- + 0.1*t*math.sin(16*t)
 end
 SWEP.AimPatternY		= function(t)
-	return 4 / (1 + math.pow(1.35, -t*5 + 10)) + 1.25*t - 0.01*t
+	return 4.75*t + 0.05*math.pow(t,2) + 1.5 / (1 + math.pow(2, -t*10 + 10))
 end
 SWEP.BloomRecoverRate 	= 0.00056
-SWEP.AimRecoverRate		= 0.145
+SWEP.AimRecoverRate		= 0.55
 SWEP.AimKick 			= 0.015
 SWEP.Primary.ShoveY         = 0.25
 SWEP.Primary.ShoveX         = 0.5

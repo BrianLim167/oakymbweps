@@ -9,12 +9,6 @@ SWEP.Kind = WEAPON_NONE
 SWEP.CanBuy = nil
 
 if CLIENT then
-	SWEP.aimy = 0
-	SWEP.aimx = 0
-	SWEP.aimpunch = 0
-end
-
-if CLIENT then
    SWEP.EquipMenuData = nil
    SWEP.Icon = "vgui/ttt/icon_nades"
 end
@@ -41,8 +35,6 @@ end
 function SWEP:SetupDataTables()
 	self:SetupDataTablesBase()
 end
-
---SWEP.
 
 function SWEP:SetupDataTablesBase()
 	if self.SetupDataTablesMain then self:SetupDataTablesMain() end
@@ -75,6 +67,7 @@ SWEP.AutoSwitchFrom     = false
 SWEP.ShortLightBrightness = 1
 SWEP.LongLightBrightness = -1
 
+SWEP.Penetration = 100
 SWEP.Primary.Sound          = Sound( "Weapon_Pistol.Empty" )
 SWEP.Primary.Recoil         = 1.5
 SWEP.Primary.Damage         = 1
@@ -114,7 +107,8 @@ SWEP.Primary.ShoveX         = 0.2
 
 --SWEP.Penetration 						= 0
 --work on this later
---[[ function SWEP:BulletPenetrate(hitNum, attacker, tr, dmginfo)
+function SWEP:BulletPenetrate(hitNum, attacker, tr, dmginfo)
+	if true then return end
 	print("BulletPenetrate funct")
 	print("hitNum: ", hitNum, "penetration power: ", self.Penetration)
 	local penetrate = self.Penetration
@@ -157,7 +151,7 @@ SWEP.Primary.ShoveX         = 0.2
 	
 	if (penTraceLine.StartSolid or penTraceLine.Fraction >= 1.0 or tr.Fraction <= 0.0) then 
 		print("Bullet did not penetrate!")
-		return false 
+		--return false 
 	end
 	
 	local newHit = 0
@@ -167,20 +161,23 @@ SWEP.Primary.ShoveX         = 0.2
 	
 	local exitShot = {}
 	exitShot.Num = 1
-	exitShot.src = penTraceLine.HitPos + penVec
-	exitShot.dir = penTraceLine.Normal
+	exitShot.src = penTraceLine.HitPos --+ penVec
+	exitShot.dir = -penTraceLine.Normal
 	exitShot.spread = Vector(0, 0, 0)
 	exitShot.dmg = self.Primary.Damage * dmgMult
 	exitShot.force = self.Primary.Damage * dmgMult * 0.4
 	exitShot.Tracer = 1
 	exitShot.tracerName = "AR2Tracer"
 	if(SERVER) then
-		exitShot.Callback = function(a, b, c) BulletPenetrate(hitNum + newHit, a, b, c) end
+		exitShot.Callback = function( attacker, tr, dmginfo)
+			self:Callback( attacker, tr, dmginfo )
+			self:BulletPenetrate(hitNum + newHit, attacker, tr, dmginfo)
+		end
 	end
 	print("Bullet penetrated")
 	attacker:FireBullets(exitShot)
 	print("exitShot fired")
-end ]]
+end 
 
 function SWEP:SecondaryAttack()
    if self.NoSights or (not self.IronSightsPos) then return end
@@ -233,8 +230,7 @@ function SWEP:PrimaryAttackBase(worldsnd)
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
    
    self:SetAimPunch( self:GetAimPunch() + 1 )
-   if CLIENT then self.aimpunch = self.aimpunch+1 end
-	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self:GetBloom() ) .. " " .. tostring( 167 ) )
+	--if CLIENT then self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self:GetAimPunch() ) .. " " .. tostring( 30-self:Clip1() ) ) end
    self:SetBloom( self:GetBloom() + self.Primary.Recoil )
    if self:GetBloom() < -self.Primary.Cone then
 		self:SetBloom( -self.Primary.Cone )
@@ -266,9 +262,8 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    bullet.Damage = dmg + self:HollowDamageTarget( attacker, tr, dmginfo )
    bullet.Callback = function( attacker, tr, dmginfo)
 		self:Callback( attacker, tr, dmginfo )
+		self:BulletPenetrate(0, attacker, tr, dmginfo)
 	end
-	--bullet.Callback = function(a, b, c)
-	--return self:BulletPenetrate(0, a, b, c) end
 	self.Owner:FireBullets( bullet )
 
    -- Owner can die after firebullets
@@ -332,32 +327,9 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
-	--self.Owner:ViewPunch( Angle(-0.1*self:GetAimY()*dy,-0.5*1*dx,0))
-	self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.5*(Angle(aimy,aimx,0))) )
+	
+	self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.25*(Angle(aimy,aimx,0))) )
 	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
-	--self.Owner:SetViewPunchAngles( self.Owner:GetViewPunchAngles() - 0.5*Angle(aimy, aimx, 0) )
-	if false and CLIENT then 
-		dy = self.AimPatternY(self.aimpunch+1) - self.AimPatternY(self.aimpunch)
-		dx = self.AimPatternX(self.aimpunch+1) - self.AimPatternX(self.aimpunch)
-		aimy = self.aimy + dy
-		aimx = self.aimx + dx
-		self.aimy = aimy
-		self.aimx = aimx
-	end
-		
-	--[[
-   if ((game.SinglePlayer() and SERVER) or
-       ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
-
-      -- reduce recoil if ironsighting
-      recoil = sights and (recoil * 0.6) or recoil
-
-      local eyeang = self.Owner:EyeAngles()
-      eyeang.pitch = eyeang.pitch - (math.Rand(0.25, 0.5) * recoil)
-	  eyeang.yaw = eyeang.yaw - (math.Rand(-0.05, 0.1) * recoil)
-      self.Owner:SetEyeAngles(eyeang)
-   end
-   ]]--
 end
 
 function SWEP:GetPrimaryCone()
@@ -408,38 +380,9 @@ function SWEP:AimPunchEvent()
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
 	self:SetAimAngles(Angle(-aimy,-aimx,0))
-	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self.Owner:GetViewPunchAngles() ) .. " " .. tostring( 167 ) )
-	if false and CLIENT then
-	
-		aimy = self.aimy
-		aimx = self.aimx
-		aimr = math.sqrt( math.pow(aimy, 2), math.pow(aimx, 2) )
-		
-		
-		if aimr > 0 then
-			
-			self.aimpunch = math.max( 0, self.aimpunch * (1 - self.AimRecoverRate/aimr) )
-			
-			aimynew = aimy - self.AimRecoverRate * (aimy/aimr) 
-			aimxnew = aimx - self.AimRecoverRate * (aimx/aimr) 
-			if aimynew > 0 then
-				aimy = aimynew
-				aimx = aimxnew
-			else
-				aimy = 0
-				aimx = 0
-			end
-		end
-	end
 	
 	self.aimy = aimy
 	self.aimx = aimx
-	
-	--self.Owner:SetViewPunchAngles(-Angle(0.5 * aimy, 0.5 * aimx, 0))
-	--self.Owner:SetViewPunchAngles( self.Owner:GetViewPunchAngles() + 0.5*(Angle(self:GetAimY(), self:GetAimX(), 0) - Angle(aimy, aimx, 0)) )
-	if aimr > 0 then
-		--self.Owner:SetViewPunchAngles( (1+0.2/aimr)*self.Owner:GetViewPunchAngles() )
-	end
 	
 end
 
@@ -452,10 +395,6 @@ function SWEP:Reload()
     self:SetIronsights(false)
     self:SetZoom(false)
 	self:ResetData()
-	if CLIENT then 
-		self.aimy = 0
-		self.aimx = 0
-	end
 end
 
 function SWEP:Holster()
@@ -474,44 +413,3 @@ function SWEP:ThinkBase()
 		
 	--local inaccMult = 1 + self.Owner:GetWalkSpeed() * 0.75
 end
-
---[[
-function SWEP:CalcView(ply, pos, ang, fov)
-	local view = {}
-	
-	view.origin = pos
-	view.angles = ang + Angle(-0.25*self:GetAimY(), -0.25*self:GetAimX(), 0)
-	view.fov = fov
-	view.drawviewer = true
-	--self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self:GetBloom() ) .. " " .. tostring( 167 ) )
-	
-	return view
-end
-]]--
-
-
-
-
-local function CalcViewPunch(ply, pos, ang, fov)
-	local view = {}
-	local wep = ply:GetActiveWeapon()
-	local aimy = 0
-	local aimx = 0
-	
-	if wep and ply and ply:Alive() and !ply:IsNPC() and IsValid(ply) and IsValid(wep) then
-	
-		aimy = wep.aimy or 0
-		aimx = wep.aimx or 0
-		--ply:PrintMessage(HUD_PRINTTALK, tostring( wep.aimy ) .. " " .. tostring( 1 ) )
-	
-	end
-	
-	view.origin = pos
-	view.angles = ang + Angle(-0.25*aimy, -0.25*aimx, 0)
-	view.fov = fov
-	view.drawviewer = false
-	--ply:PrintMessage(HUD_PRINTTALK, tostring( aimy ) .. " " .. tostring( 167 ) )
-	
-	return view
-end
---hook.Add( "CalcView", "CalcViewPunch", CalcViewPunch )

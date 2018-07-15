@@ -5,7 +5,7 @@ ENT.Type = "anim"
 ENT.Base = "ttt_basegrenade_proj"
 ENT.Model = Model("models/weapons/w_eq_smokegrenade_thrown.mdl")
 
-ENT.IsHitExploder = false
+ENT.IsHitExploder = true
 
 AccessorFunc( ENT, "radius", "Radius", FORCE_NUMBER )
 

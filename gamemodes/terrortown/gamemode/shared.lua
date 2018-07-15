@@ -191,10 +191,8 @@ function GM:PlayerFootstep(ply, pos, foot, sound, volume, rf)
       -- do not play anything, just prevent normal sounds from playing
       return true
 	else
-		if SERVER then
-			--ply:PrintMessage(HUD_PRINTTALK, tostring( 1 ) .. " " .. tostring( 167 ) )
+		if CLIENT then
 			ply:EmitSound( sound, 85, 100, 1, CHAN_BODY )
-			--sound.Play( sound, ply:GetPos(), 180, 100, 1 )
 		end
 		return true
 	end

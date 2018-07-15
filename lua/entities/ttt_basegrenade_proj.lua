@@ -58,6 +58,8 @@ function ENT:PhysicsCollide(data,phys)
    end 
    
    if self.IsHitExploder and data.HitEntity:IsValid() and data.HitEntity:IsPlayer() then
+		self:SetExplodeTime(CurTime() + .01) --explode next tick
+   --[[
 	  timer.Simple(0.01, function()
 		  if not self:IsValid() then return end
 		  -- find the ground if it's near and pass it to the explosion
@@ -72,6 +74,7 @@ function ENT:PhysicsCollide(data,phys)
 			 ErrorNoHalt("ERROR CAUGHT: ttt_basegrenade_proj: " .. err .. "\n")
 		  end
 	  end )
+	  ]]--
 	end
 end
 

@@ -46,7 +46,6 @@ function ENT:Initialize()
    self.next_hurt = CurTime() + self.hurt_interval + math.Rand(0, 3)
 
    self:SetBurning(false)
-   self.IsLit = false
 
    if self.dietime == 0 then self.dietime = CurTime() + 20 end
 end
@@ -175,11 +174,6 @@ function ENT:Think()
 			lifelight.Size = 500
 			lifelight.DieTime = CurTime() + 0.015
 			lifelight.style = 0
-		end
-		if (false and !self.IsLit) then
-			self.IsLit = true
-			timer.Simple(13, function()
-			end)
 		end
 	end
 		
