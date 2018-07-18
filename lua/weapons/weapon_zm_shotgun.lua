@@ -22,7 +22,7 @@ end
 
 
 SWEP.Primary.Ammo = "Buckshot"
-SWEP.Primary.Damage = 5
+SWEP.Primary.Damage = 4
 SWEP.Primary.Cone = 0.017
 SWEP.Primary.Delay = 0.55
 SWEP.Primary.ClipSize = 6
@@ -50,12 +50,12 @@ SWEP.AimPatternX 		= function(t)
 		return 0
 	end
 SWEP.AimPatternY 		= function(t)
-		return 5*t
+		return 10*t
 	end
 SWEP.BloomRecoverRate 	= 0.008
 SWEP.AimRecoverRate		= 0.75
-SWEP.AimKick			= 2.5
-SWEP.Primary.ShoveY         = 0.9
+SWEP.AimKick			= 4.5
+SWEP.Primary.ShoveY         = 1.1
 SWEP.Primary.ShoveX         = 1.7
 
 SWEP.IronSightsPos = Vector(-6.881, -9.214, 2.66)
