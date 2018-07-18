@@ -43,6 +43,7 @@ SWEP.CrouchBonus 				 	= 1
 SWEP.MovePenalty			 	 	= 0
 SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.15
+SWEP.TracerFrequency				= 1
 
 SWEP.AimPatternX 		= function(t)
 		return 0

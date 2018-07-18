@@ -258,7 +258,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    bullet.Src    = self.Owner:GetShootPos()
    bullet.Dir    = bulletAng:Forward()
    bullet.Spread = Vector( cone, cone, 0 )
-   bullet.Tracer = 4
+   bullet.Tracer = self.TracerFrequency or 4
    bullet.TracerName = self.Tracer or "Tracer"
    bullet.Force  = dmg * 0.4
    bullet.Damage = dmg + self:HollowDamageTarget( attacker, tr, dmginfo )
@@ -330,7 +330,7 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
 	
-	self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.25*(Angle(aimy,aimx,0))) )
+	self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.35*(Angle(aimy,aimx,0))) )
 	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
 end
 

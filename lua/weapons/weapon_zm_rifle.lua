@@ -15,19 +15,20 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_RIFLE
 
 SWEP.Primary.Delay     = 1.5
-SWEP.Primary.Recoil    = 0
+SWEP.Primary.Recoil    = 0.1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Damage = 55
-SWEP.Primary.Cone = 0.025
+SWEP.Primary.Cone = 0.012
 SWEP.Primary.ClipSize = 10
 SWEP.Primary.ClipMax = 20
 SWEP.Primary.DefaultClip = 10
 SWEP.IronSightsConeMultiplier		= 0.01
 SWEP.CrouchBonus 				 	= 0.7
-SWEP.MovePenalty			 	 	= 0.05
+SWEP.MovePenalty			 	 	= 1.25
 SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.065
+SWEP.TracerFrequency				= 1
 
 SWEP.AimPatternX 		= function(t)
 		return 0
@@ -35,7 +36,7 @@ SWEP.AimPatternX 		= function(t)
 SWEP.AimPatternY 		= function(t)
 		return 1 * t
 	end
-SWEP.BloomRecoverRate 	= 0.0075
+SWEP.BloomRecoverRate 	= 0.0025
 SWEP.AimRecoverRate		= 0.25
 SWEP.AimKick			= 3
 SWEP.Primary.ShoveY         = 1

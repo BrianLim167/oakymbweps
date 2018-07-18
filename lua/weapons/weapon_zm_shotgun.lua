@@ -37,6 +37,7 @@ SWEP.CrouchBonus 				 	= 1
 SWEP.MovePenalty			 	 	= 0.25
 SWEP.JumpPenalty			 	 	= 0.5
 SWEP.MaxCone 					 	= 0.2
+SWEP.TracerFrequency				= 1
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false

@@ -30,9 +30,10 @@ SWEP.CrouchBonus 				= 0.7
 SWEP.MovePenalty			 	= 1.75
 SWEP.JumpPenalty			 	= 0.4
 SWEP.MaxCone 					= 0.095
+SWEP.TracerFrequency				= 3
 
 SWEP.AimPatternX		= function(t)
-	return 3*t - 2.2*math.pow(t,1.5) + 4.5*math.pow(2,-math.pow(5*(t-2.525),2)) - 4*math.pow(2,-math.pow(24*(t-2.575),2)) + 2.5*math.pow(2,-math.pow(100*(t-2.63),2))-- + 0.1*t*math.sin(16*t)
+	return 3*t - 2.2*math.pow(t,1.5) + 4.5*math.pow(2,-math.pow(5*(t-2.525),2)) - 3.7*math.pow(2,-math.pow(24*(t-2.575),2)) + 1.6*math.pow(2,-math.pow(100*(t-2.63),2))-- + 0.1*t*math.sin(16*t)
 end
 SWEP.AimPatternY		= function(t)
 	return 4.75*t + 0.05*math.pow(t,2) + 1.5 / (1 + math.pow(2, -t*10 + 10))

@@ -27,6 +27,7 @@ SWEP.MovePenalty			 	 	= 1
 SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.1
 SWEP.IronSightsConeMultiplier		= 0.001
+SWEP.Tracer							= "None"
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false

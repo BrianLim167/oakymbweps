@@ -48,6 +48,7 @@ SWEP.MovePenalty			 	 	= 0
 SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.45
 SWEP.IronSightsConeMultiplier		= 0.8
+SWEP.TracerFrequency				= 1
 
 SWEP.IronSightsPos = Vector( 4.25, -2, 1.5 )
 SWEP.IronSightsAng = Vector( 2.2, -0.1, 0 )
