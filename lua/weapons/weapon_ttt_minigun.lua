@@ -1,5 +1,6 @@
-if SERVER then
-   AddCSLuaFile( "shared.lua" )
+if true or SERVER then
+   --AddCSLuaFile( "weapon_base/shared.lua" )
+   AddCSLuaFile()
    resource.AddFile("tflppy/vgui/ttt/icon_minigun.vmt")
    resource.AddFile("tflppy/vgui/ttt/icon_minigun.vtf")
 end
@@ -27,7 +28,7 @@ SWEP.NoSights = true
 SWEP.Kind = WEAPON_EQUIP1
 
 SWEP.Primary.Delay	   = 0.08
-SWEP.Primary.Recoil	  = 0.003
+SWEP.Primary.Recoil	  = 0.00408
 SWEP.Primary.Automatic   = true
 SWEP.ViewModelFOV  = 50
 SWEP.ViewModelFlip = false
@@ -40,11 +41,11 @@ SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1.2
 SWEP.JumpPenalty			 	 	= 2
-SWEP.MaxCone 					 	= 0.065
+SWEP.MaxCone 					 	= 0.07
 
 SWEP.BloomRecoverRate 	= 0.001
 SWEP.AimRecoverRate		= 0.35
-SWEP.AimKick				= 0.05
+SWEP.AimKick				= 0.35
 SWEP.Primary.ShoveY         = 0.1
 SWEP.Primary.ShoveX         = 0.3
 
@@ -53,7 +54,7 @@ SWEP.LimitedStock = true
 
 SWEP.Primary.Damage	  = 15
 SWEP.Primary.Cone	= 0.012
-SWEP.Primary.NumShots = 0
+SWEP.Primary.NumShots = 1
 
 SWEP.IronSightsPos = Vector(-3.80, 1.00, 2.00)
 SWEP.IronSightsAng = Vector(0.12, -0.02, 0.00)
@@ -70,8 +71,8 @@ SWEP.SpinTime = 0.2
 
 function SWEP:Deploy()
 	self:SendWeaponAnim(ACT_VM_DRAW)
-	if self.Owner:SteamID() then
-		timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	if self.Owner:EntIndex() then
+		timer.Destroy(self.Owner:EntIndex() .. "_SpinMod")
 	end
 	SpinMod = SpinMod-SpinMod+1
 	self.IsShooting = false
@@ -79,16 +80,16 @@ function SWEP:Deploy()
 end
 
 function SWEP:OnRemove()
-	if self.Owner:SteamID() then
-		timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	if self.Owner:EntIndex() then
+		timer.Destroy(self.Owner:EntIndex() .. "_SpinMod")
 	end
 	SpinMod = SpinMod-SpinMod+1
 	self.IsShooting = false
 end
 
 function SWEP:Holster()
-	if self.Owner:SteamID() then
-		timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+	if self.Owner:EntIndex() then
+		timer.Destroy(self.Owner:EntIndex() .. "_SpinMod")
 	end
 	SpinMod = SpinMod-SpinMod+1
 	self.IsShooting = false
@@ -104,17 +105,17 @@ hook.Add("TTTPlayerSpeed", "MinigunSpeed", MinigunSpeedMod )
 
 function SWEP:Think()
 	self:ThinkBase()
-	if self.IsShooting == true and IsValid(self.Owner) and self.Owner:IsTerror() then
+	if self.IsShooting == true and IsValid(self.Owner) then --and self.Owner:IsTerror() then
 		if self.Owner:KeyReleased( IN_ATTACK) then
-			if self.Owner:SteamID() then
-				timer.Destroy(self.Owner:SteamID() .. "_SpinMod")
+			if self.Owner:EntIndex() then
+				timer.Destroy(self.Owner:EntIndex() .. "_SpinMod")
 			end
 			SpinMod = SpinMod-SpinMod+1
 			self.IsShooting = false 
 		end
 	end
 end		
-		
+
 function SWEP:PrimaryAttack(worldsnd)	
 
 		self:SetNextSecondaryFire( CurTime() + self.SpinTime/SpinMod )
@@ -128,10 +129,10 @@ function SWEP:PrimaryAttack(worldsnd)
 		
 		if not self.IsShooting == true then
 			self.IsShooting = true
-			timer.Create(self.Owner:SteamID() .. "_SpinMod", 0.25, 20,
+			timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
 				function()
 					
-					SpinMod = math.Approach( SpinMod, 5,  0.22)	
+					SpinMod = math.Approach( SpinMod, 5,  0.12)	
 				end)
 		end
 		

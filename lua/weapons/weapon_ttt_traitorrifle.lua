@@ -50,6 +50,8 @@ SWEP.AimKick			= 2.75
 SWEP.Primary.ShoveY         = 0.5
 SWEP.Primary.ShoveX         = 1.0
 
+SWEP.AmmoEnt = "item_ammo_357_ttt"
+
 --- Model settings
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false

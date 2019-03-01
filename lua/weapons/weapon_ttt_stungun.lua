@@ -64,6 +64,7 @@ SWEP.IronSightsAng = Vector(-1.201, -0.201, -2)
 function SWEP:Callback( att, tr, dmginfo )
 	if SERVER or (CLIENT and IsFirstTimePredicted()) then
 	   local ent = tr.Entity
+	   if ent == self.Owner then return end
 	   if (not tr.HitWorld) and IsValid(ent) then
 		  local edata = EffectData()
 

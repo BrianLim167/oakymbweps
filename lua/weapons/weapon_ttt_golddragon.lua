@@ -77,9 +77,10 @@ SWEP.WorldModel = "models/weapons/w_rif_ree_kslh47.mdl"
 SWEP.IronSightsPos = Vector(4.077, -4.277, 0.126)
 SWEP.IronSightsAng = Vector(2.572, 0.222, 0.948)
 
-function IgniteTarget(att, path, dmginfo)
+function SWEP:IgniteTarget(att, path, dmginfo)
 
    local ent = path.Entity
+	if ent == self.Owner then return end
    if not IsValid(ent) then return end
 
    if CLIENT and IsFirstTimePredicted() then
@@ -110,7 +111,12 @@ function IgniteTarget(att, path, dmginfo)
    end
 end
 
-function SWEP:ShootBullet( dmg, recoil, numbul, cone )
+function SWEP:Callback( attacker, tr, dmginfo )
+	self:IgniteTarget( attacker, tr, dmginfo )
+end
+	
+--[[
+function SWEP:ShootBullet_unused( dmg, recoil, numbul, cone )
    self:SendWeaponAnim(self.PrimaryAnim)
 
    self.Owner:MuzzleFlash()
@@ -124,18 +130,24 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    cone   = cone   or 0.01
 	
 	local bulletAng = self.Owner:EyeAngles() + self:GetAimAngles()
+	local dir = (bulletAng+ Angle(cone*360/math.pi*(math.random()-0.5),cone*360/math.pi*(math.random()-0.5),0)):Forward()
+	local td = {}
+	td.start = self.Owner:GetShootPos()
+	td.endpos = td.start + 999999999*dir
+	td.mask = MASK_SHOT
+	local tr = util.TraceLine(td)
    local bullet = {}
    bullet.Num    = numbul
    bullet.Src    = self.Owner:GetShootPos()
-   bullet.Dir    = bulletAng:Forward()
-   bullet.Spread = Vector( cone, cone, 0 )
-   bullet.Tracer = 4
+   bullet.Dir    = dir
+   bullet.Spread = Vector(0,0,0)--Vector( cone, cone, 0 )
+   bullet.Tracer = self.TracerFrequency or 4
    bullet.TracerName = self.Tracer or "Tracer"
    bullet.Force  = dmg * 0.4
    bullet.Damage = dmg
-   bullet.Callback = function( attacker, tr, dmginfo )
-		IgniteTarget( attacker, tr, dmginfo )
-		self:HollowDamageTarget( attacker, tr, dmginfo )
+   bullet.Callback = function( attacker, btr, dmginfo)
+		self:Callback( attacker, tr, dmginfo )
+		self:BulletPenetrate(0, bullet, attacker, tr, dmginfo)
 	end
 	--bullet.Callback = function(a, b, c)
 	--return self:BulletPenetrate(0, a, b, c) end
@@ -144,4 +156,4 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    -- Owner can die after firebullets
 	   
 	self:ShootBulletBase( dmg, recoil, numbul, cone )
-end
+end]]--

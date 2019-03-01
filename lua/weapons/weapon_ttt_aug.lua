@@ -28,6 +28,7 @@ SWEP.MovePenalty			 	 	= 1
 SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.07
 SWEP.IronSightsConeMultiplier		= 0.1
+SWEP.TracerFrequency				= 1
 
 SWEP.AimPatternX 		= function(t)
 		return 0.1 * t * math.sin(0.8 * t)

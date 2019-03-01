@@ -58,23 +58,7 @@ function ENT:PhysicsCollide(data,phys)
    end 
    
    if self.IsHitExploder and data.HitEntity:IsValid() and data.HitEntity:IsPlayer() then
-		self:SetExplodeTime(CurTime() + .01) --explode next tick
-   --[[
-	  timer.Simple(0.01, function()
-		  if not self:IsValid() then return end
-		  -- find the ground if it's near and pass it to the explosion
-		  local spos = self:GetPos()
-		  local tr = util.TraceLine({start=spos, endpos=spos + Vector(0,0,-32), mask=MASK_SHOT_HULL, filter=self.thrower})
-		  --local tr = util.TraceLine({start=spos, endpos=spos + Vector(0,0,-80), mask=MASK_SOLID_BRUSHONLY, filter=self.thrower})
-
-		  local success, err = pcall(self.Explode, self, tr)
-		  if not success then
-			 -- prevent effect spam on Lua error
-			 self:Remove()
-			 ErrorNoHalt("ERROR CAUGHT: ttt_basegrenade_proj: " .. err .. "\n")
-		  end
-	  end )
-	  ]]--
+		self:SetExplodeTime(CurTime() + .016) --explode next tick
 	end
 end
 

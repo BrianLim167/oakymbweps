@@ -109,81 +109,153 @@ SWEP.Primary.ShoveX         = 0.2
 
 --SWEP.Penetration 						= 0
 --work on this later
-function SWEP:BulletPenetrate(hitNum, attacker, tr, dmginfo)
-	if true then return end
-	print("BulletPenetrate funct")
-	print("hitNum: ", hitNum, "penetration power: ", self.Penetration)
-	local penetrate = self.Penetration
-	local dmgMult = 1
+function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
+	if (bul.Damage <= 1) then return false end
+	if (hitNum > 16) then return false end
+
+	--multiplier for bullet damage upon impact with material
+	matImpactMul = {
+	[MAT_METAL] =		0.8,
+	[MAT_VENT] =		0.8,
+	[MAT_GRATE] =		0.8,
+	[MAT_COMPUTER] =	0.8,
+	[MAT_CONCRETE] =	0.85,
+	[MAT_FLESH] =		0.9,
+	[MAT_DIRT] =		0.9,
+	[MAT_GRASS] =		0.9,
+	[MAT_TILE] =		0.9,
+	[MAT_SAND] =		0.9,
+	[MAT_PLASTIC] =		0.95,
+	[MAT_WOOD] =		0.95,
+	[MAT_GLASS] =		1,
+	}
 	
-	-- Prevent the bullet from going through more than 2 surfaces
-	-- This is for performance and shit
-	if(hitNum > 2) then 
-		print("Bullet hit too many surfaces") 
-		return false 
+	--material's resistance to a penetrating bullet
+	matResistance = {
+	[MAT_METAL] =		0.2,
+	[MAT_VENT] =		0.2,
+	[MAT_GRATE] =		0.2,
+	[MAT_COMPUTER] =	0.95,
+	[MAT_CONCRETE] =	0.1,
+	[MAT_FLESH] =		0.05,
+	[MAT_DIRT] =		0.05,
+	[MAT_GRASS] =		0.05,
+	[MAT_TILE] =		0.04,
+	[MAT_SAND] =		0.03,
+	[MAT_PLASTIC] =		0.02,
+	[MAT_WOOD] =		0.05,
+	[MAT_GLASS] =		0.02,
+	}
+	
+	matDecal = {
+	[MAT_METAL] =		"Impact.Metal",
+	[MAT_VENT] =		"Impact.Metal",
+	[MAT_GRATE] =		"Impact.Metal",
+	[MAT_COMPUTER] =	"Impact.Metal",
+	[MAT_CONCRETE] =	"Impact.Concrete",
+	[MAT_FLESH] =		"Blood",
+	[MAT_DIRT] =		"ExplosiveGunshot",
+	[MAT_GRASS] =		"ExplosiveGunshot",
+	[MAT_TILE] =		"ExplosiveGunshot",
+	[MAT_SAND] =		"Impact.Sand",
+	[MAT_PLASTIC] =		"ExplosiveGunshot",
+	[MAT_WOOD] =		"Impact.Wood",
+	[MAT_GLASS] =		"Impact.Glass",
+	}
+	
+	local dmgImpactMul = matImpactMul[tr.MatType] or 0.95
+	local dmgResistance = matResistance[tr.MatType] or 0.05
+	
+	local aimNorm = (tr.HitPos - tr.StartPos):GetNormalized()
+	if (!aimNorm or aimNorm == Vector(0,0,0)) then aimNorm = bul.Dir end
+	local pen = bul.Damage * dmgImpactMul / dmgResistance
+	local penVec = aimNorm * pen -- Penetration vector
+	local penTraceLine = {}
+	
+	if (tr.HitWorld) then
+		local penTrace = {}
+		penTrace.start = tr.HitPos + aimNorm
+		penTrace.endpos = penTrace.start + penVec
+		penTrace.filter = game:GetWorld()
+		penTraceLine = util.TraceLine(penTrace)
+		if (penTraceLine.FractionLeftSolid != 1) then
+			penTraceLine.HitPos = penTraceLine.StartPos + penTraceLine.FractionLeftSolid * (penTraceLine.HitPos - penTraceLine.StartPos)
+		end
+		local penDist = 1
+		
+		-- static props are considered part of the world, but don't behave well with FractionLeftSolid, so they have to be traced manually
+		while (penTraceLine.Entity == game.GetWorld() and penTraceLine.FractionLeftSolid == 0 and penTraceLine.StartSolid and penTraceLine.AllSolid and penDist < pen) do
+			penTrace.start = penTraceLine.HitPos + aimNorm
+			penTrace.endpos = penTraceLine.HitPos
+			penTraceLine = util.TraceLine(penTrace)
+			if (penTraceLine.FractionLeftSolid != 1) then
+				penTraceLine.HitPos = penTraceLine.StartPos + penTraceLine.FractionLeftSolid * (penTraceLine.HitPos - penTraceLine.StartPos)
+			end
+			penDist = penDist + 1
+		end
+		
+	elseif (tr.Entity) then
+		local outsideTrace = {}
+		outsideTrace.start = tr.HitPos + aimNorm
+		outsideTrace.endpos = outsideTrace.start + penVec
+		outsideTrace.filter = tr.Entity
+		local outsideTraceLine = util.TraceLine(outsideTrace)
+		local penTrace = {}
+		penTrace.start = outsideTraceLine.HitPos - aimNorm
+		penTrace.endpos = tr.HitPos
+		penTraceLine = util.TraceLine(penTrace)
+	else
+		return
 	end
+	penTraceLine.HitPos = penTraceLine.HitPos + aimNorm
 	
-	-- The bullet can penetrate different amounts of material
-	-- and takes a damage penalty according to the material
-	if (tr.MatType == MAT_METAL or tr.MatType == MAT_VENT or 
-		tr.MatType == MAT_COMPUTER or tr.MatType == MAT_GRATE) then
-		penetrate = penetrate * 0.3
-		dmgMult = 0.3
-	elseif (tr.MatType == MAT_CONCRETE) then
-		penetrate = penetrate * 0.5
-		dmgMult = 0.5
-	elseif(tr.MatType == MAT_DIRT or tr.MatType == MAT_TILE or tr.MatType == MAT_SAND) then
-		penetrate = penetrate * 0.7
-		dmgMult = 0.7
-	elseif (tr.MatType == MAT_PLASTIC or tr.MatType == MAT_WOOD) then
-		penetrate = penetrate * 0.85
-		dmgMult = 0.85
-	end
-	print("Penetration calculated: ", penetrate, " units")
-	print("Dmg and mult:", self.Primary.Damage, dmgMult)
-	print(tr.Normal)
-	local penVec = tr.Normal * penetrate * 2 -- Penetration vector
-	local penTrace = {}
-	penTrace.endpos = tr.HitPos
-	penTrace.start = tr.HitPos + penVec
-	penTrace.filter = {}
-	penTrace.mask = MASK_SHOT
-	local penTraceLine = util.TraceLine(penTrace)
-	print("Trace created")
 	
-	if (penTraceLine.StartSolid or penTraceLine.Fraction >= 1.0 or tr.Fraction <= 0.0) then 
-		print("Bullet did not penetrate!")
-		--return false 
-	end
+	print(penTraceLine.Entity)
+	--print(penTraceLine.HitPos - tr.HitPos)
+	print(penTraceLine.Fraction)
+	--print(penTraceLine.FractionLeftSolid)
+	--print(penTraceLine.AllSolid)
+	--print(penTraceLine.StartSolid)
+	print((penTraceLine.HitPos - tr.HitPos):Length())
+	print("--------------------------")
 	
-	local newHit = 0
-	if(tr.MatType == MAT_GLASS) then newHit = 1 end
 	
-	print("Making penetrated shot")
+	local checkMat = {}
+	checkMat.start = penTraceLine.HitPos
+	checkMat.endpos = tr.HitPos
+	checkMat.filter = {}
+	checkMat.mask = MASK_SHOT
+	local checkMatLine = util.TraceLine(checkMat)
+	checkMatLine.MatType = checkMatLine.MatType or tr.MatType
+	
 	
 	local exitShot = {}
 	exitShot.Num = 1
-	exitShot.src = penTraceLine.HitPos --+ penVec
-	exitShot.dir = -penTraceLine.Normal
-	exitShot.spread = Vector(0, 0, 0)
-	exitShot.dmg = self.Primary.Damage * dmgMult
-	exitShot.force = self.Primary.Damage * dmgMult * 0.4
-	exitShot.Tracer = 1
-	exitShot.tracerName = "AR2Tracer"
-	if(SERVER) then
-		exitShot.Callback = function( attacker, tr, dmginfo)
-			self:Callback( attacker, tr, dmginfo )
-			self:BulletPenetrate(hitNum + newHit, attacker, tr, dmginfo)
-		end
+	exitShot.Src = penTraceLine.HitPos
+	exitShot.Dir = aimNorm
+	exitShot.Spread = Vector(0, 0, 0)
+	dmgImpactMul = matImpactMul[checkMatLine.MatType] or 0.95
+	dmgResistance = matResistance[checkMatLine.MatType] or 0.05
+	exitShot.Damage = bul.Damage * dmgImpactMul - (penTraceLine.HitPos - tr.HitPos):Length() * dmgResistance
+	if (exitShot.Damage < 1) then return end
+	exitShot.Force = 0.4 * exitShot.Damage
+	exitShot.Tracer = self.TracerFrequency or 4
+	exitShot.TracerName = self.Tracer or "Tracer"
+	if tr.Entity and !tr.Entity:IsWorld() then exitShot.IgnoreEntity = tr.Entity end
+	exitShot.Callback = function( attacker, callback_tr, dmginfo)
+		self:Callback( attacker, callback_tr, dmginfo )
+		self:BulletPenetrate(hitNum + 1, exitShot, attacker, callback_tr, dmginfo)
 	end
-	print("Bullet penetrated")
 	attacker:FireBullets(exitShot)
-	print("exitShot fired")
+	
+	if CLIENT then
+		util.Decal( matDecal[checkMatLine.MatType] or "ExplosiveGunshot", penTraceLine.HitPos, tr.HitPos )
+	end
 end 
 
 function SWEP:SecondaryAttack()
    if self.NoSights or (not self.IronSightsPos) then return end
-   --if self:GetNextSecondaryFire() > CurTime() then return end
+   if self:GetNextSecondaryFire() > CurTime() then return end
 
    self:SetIronsights(not self:GetIronsights())
 
@@ -199,10 +271,12 @@ function SWEP:HollowDamageTarget( att, path, dmginfo )
 	local ent = path.Entity
 	if not IsValid(ent) then return 0 end
 	
+	local hollow_dmg = 0
+	
 	if SERVER then
 		if ent:IsPlayer() and GAMEMODE:AllowPVP() then
 			local rating = self.Primary.HollowRating or ent:GetMaxHealth() or 1000
-			local dmg = math.floor( (ent:GetMaxHealth() - ent:Health()) / rating )
+			hollow_dmg = math.floor( (ent:GetMaxHealth() - ent:Health()) / rating )
 		end
 	end
 	return hollow_dmg
@@ -224,7 +298,8 @@ function SWEP:PrimaryAttackBase(worldsnd)
       sound.Play(self.Primary.Sound, self:GetPos(), self.Primary.SoundLevel)
    end
 
-   self:ShootBullet(self.Primary.Damage, self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
+   self:ShootBullet(self.Primary.Damage + self:HollowDamageTarget( attacker, tr, dmginfo ),
+					self.Primary.Recoil, self.Primary.NumShots, self:GetPrimaryCone())
 
    self:TakePrimaryAmmo( 1 )
 
@@ -232,7 +307,6 @@ function SWEP:PrimaryAttackBase(worldsnd)
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
    
    self:SetAimPunch( self:GetAimPunch() + 1 )
-	--if CLIENT then self.Owner:PrintMessage(HUD_PRINTTALK, tostring( self:GetAimPunch() ) .. " " .. tostring( 30-self:Clip1() ) ) end
    self:SetBloom( self:GetBloom() + self.Primary.Recoil )
    if self:GetBloom() < -self.Primary.Cone then
 		self:SetBloom( -self.Primary.Cone )
@@ -252,21 +326,24 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    numbul = numbul or 1
    cone   = cone   or 0.01
 	
-	local bulletAng = self.Owner:EyeAngles() + self:GetAimAngles()
-   local bullet = {}
-   bullet.Num    = numbul
-   bullet.Src    = self.Owner:GetShootPos()
-   bullet.Dir    = bulletAng:Forward()
-   bullet.Spread = Vector( cone, cone, 0 )
-   bullet.Tracer = self.TracerFrequency or 4
-   bullet.TracerName = self.Tracer or "Tracer"
-   bullet.Force  = dmg * 0.4
-   bullet.Damage = dmg + self:HollowDamageTarget( attacker, tr, dmginfo )
-   bullet.Callback = function( attacker, tr, dmginfo)
-		self:Callback( attacker, tr, dmginfo )
-		self:BulletPenetrate(0, attacker, tr, dmginfo)
+	for i=1,numbul do
+		local bulletAng = self.Owner:EyeAngles() + self:GetAimAngles()
+		local dir = (bulletAng+ Angle(cone*360/math.pi*(math.random()-0.5),cone*360/math.pi*(math.random()-0.5),0)):Forward()
+	   local bullet = {}
+	   bullet.Num    = 1
+	   bullet.Src    = self.Owner:GetShootPos()
+	   bullet.Dir    = dir:GetNormalized()
+	   bullet.Spread = Vector(0,0,0)--Vector( cone, cone, 0 )
+	   bullet.Tracer = self.TracerFrequency or 4
+	   bullet.TracerName = self.Tracer or "Tracer"
+	   bullet.Force  = dmg * 0.4
+	   bullet.Damage = dmg
+	   bullet.Callback = function( attacker, tr, dmginfo)
+			self:Callback( attacker, tr, dmginfo )
+			self:BulletPenetrate(0, bullet, attacker, tr, dmginfo)
+		end
+		self.Owner:FireBullets( bullet )
 	end
-	self.Owner:FireBullets( bullet )
 
    -- Owner can die after firebullets
 	   
@@ -282,10 +359,14 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	if ((game.SinglePlayer() and SERVER) or
        ((not game.SinglePlayer()) and CLIENT and IsFirstTimePredicted())) then
 	   
-	   local ShortLightBrightness = (self.Owner == LocalPlayer() and -0 or 0) + self.ShortLightBrightness
-	   local LongLightBrightness = (self.Owner == LocalPlayer() and -0 or 0) + self.LongLightBrightness
-	   local ShortRange = (self.Owner == LocalPlayer() and -0 or 0) + 250
-	   local LongRange = (self.Owner == LocalPlayer() and -0 or 0) + 600
+	   --local ShortLightBrightness = (self.Owner == LocalPlayer() and -0 or 0) + self.ShortLightBrightness
+	   --local LongLightBrightness = (self.Owner == LocalPlayer() and -0 or 0) + self.LongLightBrightness
+	   --local ShortRange = (self.Owner == LocalPlayer() and -0 or 0) + 250
+	   --local LongRange = (self.Owner == LocalPlayer() and -0 or 0) + 600
+	   local ShortLightBrightness = self.ShortLightBrightness
+	   local LongLightBrightness = self.LongLightBrightness
+	   local ShortRange = 250
+	   local LongRange = 600
 	   
 		local rh = self.Owner:LookupAttachment("anim_attachment_RH")
 		local rhposang = self.Owner:GetAttachment(rh)
