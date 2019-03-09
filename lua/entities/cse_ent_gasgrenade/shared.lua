@@ -1,6 +1,6 @@
-// raped version of flashbang.
+-- raped version of flashbang.
 
-//ENT.Base = "base_entity"
+ENT.Base = "ttt_basegrenade_proj"
 ENT.Type = "anim"
 
 ENT.PrintName		= "gasgrenade"
@@ -19,12 +19,13 @@ end
 
 function ENT:PhysicsUpdate()
 end
-
+--[[
 function ENT:PhysicsCollide(data,phys)
 	if data.Speed > 50 then
 		self.Entity:EmitSound(Sound("Flashbang.Bounce"))
 	end
 	
 	local impulse = -data.Speed * data.HitNormal * .4 + (data.OurOldVelocity * -.6)
-	phys:ApplyForceCenter(impulse)
+	--phys:ApplyForceCenter(impulse)
 end
+]]--

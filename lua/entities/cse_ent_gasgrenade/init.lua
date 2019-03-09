@@ -1,21 +1,23 @@
-// this was a cse flashbang.
+-- this was a cse flashbang.
 
 AddCSLuaFile( "cl_init.lua" )
 AddCSLuaFile( "shared.lua" )
 
 include('shared.lua')
 
+ENT.IsHitExploder = false
+
 function ENT:Initialize()
 
 	self.Entity:SetModel("models/weapons/w_eq_smokegrenade.mdl")
 	self.Entity:PhysicsInit( SOLID_VPHYSICS )
 	self.Entity:SetMoveType( MOVETYPE_VPHYSICS )
-	self.Entity:SetSolid( SOLID_VPHYSICS )
+	self.Entity:SetSolid( SOLID_BBOX )
 	self.Entity:DrawShadow( false )
 	
 	// Don't collide with the player
 	// too bad this doesn't actually work.
-	self.Entity:SetCollisionGroup( COLLISION_GROUP_WEAPON )
+	self.Entity:SetCollisionGroup( COLLISION_GROUP_PROJECTILE )
 	
 	local phys = self.Entity:GetPhysicsObject()
 	
@@ -49,9 +51,9 @@ function ENT:Think()
 			self.Spammed = true
 			self.Bastardgas = ents.Create("env_smoketrail")
 			self.Bastardgas:SetPos(self.Entity:GetPos())
-			self.Bastardgas:SetKeyValue("spawnradius","256")
-			self.Bastardgas:SetKeyValue("minspeed","0.5")
-			self.Bastardgas:SetKeyValue("maxspeed","2")
+			self.Bastardgas:SetKeyValue("spawnradius","400")
+			self.Bastardgas:SetKeyValue("minspeed","1")
+			self.Bastardgas:SetKeyValue("maxspeed","16")
 			self.Bastardgas:SetKeyValue("startsize","900")
 			self.Bastardgas:SetKeyValue("endsize","200")
 			self.Bastardgas:SetKeyValue("endcolor","170 205 70")
@@ -72,7 +74,7 @@ function ENT:Think()
 		end
 
 		local pos = self.Entity:GetPos()
-		local maxrange = 256
+		local maxrange = 512
 		local maxstun = 10
 		for k,v in pairs(player.GetAll()) do
 			local plpos = v:GetPos()

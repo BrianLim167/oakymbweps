@@ -20,6 +20,7 @@ SWEP.Primary.ClipSize 			= 30
 SWEP.Primary.ClipMax 			= 60
 SWEP.Primary.DefaultClip 		= 30
 SWEP.Primary.Sound 				= Sound( "Weapon_aug.shot" )
+SWEP.Primary.SoundEmpty			= Sound( "Weapon_IRifle.Empty" )
 SWEP.Secondary.Sound 			= Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier 		= 2.7
 SWEP.IronSightsConeMultiplier		= 0.5

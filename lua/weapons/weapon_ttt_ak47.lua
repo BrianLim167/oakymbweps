@@ -25,6 +25,7 @@ SWEP.Primary.ClipSize 			= 30
 SWEP.Primary.ClipMax 			= 60
 SWEP.Primary.DefaultClip 		= 30
 SWEP.Primary.Sound 				= Sound( "Weapon_ak47.shot" )
+SWEP.Primary.SoundEmpty			= Sound( "Weapon_AR2.Empty" )
 SWEP.HeadshotMultiplier 		= 2.5
 SWEP.CrouchBonus 				= 0.7
 SWEP.MovePenalty			 	= 1.75
@@ -40,7 +41,7 @@ SWEP.AimPatternY		= function(t)
 end
 SWEP.BloomRecoverRate 	= 0.00056
 SWEP.AimRecoverRate		= 0.55
-SWEP.AimKick 			= 0.015
+SWEP.AimKick 			= 0.045
 SWEP.Primary.ShoveY         = 0.25
 SWEP.Primary.ShoveX         = 0.5
 

@@ -82,19 +82,3 @@ function SWEP:PreDrop()
    self:SetIronsights(false)
    return self.BaseClass.PreDrop(self)
 end
-
-function SWEP:Reload()
-    if (self:Clip1() == self.Primary.ClipSize or
-        self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
-       return
-    end
-    self:DefaultReload(ACT_VM_RELOAD)
-    self:SetIronsights(false)
-    self:SetZoom(false)
-end
-
-function SWEP:Holster()
-   self:SetIronsights(false)
-   self:SetZoom(false)
-   return true
-end

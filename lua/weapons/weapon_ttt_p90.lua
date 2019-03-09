@@ -21,6 +21,7 @@ SWEP.Primary.ClipSize = 60
 SWEP.Primary.ClipMax = 100
 SWEP.Primary.DefaultClip = 60
 SWEP.Primary.Sound = Sound( "Weapon_p90.shot" )
+SWEP.Primary.SoundEmpty			= Sound( "Weapon_SMG1.Empty" )
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7

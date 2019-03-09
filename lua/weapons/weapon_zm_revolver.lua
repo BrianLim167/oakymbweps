@@ -55,6 +55,7 @@ SWEP.Primary.ShoveX         = 1.0
 SWEP.AutoSpawnable      = true
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"
 SWEP.Primary.Sound			= Sound( "Weapon_deagle.shot" )
+SWEP.Primary.SoundEmpty			= Sound( "Weapon_Shotgun.Empty" )
 
 SWEP.UseHands			= true
 SWEP.ViewModelFlip		= false

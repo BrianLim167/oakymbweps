@@ -22,7 +22,7 @@ end
 SWEP.Base                  = "weapon_tttbase"
 
 SWEP.Primary.Recoil        = 0.1
-SWEP.Primary.Delay         = 12.0
+SWEP.Primary.Delay         = 3.0
 SWEP.Primary.Cone          = 0.02
 SWEP.Primary.ClipSize      = 6
 SWEP.Primary.DefaultClip   = 6
@@ -35,10 +35,6 @@ SWEP.Secondary.Automatic   = false
 
 SWEP.Kind                  = WEAPON_EQUIP2
 SWEP.CanBuy                = {ROLE_TRAITOR} -- only traitors can buy
-
-if ROLE_SURVIVALIST then 
-	SWEP.CanBuy                = {ROLE_TRAITOR, ROLE_SURVIVALIST}
-end
 
 SWEP.WeaponID              = AMMO_POLTER
 
@@ -60,7 +56,7 @@ local math = math
 -- Returns if an entity is a valid physhammer punching target. Does not take
 -- distance into account.
 local function ValidTarget(ent)
-   return IsValid(ent) and ent:GetMoveType() == MOVETYPE_VPHYSICS and ent:GetPhysicsObject() and (not ent:IsWeapon()) and (not ent:GetNWBool("punched", false)) and (not ent:IsPlayer())
+   return IsValid(ent) and ent:GetMoveType() == MOVETYPE_VPHYSICS and ent:GetPhysicsObject() and (not ent:GetNWBool("punched", false)) and (not ent:IsPlayer())
    -- NOTE: cannot check for motion disabled on client
 end
 
@@ -115,7 +111,7 @@ end
 function SWEP:PrimaryAttack()
    self:SetNextPrimaryFire(CurTime() + 0.1)
    if not self:CanPrimaryAttack() then return end
-   if IsValid(self.hammer) then return end
+   --if IsValid(self.hammer) then return end
    if SERVER then
       if self.IsCharging then return end
 
@@ -206,7 +202,7 @@ end
 
 if SERVER then
 
-   local CHARGE_AMOUNT = 0.015
+   local CHARGE_AMOUNT = 0.005
    local CHARGE_DELAY = 0.025
 
    function SWEP:Think()

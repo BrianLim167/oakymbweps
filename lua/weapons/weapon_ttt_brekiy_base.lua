@@ -12,7 +12,7 @@ if CLIENT then
    SWEP.EquipMenuData = nil
    SWEP.Icon = "vgui/ttt/icon_nades"
 end
-
+SWEP.ViewFreeze = true
 SWEP.AutoSpawnable = false
 SWEP.AllowDrop = true
 SWEP.IsSilent = false
@@ -43,8 +43,10 @@ function SWEP:SetupDataTablesBase()
 	self:NetworkVar( "Float", 2, "AimY"			)
 	self:NetworkVar( "Float", 3, "AimX"			)
 	self:NetworkVar( "Angle", 0, "AimAngles"	)
-	
-   self:NetworkVar("Bool", 3, "Ironsights")
+		
+	self:NetworkVar("Bool", 3, "Ironsights"		)
+	self:NetworkVar("Bool", 4, "IsReloading"	)
+	self:NetworkVar("Float", 4, "ReloadTimer"	)
 	
 	self:ResetData()
 end
@@ -71,6 +73,7 @@ SWEP.LongLightBrightness = -1
 
 SWEP.Penetration = 100
 SWEP.Primary.Sound          = Sound( "Weapon_Pistol.Empty" )
+SWEP.Primary.SoundEmpty     = Sound( "Weapon_AR2.Empty" )
 SWEP.Primary.Recoil         = 1.5
 SWEP.Primary.Damage         = 1
 SWEP.Primary.NumShots       = 1
@@ -115,52 +118,52 @@ function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
 
 	--multiplier for bullet damage upon impact with material
 	matImpactMul = {
-	[MAT_METAL] =		0.8,
-	[MAT_VENT] =		0.8,
-	[MAT_GRATE] =		0.8,
 	[MAT_COMPUTER] =	0.8,
-	[MAT_CONCRETE] =	0.85,
+	[MAT_CONCRETE] =	0.75,
+	[MAT_DIRT] =		0.85,
 	[MAT_FLESH] =		0.9,
-	[MAT_DIRT] =		0.9,
-	[MAT_GRASS] =		0.9,
-	[MAT_TILE] =		0.9,
-	[MAT_SAND] =		0.9,
-	[MAT_PLASTIC] =		0.95,
-	[MAT_WOOD] =		0.95,
 	[MAT_GLASS] =		1,
+	[MAT_GRASS] =		0.85,
+	[MAT_GRATE] =		0.6,
+	[MAT_METAL] =		0.6,
+	[MAT_PLASTIC] =		0.8,
+	[MAT_SAND] =		0.9,
+	[MAT_TILE] =		0.8,
+	[MAT_VENT] =		0.6,
+	[MAT_WOOD] =		0.9,
 	}
 	
 	--material's resistance to a penetrating bullet
 	matResistance = {
-	[MAT_METAL] =		0.2,
-	[MAT_VENT] =		0.2,
-	[MAT_GRATE] =		0.2,
 	[MAT_COMPUTER] =	0.95,
 	[MAT_CONCRETE] =	0.1,
-	[MAT_FLESH] =		0.05,
 	[MAT_DIRT] =		0.05,
-	[MAT_GRASS] =		0.05,
-	[MAT_TILE] =		0.04,
-	[MAT_SAND] =		0.03,
-	[MAT_PLASTIC] =		0.02,
-	[MAT_WOOD] =		0.05,
+	[MAT_FLESH] =		0.05,
 	[MAT_GLASS] =		0.02,
+	[MAT_GRASS] =		0.05,
+	[MAT_GRATE] =		0.2,
+	[MAT_METAL] =		0.2,
+	[MAT_PLASTIC] =		0.02,
+	[MAT_SAND] =		0.03,
+	[MAT_TILE] =		0.04,
+	[MAT_VENT] =		0.2,
+	[MAT_WOOD] =		0.05,
 	}
 	
 	matDecal = {
-	[MAT_METAL] =		"Impact.Metal",
-	[MAT_VENT] =		"Impact.Metal",
-	[MAT_GRATE] =		"Impact.Metal",
 	[MAT_COMPUTER] =	"Impact.Metal",
 	[MAT_CONCRETE] =	"Impact.Concrete",
-	[MAT_FLESH] =		"Blood",
 	[MAT_DIRT] =		"ExplosiveGunshot",
-	[MAT_GRASS] =		"ExplosiveGunshot",
-	[MAT_TILE] =		"ExplosiveGunshot",
-	[MAT_SAND] =		"Impact.Sand",
-	[MAT_PLASTIC] =		"ExplosiveGunshot",
-	[MAT_WOOD] =		"Impact.Wood",
+	[MAT_FLESH] =		"Blood",
 	[MAT_GLASS] =		"Impact.Glass",
+	[MAT_GRASS] =		"ExplosiveGunshot",
+	[MAT_GRATE] =		"Impact.Metal",
+	[MAT_METAL] =		"Impact.Metal",
+	[MAT_PLASTIC] =		"ExplosiveGunshot",
+	[MAT_SAND] =		"Impact.Sand",
+	[MAT_TILE] =		"ExplosiveGunshot",
+	[MAT_VENT] =		"Impact.Metal",
+	[MAT_WOOD] =		"Impact.Wood",
 	}
 	
 	local dmgImpactMul = matImpactMul[tr.MatType] or 0.95
@@ -209,17 +212,6 @@ function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
 	end
 	penTraceLine.HitPos = penTraceLine.HitPos + aimNorm
 	
-	
-	print(penTraceLine.Entity)
-	--print(penTraceLine.HitPos - tr.HitPos)
-	print(penTraceLine.Fraction)
-	--print(penTraceLine.FractionLeftSolid)
-	--print(penTraceLine.AllSolid)
-	--print(penTraceLine.StartSolid)
-	print((penTraceLine.HitPos - tr.HitPos):Length())
-	print("--------------------------")
-	
-	
 	local checkMat = {}
 	checkMat.start = penTraceLine.HitPos
 	checkMat.endpos = tr.HitPos
@@ -228,6 +220,17 @@ function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
 	local checkMatLine = util.TraceLine(checkMat)
 	checkMatLine.MatType = checkMatLine.MatType or tr.MatType
 	
+	--[[
+	print(checkMatLine.MatType)
+	print(penTraceLine.Entity)
+	--print(penTraceLine.HitPos - tr.HitPos)
+	print(penTraceLine.Fraction)
+	--print(penTraceLine.FractionLeftSolid)
+	--print(penTraceLine.AllSolid)
+	--print(penTraceLine.StartSolid)
+	print((penTraceLine.HitPos - tr.HitPos):Length())
+	print("--------------------------")
+	]]--
 	
 	local exitShot = {}
 	exitShot.Num = 1
@@ -311,6 +314,8 @@ function SWEP:PrimaryAttackBase(worldsnd)
    if self:GetBloom() < -self.Primary.Cone then
 		self:SetBloom( -self.Primary.Cone )
 	end
+	
+	self.ViewFreeze = false
 end
 
 function SWEP:ShootBullet( dmg, recoil, numbul, cone )
@@ -411,8 +416,14 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
 	
-	self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.35*(Angle(aimy,aimx,0))) )
 	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
+	--[[
+	if SERVER then
+		self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.35*(Angle(aimy,aimx,0))) )
+		self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
+	end
+	]]--
+	--if SERVER then self.Owner:PrintMessage( HUD_PRINTTALK, "" .. (30-self:Clip1()+1) .. " : " .. self:GetAimPunch() ) end
 end
 
 function SWEP:GetPrimaryCone()
@@ -469,22 +480,84 @@ function SWEP:AimPunchEvent()
 	
 end
 
+function SWEP:UpdateView()
+	local aimy = self:GetAimY()
+	local aimx = self:GetAimX()
+	
+	local function SetView(ply, pos, ang, fov) 
+		if self.ViewFreeze then return end
+		local view = {}
+		
+		view.origin = pos
+		view.angles = ang - 0.35*(Angle(aimy,aimx,0))
+		view.fov = fov
+		
+		return view
+	end
+	hook.Add("CalcView", "SetView", SetView)
+end
+
+function SWEP:CanPrimaryAttack()
+   if self:Clip1() <= 0 then
+      self:EmitSound(self.Primary.SoundEmpty)
+      self:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
+      return false
+   end
+   return true
+end
 function SWEP:Reload()
+	if self:GetIsReloading() then return end
     if (self:Clip1() == self.Primary.ClipSize or
         self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0) then
        return
     end
-    self:DefaultReload(ACT_VM_RELOAD)
+    --self:DefaultReload(ACT_VM_RELOAD)
     self:SetIronsights(false)
     self:SetZoom(false)
-	self:ResetData()
+	self:StartReload()
+	--self:ResetData()
+	--self:UpdateView()
+end
+
+function SWEP:StartReload()
+	self:SetIsReloading(true)
+	self:SendWeaponAnim(ACT_VM_RELOAD)
+	self:SetReloadTimer(CurTime() + self:SequenceDuration())
+	self:SetNextPrimaryFire(CurTime() + self:SequenceDuration())
+	self:SetNextSecondaryFire(CurTime() + self:SequenceDuration())
+end
+
+function SWEP:FinishReload()
+	self:SetIsReloading(false)
+	self.Owner:RemoveAmmo( self.Primary.ClipSize - self:Clip1(), self.Primary.Ammo, false )
+	self:SetClip1(self.Primary.ClipSize)
 end
 
 function SWEP:Holster()
-   self:SetIronsights( false )
-   self:SetZoom( false )
-   return true
+	self:HolsterBase()
+	return true
 end
+
+function SWEP:HolsterBase()
+	self.ViewFreeze = true
+	self:ResetData()
+	self:UpdateView()
+	self:SetIronsights( false )
+	self:SetZoom( false )
+	self:SetIsReloading(false)
+	self:SetNextPrimaryFire(CurTime())
+	self:SetNextSecondaryFire(CurTime())
+end
+
+--[[
+function SWEP:OnDrop()
+	self.ViewFreeze = true
+	self:CallOnClient("FreezeView","")
+	self:CallOnClient("UpdateView","")
+end
+function SWEP:FreezeView()
+	self.ViewFreeze = true
+end]]--
 
 function SWEP:Think()
 	self:ThinkBase()
@@ -493,6 +566,11 @@ end
 function SWEP:ThinkBase()
 	if (not IsValid(self.Owner)) or (not self.Owner:Alive()) or self.Owner:IsNPC() then return end
 	self:AimPunchEvent()
+	self:UpdateView()
+	
+	if self:GetIsReloading() and self:GetReloadTimer() <= CurTime() then
+		self:FinishReload()
+	end
 		
 	--local inaccMult = 1 + self.Owner:GetWalkSpeed() * 0.75
 end

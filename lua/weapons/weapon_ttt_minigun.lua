@@ -88,6 +88,7 @@ function SWEP:OnRemove()
 end
 
 function SWEP:Holster()
+	self:HolsterBase()
 	if self.Owner:EntIndex() then
 		timer.Destroy(self.Owner:EntIndex() .. "_SpinMod")
 	end

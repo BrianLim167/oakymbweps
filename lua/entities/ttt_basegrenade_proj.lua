@@ -58,7 +58,8 @@ function ENT:PhysicsCollide(data,phys)
    end 
    
    if self.IsHitExploder and data.HitEntity:IsValid() and data.HitEntity:IsPlayer() then
-		self:SetExplodeTime(CurTime() + .016) --explode next tick
+		self:SetExplodeTime(CurTime() + .0) --explode next tick
+		--self:EnableMotion(false)
 	end
 end
 
