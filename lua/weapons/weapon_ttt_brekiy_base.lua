@@ -13,6 +13,11 @@ if CLIENT then
    SWEP.Icon = "vgui/ttt/icon_nades"
 end
 SWEP.ViewFreeze = true
+if CLIENT then
+	SWEP.AimPunch = 0
+	SWEP.AimX = 0
+	SWEP.AimY = 0
+end
 SWEP.AutoSpawnable = false
 SWEP.AllowDrop = true
 SWEP.IsSilent = false
@@ -42,7 +47,6 @@ function SWEP:SetupDataTablesBase()
 	self:NetworkVar( "Float", 1, "AimPunch"		)
 	self:NetworkVar( "Float", 2, "AimY"			)
 	self:NetworkVar( "Float", 3, "AimX"			)
-	self:NetworkVar( "Angle", 0, "AimAngles"	)
 		
 	self:NetworkVar("Bool", 3, "Ironsights"		)
 	self:NetworkVar("Bool", 4, "IsReloading"	)
@@ -56,7 +60,6 @@ function SWEP:ResetData()
 	self:SetAimPunch(0)
 	self:SetAimY(0)
 	self:SetAimX(0)
-	self:SetAimAngles( Angle( 0, 0, 0 ) )
 end
 
 SWEP.Category           = "TTT Brekiy" -- Custom category for a custom base
@@ -310,6 +313,9 @@ function SWEP:PrimaryAttackBase(worldsnd)
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
    
    self:SetAimPunch( self:GetAimPunch() + 1 )
+   if CLIENT then
+	self.AimPunch = self.AimPunch + 1
+   end
    self:SetBloom( self:GetBloom() + self.Primary.Recoil )
    if self:GetBloom() < -self.Primary.Cone then
 		self:SetBloom( -self.Primary.Cone )
@@ -332,7 +338,10 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    cone   = cone   or 0.01
 	
 	for i=1,numbul do
-		local bulletAng = self.Owner:EyeAngles() + self:GetAimAngles()
+		local bulletAng = self.Owner:EyeAngles() + Angle(-self:GetAimY(), -self:GetAimX(), 0)
+		if CLIENT then
+			bulletAng = self.Owner:EyeAngles() + Angle(-self.AimY, -self.AimX, 0)
+		end
 		local dir = (bulletAng+ Angle(cone*360/math.pi*(math.random()-0.5),cone*360/math.pi*(math.random()-0.5),0)):Forward()
 	   local bullet = {}
 	   bullet.Num    = 1
@@ -416,6 +425,11 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
 	
+	if CLIENT then
+		self.AimY = self.AimY + self.AimPatternY(self.AimPunch+1) - self.AimPatternY(self.AimPunch)
+		self.AimX = self.AimX + self.AimPatternX(self.AimPunch+1) - self.AimPatternX(self.AimPunch)
+	end
+	
 	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
 	--[[
 	if SERVER then
@@ -424,6 +438,7 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	end
 	]]--
 	--if SERVER then self.Owner:PrintMessage( HUD_PRINTTALK, "" .. (30-self:Clip1()+1) .. " : " .. self:GetAimPunch() ) end
+	--if CLIENT then self.Owner:PrintMessage( HUD_PRINTTALK, "" .. self.AimPunch .. " : " .. self.AimY .. " : " .. "") end
 end
 
 function SWEP:GetPrimaryCone()
@@ -468,21 +483,41 @@ function SWEP:AimPunchEvent()
 		else
 			aimy = 0
 			aimx = 0
-			self.Owner:SetViewPunchAngles( Angle(0,0,0) )
 		end
 	end
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
-	self:SetAimAngles(Angle(-aimy,-aimx,0))
 	
-	self.aimy = aimy
-	self.aimx = aimx
+	if CLIENT then
+		aimy = self.AimY
+		aimx = self.AimX
+		aimr = math.sqrt( math.pow(aimy, 2), math.pow(aimx, 2) )
+		
+		if aimr > 0 then
+		
+			self.AimPunch = math.max( 0, self.AimPunch * (1 - self.AimRecoverRate/aimr) )
+		
+			local aimynew = aimy - self.AimRecoverRate * (aimy/aimr) 
+			local aimxnew = aimx - self.AimRecoverRate * (aimx/aimr) 
+			if aimynew > 0 then
+				aimy = aimynew
+				aimx = aimxnew
+			else
+				aimy = 0
+				aimx = 0
+			end
+		end
+		self.AimY = aimy
+		self.AimX = aimx
+	end
+		
 	
 end
 
 function SWEP:UpdateView()
-	local aimy = self:GetAimY()
-	local aimx = self:GetAimX()
+	if SERVER then return end
+	local aimy = self.AimY
+	local aimx = self.AimX
 	
 	local function SetView(ply, pos, ang, fov) 
 		if self.ViewFreeze then return end
