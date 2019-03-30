@@ -11,10 +11,10 @@ SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo 				= "SMG1"
-SWEP.Primary.Delay 				= 0.2
+SWEP.Primary.Delay 				= 0.17
 SWEP.Primary.Recoil 				= 0.0025
-SWEP.Primary.Cone 				= 0.014
-SWEP.Primary.Damage 				= 17
+SWEP.Primary.Cone 				= 0.011
+SWEP.Primary.Damage 				= 16
 SWEP.Primary.Automatic 			= true
 SWEP.Primary.ClipSize 			= 30
 SWEP.Primary.ClipMax 			= 60

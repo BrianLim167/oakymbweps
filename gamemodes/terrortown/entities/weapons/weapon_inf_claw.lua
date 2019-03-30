@@ -23,7 +23,7 @@ SWEP.Secondary.ClipSize		= 5
 SWEP.Secondary.DefaultClip	= 5
 SWEP.Secondary.Automatic	= false
 SWEP.Secondary.Ammo			= "none"
-SWEP.Secondary.Delay = 1.3
+SWEP.Secondary.Delay = 1.2
 
 halosdgj = false
 

@@ -23,7 +23,7 @@ SWEP.Primary.Damage	= 4
 SWEP.HeadshotMultiplier = 1.5
 SWEP.Primary.NumShots = 20
 SWEP.Primary.Cone = 0.036
-SWEP.Primary.Delay = 0.35
+SWEP.Primary.Delay = 0.33
 SWEP.Primary.Recoil	= 0.035
 
 SWEP.AimPatternX 		= function(t)
