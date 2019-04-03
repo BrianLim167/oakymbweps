@@ -16,10 +16,6 @@ SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_MAC10
 
-if ROLE_SURVIVALIST then 
-	SWEP.CanBuy                = {ROLE_SURVIVALIST}
-end
-
 SWEP.Primary.Damage      = 14
 SWEP.Primary.Delay       = 0.0615
 SWEP.Primary.Cone        = 0.019

@@ -4,7 +4,7 @@ SWEP.HoldType = "smg"
 
 if CLIENT then
    SWEP.PrintName = "UMP Prototype"
-   SWEP.Slot      = 6
+   SWEP.Slot      = 2
 
    SWEP.Icon = "vgui/ttt/icon_ump"
 
@@ -18,7 +18,7 @@ end
 
 SWEP.Base = "weapon_ttt_brekiy_base"
 
-SWEP.Kind = WEAPON_EQUIP
+SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_STUN
 SWEP.CanBuy = {ROLE_DETECTIVE}
 SWEP.LimitedStock = false

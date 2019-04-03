@@ -14,9 +14,9 @@ SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_GLOCK
 
 SWEP.Base = "weapon_ttt_brekiy_base"
-SWEP.Primary.Recoil	= 0.022
-SWEP.Primary.Damage = 12
-SWEP.Primary.Delay = 0.0545
+SWEP.Primary.Recoil	= 0.023
+SWEP.Primary.Damage = 10
+SWEP.Primary.Delay = 0.057
 SWEP.Primary.Cone = 0.013
 SWEP.Primary.ClipSize = 17
 SWEP.Primary.Automatic = true
@@ -28,8 +28,8 @@ SWEP.AmmoEnt = "item_ammo_pistol_ttt"
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.9
 SWEP.MovePenalty			 	 	= 1.01
-SWEP.JumpPenalty			 	 	= 2
-SWEP.MaxCone 					 	= 0.06
+SWEP.JumpPenalty			 	 	= 0.2
+SWEP.MaxCone 					 	= 0.07
 
 SWEP.AimPatternX 		= function(t)
 		return 0.01 * t * math.sin(0.8 * t)

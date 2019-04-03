@@ -11,10 +11,10 @@ SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo = "357"
-SWEP.Primary.Delay = 0.475
+SWEP.Primary.Delay = 0.55
 SWEP.Primary.Recoil = 0.025
-SWEP.Primary.Cone = 0.0175
-SWEP.Primary.Damage = 60
+SWEP.Primary.Cone = 0.025
+SWEP.Primary.Damage = 55
 SWEP.Primary.Automatic = true
 SWEP.Primary.ClipSize = 5
 SWEP.Primary.ClipMax = 20
@@ -26,7 +26,7 @@ SWEP.IronSightsConeMultiplier		= 0.05
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1
 SWEP.JumpPenalty			 	 	= 0.1
-SWEP.MaxCone 					 	= 0.2
+SWEP.MaxCone 					 	= 0.1
 
 SWEP.AimPatternX 		= function(t)
 		return 0
@@ -62,7 +62,7 @@ function SWEP:SetZoom( state )
       return
    elseif IsValid( self.Owner ) and self.Owner:IsPlayer() then
       if state then
-         self.Owner:SetFOV( 12, 0.2 )
+         self.Owner:SetFOV( 18, 0.2 )
       else
          self.Owner:SetFOV( 0, 0.2 )
       end

@@ -60,6 +60,9 @@ function SWEP:ResetData()
 	self:SetAimPunch(0)
 	self:SetAimY(0)
 	self:SetAimX(0)
+	self.AimPunch = 0
+	self.AimY = 0
+	self.AimX = 0
 end
 
 SWEP.Category           = "TTT Brekiy" -- Custom category for a custom base
@@ -72,7 +75,7 @@ SWEP.AutoSwitchFrom     = false
 SWEP.IsLooted			= false
 
 SWEP.ShortLightBrightness = 1
-SWEP.LongLightBrightness = -1
+SWEP.LongLightBrightness = 1
 
 SWEP.Penetration = 100
 SWEP.Primary.Sound          = Sound( "Weapon_Pistol.Empty" )
@@ -178,7 +181,10 @@ function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
 	local penVec = aimNorm * pen -- Penetration vector
 	local penTraceLine = {}
 	
+	local hitbrush = false
+	
 	if (tr.HitWorld) then
+		hitbrush = true
 		local penTrace = {}
 		penTrace.start = tr.HitPos + aimNorm
 		penTrace.endpos = penTrace.start + penVec
@@ -191,6 +197,7 @@ function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
 		
 		-- static props are considered part of the world, but don't behave well with FractionLeftSolid, so they have to be traced manually
 		while (penTraceLine.Entity == game.GetWorld() and penTraceLine.FractionLeftSolid == 0 and penTraceLine.StartSolid and penTraceLine.AllSolid and penDist < pen) do
+			hitbrush = false
 			penTrace.start = penTraceLine.HitPos + aimNorm
 			penTrace.endpos = penTraceLine.HitPos
 			penTraceLine = util.TraceLine(penTrace)
@@ -242,6 +249,9 @@ function SWEP:BulletPenetrate(hitNum, bul, attacker, tr, dmginfo)
 	exitShot.Spread = Vector(0, 0, 0)
 	dmgImpactMul = matImpactMul[checkMatLine.MatType] or 0.95
 	dmgResistance = matResistance[checkMatLine.MatType] or 0.05
+	if hitbrush and tr.MatType == MAT_GLASS and checkMatLine != MAT_GLASS then -- assume bullet hit traitor room wall, so nerf damage
+		dmgImpactMul = 0
+	end
 	exitShot.Damage = bul.Damage * dmgImpactMul - (penTraceLine.HitPos - tr.HitPos):Length() * dmgResistance
 	if (exitShot.Damage < 1) then return end
 	exitShot.Force = 0.4 * exitShot.Damage
@@ -312,10 +322,6 @@ function SWEP:PrimaryAttackBase(worldsnd)
    local owner = self.Owner
    if not IsValid(owner) or owner:IsNPC() or (not owner.ViewPunch) then return end
    
-   self:SetAimPunch( self:GetAimPunch() + 1 )
-   if CLIENT then
-	self.AimPunch = self.AimPunch + 1
-   end
    self:SetBloom( self:GetBloom() + self.Primary.Recoil )
    if self:GetBloom() < -self.Primary.Cone then
 		self:SetBloom( -self.Primary.Cone )
@@ -330,35 +336,36 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
    self.Owner:MuzzleFlash()
    self.Owner:SetAnimation( PLAYER_ATTACK1 )
 
-   if not IsFirstTimePredicted() then return end
+   if IsFirstTimePredicted() then
 
-   local sights = self:GetIronsights()
+	   local sights = self:GetIronsights()
 
-   numbul = numbul or 1
-   cone   = cone   or 0.01
-	
-	for i=1,numbul do
-		local bulletAng = self.Owner:EyeAngles() + Angle(-self:GetAimY(), -self:GetAimX(), 0)
-		if CLIENT then
-			bulletAng = self.Owner:EyeAngles() + Angle(-self.AimY, -self.AimX, 0)
+	   numbul = numbul or 1
+	   cone   = cone   or 0.01
+		
+		for i=1,numbul do
+			local bulletAng = self.Owner:EyeAngles() + Angle(-self:GetAimY(), -self:GetAimX(), 0)
+			if CLIENT then
+				bulletAng = self.Owner:EyeAngles() + Angle(-self.AimY, -self.AimX, 0)
+			end
+			local dir = (bulletAng+ Angle(cone*360/math.pi*(math.random()-0.5),cone*360/math.pi*(math.random()-0.5),0)):Forward()
+		   local bullet = {}
+		   bullet.Num    = 1
+		   bullet.Src    = self.Owner:GetShootPos()
+		   bullet.Dir    = dir:GetNormalized()
+		   bullet.Spread = Vector(0,0,0)--Vector( cone, cone, 0 )
+		   bullet.Tracer = self.TracerFrequency or 4
+		   bullet.TracerName = self.Tracer or "Tracer"
+		   bullet.Force  = dmg * 0.4
+		   bullet.Damage = dmg
+		   bullet.Callback = function( attacker, tr, dmginfo)
+				self:Callback( attacker, tr, dmginfo )
+				self:BulletPenetrate(0, bullet, attacker, tr, dmginfo)
+			end
+			self.Owner:FireBullets( bullet )
 		end
-		local dir = (bulletAng+ Angle(cone*360/math.pi*(math.random()-0.5),cone*360/math.pi*(math.random()-0.5),0)):Forward()
-	   local bullet = {}
-	   bullet.Num    = 1
-	   bullet.Src    = self.Owner:GetShootPos()
-	   bullet.Dir    = dir:GetNormalized()
-	   bullet.Spread = Vector(0,0,0)--Vector( cone, cone, 0 )
-	   bullet.Tracer = self.TracerFrequency or 4
-	   bullet.TracerName = self.Tracer or "Tracer"
-	   bullet.Force  = dmg * 0.4
-	   bullet.Damage = dmg
-	   bullet.Callback = function( attacker, tr, dmginfo)
-			self:Callback( attacker, tr, dmginfo )
-			self:BulletPenetrate(0, bullet, attacker, tr, dmginfo)
-		end
-		self.Owner:FireBullets( bullet )
 	end
-
+	
    -- Owner can die after firebullets
 	   
 	self:ShootBulletBase( dmg, recoil, numbul, cone )
@@ -384,7 +391,7 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 	   
 		local rh = self.Owner:LookupAttachment("anim_attachment_RH")
 		local rhposang = self.Owner:GetAttachment(rh)
-		local shortlight = DynamicLight( self:EntIndex() )
+		--local shortlight = DynamicLight( self:EntIndex() )
 		if ( shortlight ) then
 			shortlight.pos = rhposang.Pos + rhposang.Ang:Forward()*self:OBBMaxs().x
 			shortlight.r = 200
@@ -395,18 +402,20 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 			shortlight.Size = ShortRange
 			shortlight.DieTime = CurTime() + 0.04
 			shortlight.style = 0
+			shortlight.nomodel = true
 		end
 		--local longlight = DynamicLight( self:EntIndex() )
 		if ( longlight ) then
 			longlight.pos = rhposang.Pos + rhposang.Ang:Forward()*self:OBBMaxs().x
 			longlight.r = 255
 			longlight.g = 180
-			longlight.b = 25
+			longlight.b = 50
 			longlight.brightness = LongLightBrightness
 			longlight.Decay = 250
 			longlight.Size = LongRange
 			longlight.DieTime = CurTime() + 0.04
 			longlight.style = 0
+			longlight.nomodel = true
 		end
 	
 		local eyeang
@@ -416,21 +425,28 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 		self.Owner:SetEyeAngles(eyeang)
 	end
 	
-	local dy = self.AimPatternY(self:GetAimPunch()+1) - self.AimPatternY(self:GetAimPunch())
-	local dx = self.AimPatternX(self:GetAimPunch()+1) - self.AimPatternX(self:GetAimPunch())
+	if IsFirstTimePredicted() then
+		local dy = self.AimPatternY(self:GetAimPunch()+1) - self.AimPatternY(self:GetAimPunch())
+		local dx = self.AimPatternX(self:GetAimPunch()+1) - self.AimPatternX(self:GetAimPunch())
+		
+		local aimy = self:GetAimY()+dy
+		local aimx = self:GetAimX()+dx
+		
+		self:SetAimY(aimy)
+		self:SetAimX(aimx)
 	
-	local aimy = self:GetAimY()+dy
-	local aimx = self:GetAimX()+dx
-	
-	self:SetAimY(aimy)
-	self:SetAimX(aimx)
-	
-	if CLIENT then
-		self.AimY = self.AimY + self.AimPatternY(self.AimPunch+1) - self.AimPatternY(self.AimPunch)
-		self.AimX = self.AimX + self.AimPatternX(self.AimPunch+1) - self.AimPatternX(self.AimPunch)
+		if CLIENT then
+			self.AimY = self.AimY + self.AimPatternY(self.AimPunch+1) - self.AimPatternY(self.AimPunch)
+			self.AimX = self.AimX + self.AimPatternX(self.AimPunch+1) - self.AimPatternX(self.AimPunch)
+		end
+		
+		self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
+			
+		self:SetAimPunch( self:GetAimPunch() + 1 )
+		if CLIENT then
+			self.AimPunch = self.AimPunch + 1
+		end
 	end
-	
-	self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
 	--[[
 	if SERVER then
 		self.Owner:ViewPunch( -(self.Owner:GetViewPunchAngles()+0.35*(Angle(aimy,aimx,0))) )
@@ -458,6 +474,10 @@ end
 
 function SWEP:AimPunchEvent()
 	if (not IsValid(self.Owner)) or (not self.Owner:Alive()) then return end
+	if self.ViewFreeze then
+		self:ResetData() 
+		return
+	end
 	
 	if self.Primary.Recoil >= 0 then
 		self:SetBloom( math.max( 0, self:GetBloom() - self.BloomRecoverRate ) )
@@ -465,12 +485,11 @@ function SWEP:AimPunchEvent()
 		self:SetBloom( math.min( 0, self:GetBloom() + self.BloomRecoverRate ) )
 	end
 	
+	
 	local aimy = self:GetAimY()
 	local aimx = self:GetAimX()
 	local aimr = math.sqrt( math.pow(aimy, 2), math.pow(aimx, 2) )
 	
-	
-	-- 
 	if aimr > 0 then
 		
 		self:SetAimPunch( math.max( 0, self:GetAimPunch() * (1 - self.AimRecoverRate/aimr) ) )
@@ -488,7 +507,7 @@ function SWEP:AimPunchEvent()
 	self:SetAimY(aimy)
 	self:SetAimX(aimx)
 	
-	if CLIENT then
+	if CLIENT and IsFirstTimePredicted() then
 		aimy = self.AimY
 		aimx = self.AimX
 		aimr = math.sqrt( math.pow(aimy, 2), math.pow(aimx, 2) )
@@ -564,8 +583,16 @@ end
 
 function SWEP:FinishReload()
 	self:SetIsReloading(false)
+	local ammo = self:Ammo1()
 	self.Owner:RemoveAmmo( self.Primary.ClipSize - self:Clip1(), self.Primary.Ammo, false )
-	self:SetClip1(self.Primary.ClipSize)
+	self:SetClip1(math.min(self.Primary.ClipSize, self:Clip1() + ammo))
+end
+
+function SWEP:Deploy()
+	self.ViewFreeze = true
+	self:ResetData()
+	self:UpdateView()
+	self:SetIsReloading(false)
 end
 
 function SWEP:Holster()
@@ -582,6 +609,12 @@ function SWEP:HolsterBase()
 	self:SetIsReloading(false)
 	self:SetNextPrimaryFire(CurTime())
 	self:SetNextSecondaryFire(CurTime())
+end
+
+function SWEP:OnDrop()
+	self.ViewFreeze = true
+	self:ResetData()
+	self:SetIsReloading(false)
 end
 
 --[[

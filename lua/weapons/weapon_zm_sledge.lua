@@ -31,7 +31,7 @@ SWEP.Primary.Sound			= Sound("Weapon_m249.shot")
 SWEP.CrouchBonus 				 	= 0.85
 SWEP.MovePenalty			 	 	= 0.2
 SWEP.JumpPenalty			 	 	= 0.3
-SWEP.MaxCone 					 	= 0.25
+SWEP.MaxCone 					 	= 0.1
 
 SWEP.AimPatternX 		= function(t)
 		return 0.01 * t * math.sin(0.8 * t)

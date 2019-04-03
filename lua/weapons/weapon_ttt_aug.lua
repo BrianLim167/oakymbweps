@@ -11,7 +11,7 @@ SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo 				= "SMG1"
-SWEP.Primary.Delay 				= 0.17
+SWEP.Primary.Delay 				= 0.18
 SWEP.Primary.Recoil 				= 0.0025
 SWEP.Primary.Cone 				= 0.011
 SWEP.Primary.Damage 				= 16
@@ -23,7 +23,6 @@ SWEP.Primary.Sound 				= Sound( "Weapon_aug.shot" )
 SWEP.Primary.SoundEmpty			= Sound( "Weapon_IRifle.Empty" )
 SWEP.Secondary.Sound 			= Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier 		= 2.7
-SWEP.IronSightsConeMultiplier		= 0.5
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1
 SWEP.JumpPenalty			 	 	= 0.1

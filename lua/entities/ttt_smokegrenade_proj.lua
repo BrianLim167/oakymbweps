@@ -33,7 +33,7 @@ if CLIENT then
          local p = em:Add(table.Random(smokeparticles), center + prpos)
          if p then
             local gray = math.random(100, 110)
-            p:SetColor(gray, gray, gray)
+            p:SetColor(math.random(140, 145), math.random(140, 140), math.random(110, 120))
 			--p:SetColor(render.ComputeLighting(p:GetPos(), Vector(0,0,1)))
             p:SetStartAlpha(250)
             p:SetEndAlpha(240)
@@ -51,7 +51,7 @@ if CLIENT then
             p:SetCollide(true)
             p:SetBounce(0.4)
 
-            p:SetLighting(true)
+            --p:SetLighting(true)
          end
       end
 

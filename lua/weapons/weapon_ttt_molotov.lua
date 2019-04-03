@@ -56,6 +56,10 @@ SWEP.Icon = "materials/molotov.png"
 SWEP.CanBuy = {ROLE_TRAITOR}
 SWEP.LimitedStock = true
 
+if ROLE_SURVIVALIST then 
+	SWEP.CanBuy                = {ROLE_TRAITOR, ROLE_SURVIVALIST}
+end
+
 SWEP.AutoSpawnable = false
 SWEP.AdminSpawnable = true
 SWEP.InLoadoutFor = nil

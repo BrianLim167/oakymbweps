@@ -20,10 +20,10 @@ SWEP.ShortLightBrightness = -10
 SWEP.LongLightBrightness = -50
 
 SWEP.Primary.Ammo = "357"
-SWEP.Primary.Delay = 1.5
+SWEP.Primary.Delay = 1.3
 SWEP.Primary.Recoil = 0.1
 SWEP.Primary.Cone = 0.01
-SWEP.Primary.Damage = 55
+SWEP.Primary.Damage = 60
 SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 10
 SWEP.Primary.DefaultClip = 10
@@ -32,7 +32,7 @@ SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier = 4
 SWEP.Primary.NumShots	= 1
 SWEP.CrouchBonus 				 	= 0.7
-SWEP.MovePenalty			 	 	= 0.9
+SWEP.MovePenalty			 	 	= 0.5
 SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.065
 SWEP.IronSightsConeMultiplier		= 0.001
@@ -62,7 +62,7 @@ SWEP.WorldModel = "models/weapons/w_snip_scout.mdl"
 SWEP.IronSightsPos = Vector( 5, -15, -2 )
 SWEP.IronSightsAng = Vector( 2.6, 1.37, 3.5 )
 
-SWEP.Kind = WEAPON_EQUIP1
+SWEP.Kind = WEAPON_EQUIP2
 
 SWEP.AutoSpawnable = false
 SWEP.CanBuy = { ROLE_TRAITOR }

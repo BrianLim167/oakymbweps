@@ -4,7 +4,7 @@ SWEP.HoldType               = "knife"
 
 if CLIENT then
    SWEP.PrintName           = "knife_name"
-   SWEP.Slot                = 0
+   SWEP.Slot                = 6
 
    SWEP.ViewModelFlip       = false
    SWEP.ViewModelFOV        = 54
@@ -34,25 +34,27 @@ SWEP.Primary.Ammo           = "none"
 
 SWEP.Secondary.ClipSize     = -1
 SWEP.Secondary.DefaultClip  = -1
-SWEP.Secondary.Automatic    = false
+SWEP.Secondary.Automatic    = true
 SWEP.Secondary.Ammo         = "none"
-SWEP.Secondary.Delay        = 6
+SWEP.Secondary.Delay        = 1.4
 
-SWEP.Kind                    = WEAPON_MELEE
-SWEP.WeaponID                = AMMO_CROWBAR
-  
+SWEP.Kind                   = WEAPON_EQUIP
+SWEP.CanBuy                 = {ROLE_TRAITOR} -- only traitors can buy
+SWEP.LimitedStock           = false 
+SWEP.WeaponID               = AMMO_KNIFE
+
+if ROLE_SURVIVALIST then 
+	SWEP.CanBuy                = {ROLE_TRAITOR, ROLE_SURVIVALIST}
+end
+
 SWEP.IsSilent               = true
-
-SWEP.AllowDelete             = true -- never removed for weapon reduction
-SWEP.AllowDrop = false
-
 
 -- Pull out faster than standard guns
 SWEP.DeploySpeed            = 2
 
-
 function SWEP:PrimaryAttack()
    self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
+   self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
 
    if not IsValid(self:GetOwner()) then return end
 
@@ -84,8 +86,6 @@ function SWEP:PrimaryAttack()
       edata:SetEntity(hitEnt)
 
       if hitEnt:IsPlayer() or hitEnt:GetClass() == "prop_ragdoll" then
-	  self:GetOwner():SetAnimation( PLAYER_ATTACK1 )
-	  self.Weapon:SendWeaponAnim( ACT_VM_MISSCENTER )
          util.Effect("BloodImpact", edata)
       end
    else
@@ -198,26 +198,81 @@ function SWEP:StabKill(tr, spos, sdest)
    -- target appears to die right there, so we could theoretically get to
    -- the ragdoll in here...
 
+   self:Remove()
 end
 
 function SWEP:SecondaryAttack()
+   self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
    self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
-	if not(IsFirstTimePredicted())then return end
-	if(self.Owner:KeyDown(IN_SPEED))then return end
-	self:SetNextPrimaryFire(CurTime()+1)
-	if(CLIENT)then return end
-	local Bom=ents.Create("tot_smokenade")
-	Bom.HmcdSpawned=self.HmcdSpawned
-	Bom:SetPos(self.Owner:GetShootPos()+self.Owner:GetAimVector()*20)
-	Bom:Spawn()
-	Bom:Activate()
-	Bom:GetPhysicsObject():SetVelocity(self.Owner:GetVelocity()+self.Owner:GetAimVector()*300)
-	sound.Play("snd_jack_hmcd_match.wav",self:GetPos(),65,math.random(90,110))
-	sound.Play("weapons/slam/throw.wav",self:GetPos(),65,math.random(90,110))
+
+
+   self.Weapon:SendWeaponAnim( ACT_VM_MISSCENTER )
+
+   if SERVER then
+      local ply = self:GetOwner()
+      if not IsValid(ply) then return end
+
+      ply:SetAnimation( PLAYER_ATTACK1 )
+
+      local ang = ply:EyeAngles()
+
+      if ang.p < 90 then
+         ang.p = -10 + ang.p * ((90 + 10) / 90)
+      else
+         ang.p = 360 - ang.p
+         ang.p = -10 + ang.p * -((90 + 10) / 90)
+      end
+
+      local vel = math.Clamp((90 - ang.p) * 5.5, 550, 800)
+
+      local vfw = ang:Forward()
+      local vrt = ang:Right()
+
+      local src = ply:GetPos() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
+
+      src = src + (vfw * 1) + (vrt * 3)
+
+      local thr = vfw * vel + ply:GetVelocity()
+
+      local knife_ang = Angle(-28,0,0) + ang
+      knife_ang:RotateAroundAxis(knife_ang:Right(), -90)
+
+      local knife = ents.Create("ttt_knife_proj")
+      if not IsValid(knife) then return end
+      knife:SetPos(src)
+      knife:SetAngles(knife_ang)
+
+      knife:Spawn()
+
+      knife.Damage = self.Primary.Damage
+
+      knife:SetOwner(ply)
+
+      local phys = knife:GetPhysicsObject()
+      if IsValid(phys) then
+         phys:SetVelocity(thr)
+         phys:AddAngleVelocity(Vector(0, 1500, 0))
+         phys:Wake()
+      end
+
+      self:Remove()
+   end
 end
 
-function SWEP:OnDrop()
-	self:Remove()
+function SWEP:Equip()
+   self.Weapon:SetNextPrimaryFire( CurTime() + (self.Primary.Delay * 1.5) )
+   self.Weapon:SetNextSecondaryFire( CurTime() + (self.Secondary.Delay * 1.5) )
+end
+
+function SWEP:PreDrop()
+   -- for consistency, dropped knife should not have DNA/prints
+   self.fingerprints = {}
+end
+
+function SWEP:OnRemove()
+   if CLIENT and IsValid(self:GetOwner()) and self:GetOwner() == LocalPlayer() and self:GetOwner():Alive() then
+      RunConsoleCommand("lastinv")
+   end
 end
 
 if CLIENT then
@@ -247,6 +302,5 @@ if CLIENT then
       return self.BaseClass.DrawHUD(self)
    end
 end
-
 
 

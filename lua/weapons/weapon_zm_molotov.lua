@@ -18,10 +18,6 @@ SWEP.Base               = "weapon_tttbasegrenade"
 SWEP.Kind               = WEAPON_NADE
 SWEP.WeaponID           = AMMO_MOLOTOV
 
-if ROLE_SURVIVALIST then 
-	SWEP.CanBuy                = {ROLE_SURVIVALIST}
-end
-
 SWEP.UseHands           = true
 SWEP.ViewModel          = "models/weapons/cstrike/c_eq_flashbang.mdl"
 SWEP.WorldModel         = "models/weapons/w_eq_flashbang.mdl"

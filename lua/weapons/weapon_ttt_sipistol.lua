@@ -23,10 +23,10 @@ SWEP.Base                  = "weapon_ttt_brekiy_base"
 SWEP.ShortLightBrightness = -10
 SWEP.LongLightBrightness = -50
 
-SWEP.Primary.Recoil		   = 0.025
-SWEP.Primary.Damage        = 24
-SWEP.Primary.Delay         = 0.28
-SWEP.Primary.Cone          = 0.015
+SWEP.Primary.Recoil		   = 0.0115
+SWEP.Primary.Damage        = 17
+SWEP.Primary.Delay         = 0.15
+SWEP.Primary.Cone          = 0.006
 SWEP.Primary.ClipSize      = 20
 SWEP.Primary.Automatic     = true
 SWEP.Primary.DefaultClip   = 20
@@ -36,22 +36,22 @@ SWEP.Primary.Sound         = Sound( "Weapon_usp.shot" )
 SWEP.Primary.SoundLevel    = 50
 SWEP.HeadshotMultiplier    = 2
 SWEP.CrouchBonus 				 	= 0.55
-SWEP.MovePenalty			 	 	= 0.015
-SWEP.JumpPenalty			 	 	= 0.2
+SWEP.MovePenalty			 	 	= 0.175
+SWEP.JumpPenalty			 	 	= 0.02
 SWEP.MaxCone 					 	= 0.06
 SWEP.Tracer							= "None"
 
 SWEP.AimPatternX 		= function(t)
-		return 0
+		return 0.2 * math.sin( 2 * t )
 	end
 SWEP.AimPatternY 		= function(t)
 		return 20 * t / (t + 15)
 	end
 SWEP.BloomRecoverRate 	= 0.0017
-SWEP.AimRecoverRate		= 0.15
-SWEP.AimKick			= 0.05
+SWEP.AimRecoverRate		= 0.075
+SWEP.AimKick			= 1.15
 SWEP.Primary.ShoveY         = 0.1
-SWEP.Primary.ShoveX         = 0.3
+SWEP.Primary.ShoveX         = 0.1
 
 SWEP.Kind                  = WEAPON_EQUIP
 SWEP.CanBuy                = {ROLE_TRAITOR} -- only traitors can buy

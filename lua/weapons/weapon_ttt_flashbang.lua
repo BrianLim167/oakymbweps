@@ -6,6 +6,7 @@ if (CLIENT) then --the init.lua stuff goes in here
 
 
 	SWEP.PrintName = "Flashbang"
+	SWEP.Slot = 3
 	SWEP.SlotPos = 3
 	SWEP.IconLetter			= "g"
 	SWEP.NameOfSWEP			= "weapon_ttt_flashbang" --always make this the name of the folder the SWEP is in.

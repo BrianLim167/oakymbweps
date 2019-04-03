@@ -40,7 +40,7 @@ SWEP.Primary.Ammo		= "AirboatGun"
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1.2
-SWEP.JumpPenalty			 	 	= 2
+SWEP.JumpPenalty			 	 	= 0.2
 SWEP.MaxCone 					 	= 0.07
 
 SWEP.BloomRecoverRate 	= 0.001

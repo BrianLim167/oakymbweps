@@ -29,6 +29,10 @@ SWEP.LimitedStock = true
 SWEP.AllowDrop = true
 SWEP.NoSights = true
 
+if ROLE_SURVIVALIST then 
+	SWEP.CanBuy                = {ROLE_TRAITOR, ROLE_SURVIVALIST}
+end
+
 function SWEP:GetGrenadeName()
    return "ttt_frag_proj"
 end
