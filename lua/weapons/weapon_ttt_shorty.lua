@@ -23,7 +23,7 @@ SWEP.Primary.Damage	= 4
 SWEP.HeadshotMultiplier = 1.5
 SWEP.Primary.NumShots = 20
 SWEP.Primary.Cone = 0.036
-SWEP.Primary.Delay = 0.35
+SWEP.Primary.Delay = 0.32
 SWEP.Primary.Recoil	= 0.035
 
 SWEP.AimPatternX 		= function(t)
@@ -46,7 +46,7 @@ SWEP.AmmoEnt = "item_box_buckshot_ttt"
 SWEP.CrouchBonus 				 	= 1
 SWEP.MovePenalty			 	 	= 0
 SWEP.JumpPenalty			 	 	= 0.1
-SWEP.MaxCone 					 	= 0.45
+SWEP.MaxCone 					 	= 0.1
 SWEP.IronSightsConeMultiplier		= 0.8
 SWEP.TracerFrequency				= 1
 

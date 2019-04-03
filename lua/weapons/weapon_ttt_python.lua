@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 if CLIENT then
    SWEP.PrintName = "Colt Python"
-   SWEP.Slot = 6
+   SWEP.Slot = 1
    SWEP.Icon = "vgui/ttt/icon_revolver"
    SWEP.IconLetter = "f"
 end
@@ -48,7 +48,7 @@ SWEP.WorldModel = Model("models/weapons/w_357.mdl")
 
 SWEP.IronSightsPos = Vector ( -4.64, -3.96, 0.68 )
 SWEP.IronSightsAng = Vector ( 0.214, -0.1767, 0 )
-SWEP.Kind = WEAPON_EQUIP1
+SWEP.Kind = WEAPON_PISTOL
 
 SWEP.AutoSpawnable = false
 SWEP.AmmoEnt = "item_ammo_revolver_ttt"

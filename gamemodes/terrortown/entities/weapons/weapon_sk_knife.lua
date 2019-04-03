@@ -25,18 +25,18 @@ SWEP.UseHands               = true
 SWEP.ViewModel              = "models/weapons/cstrike/c_knife_t.mdl"
 SWEP.WorldModel             = "models/weapons/w_knife_t.mdl"
 
-SWEP.Primary.Damage         = 40
+SWEP.Primary.Damage         = 37
 SWEP.Primary.ClipSize       = -1
 SWEP.Primary.DefaultClip    = -1
 SWEP.Primary.Automatic      = true
-SWEP.Primary.Delay          = 1
+SWEP.Primary.Delay          = 0.5
 SWEP.Primary.Ammo           = "none"
 
 SWEP.Secondary.ClipSize     = -1
 SWEP.Secondary.DefaultClip  = -1
 SWEP.Secondary.Automatic    = false
 SWEP.Secondary.Ammo         = "none"
-SWEP.Secondary.Delay        = 12
+SWEP.Secondary.Delay        = 6
 
 SWEP.Kind                    = WEAPON_MELEE
 SWEP.WeaponID                = AMMO_CROWBAR
@@ -46,8 +46,10 @@ SWEP.IsSilent               = true
 SWEP.AllowDelete             = true -- never removed for weapon reduction
 SWEP.AllowDrop = false
 
+
 -- Pull out faster than standard guns
 SWEP.DeploySpeed            = 2
+
 
 function SWEP:PrimaryAttack()
    self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay )
@@ -101,7 +103,7 @@ function SWEP:PrimaryAttack()
          -- account we do want to avoid rounding error strangeness caused by
          -- other damage scaling, causing a death when we don't expect one, so
          -- when the target's health is close to kill-point we just kill
-         if hitEnt:Health() < (self.Primary.Damage + 10) then
+         if hitEnt:Health() < (self.Primary.Damage + 0) or math.abs(self.Owner:EyeAngles().y - hitEnt:EyeAngles().y) < 60 then
             self:StabKill(tr, spos, sdest)
          else
             local dmg = DamageInfo()
@@ -198,7 +200,6 @@ function SWEP:StabKill(tr, spos, sdest)
 
 end
 
-
 function SWEP:SecondaryAttack()
    self.Weapon:SetNextSecondaryFire( CurTime() + self.Secondary.Delay )
 	if not(IsFirstTimePredicted())then return end
@@ -218,4 +219,34 @@ end
 function SWEP:OnDrop()
 	self:Remove()
 end
+
+if CLIENT then
+   local T = LANG.GetTranslation
+   function SWEP:DrawHUD()
+      local tr = self:GetOwner():GetEyeTrace(MASK_SHOT)
+
+      if tr.HitNonWorld and IsValid(tr.Entity) and tr.Entity:IsPlayer()
+         and (tr.Entity:Health() < (self.Primary.Damage + 0) or math.abs(self.Owner:EyeAngles().y - tr.Entity:EyeAngles().y) < 60) then
+
+         local x = ScrW() / 2.0
+         local y = ScrH() / 2.0
+
+         surface.SetDrawColor(255, 0, 0, 255)
+
+         local outer = 20
+         local inner = 10
+         surface.DrawLine(x - outer, y - outer, x - inner, y - inner)
+         surface.DrawLine(x + outer, y + outer, x + inner, y + inner)
+
+         surface.DrawLine(x - outer, y + outer, x - inner, y + inner)
+         surface.DrawLine(x + outer, y - outer, x + inner, y - inner)
+
+         draw.SimpleText(T("knife_instant"), "TabLarge", x, y - 30, COLOR_RED, TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+      end
+
+      return self.BaseClass.DrawHUD(self)
+   end
+end
+
+
 

@@ -76,7 +76,7 @@ function ENT:Initialize()
    self:SetArmed(false)
    if not self:GetThrower() then self:SetThrower(nil) end
 
-   if not self:GetRadius() then self:SetRadius(1700) end
+   if not self:GetRadius() then self:SetRadius(3000) end
    if not self:GetDmg() then self:SetDmg(400) end
 
 end
@@ -315,10 +315,10 @@ function ENT:Think()
          ErrorNoHalt("ERROR CAUGHT: ttt_c4: " .. err .. "\n")
       end
    elseif self:GetArmed() and CurTime() > self.Beep then
-      local amp = 40
+      local amp = 160
 
       if self:IsDetectiveNear() then
-         amp = 75
+         amp = amp --+ 25
 
          local dlight = CLIENT and DynamicLight(self:EntIndex())
          if dlight then
@@ -334,11 +334,12 @@ function ENT:Think()
 
       elseif SERVER then
          -- volume lower for long fuse times, bottoms at 50 at +5mins
-         amp = amp + math.max(0, 12 - (0.03 * self:GetTimerLength()))
+         amp = amp --+ math.max(0, (0.03 * self:GetTimerLength()))
       end
 
       if SERVER then
-         sound.Play(beep, self:GetPos(), amp, 100)
+		self:EmitSound(beep, amp, 100, 1, CHAN_AUTO)
+         --sound.Play(beep, self:GetPos(), math.min(160, amp), 100)
       end
 
       local btime = (etime - CurTime()) / 30

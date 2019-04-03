@@ -36,6 +36,10 @@ SWEP.Secondary.Automatic   = false
 SWEP.Kind                  = WEAPON_EQUIP2
 SWEP.CanBuy                = {ROLE_TRAITOR} -- only traitors can buy
 
+if ROLE_SURVIVALIST then 
+	SWEP.CanBuy                = {ROLE_TRAITOR, ROLE_SURVIVALIST}
+end
+
 SWEP.WeaponID              = AMMO_POLTER
 
 SWEP.UseHands              = true

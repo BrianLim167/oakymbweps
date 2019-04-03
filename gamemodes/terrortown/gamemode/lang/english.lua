@@ -1084,6 +1084,7 @@ L.aw_tod2_text  = "died right after the start of the round."
 --- New and modified pieces of text are placed below this point, marked with the
 --- version in which they were added, to make updating translations easier.
 
+L.knife_instant = "INSTANT KILL"
 
 --- v23
 L.set_avoid_det     = "Avoid being selected as Detective"

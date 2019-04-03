@@ -16,14 +16,10 @@ SWEP.Spawnable = true
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_SHOTGUN
 
-if ROLE_SURVIVALIST then 
-	SWEP.CanBuy                = {ROLE_SURVIVALIST}
-end
-
 
 SWEP.Primary.Ammo = "Buckshot"
 SWEP.Primary.Damage = 4
-SWEP.Primary.Cone = 0.014
+SWEP.Primary.Cone = 0.012
 SWEP.Primary.Delay = 0.55
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 24
@@ -36,7 +32,7 @@ SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 1
 SWEP.MovePenalty			 	 	= 0.25
 SWEP.JumpPenalty			 	 	= 0.5
-SWEP.MaxCone 					 	= 0.2
+SWEP.MaxCone 					 	= 0.1
 SWEP.TracerFrequency				= 1
 
 SWEP.UseHands			= true

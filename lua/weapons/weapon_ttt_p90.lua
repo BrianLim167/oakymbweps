@@ -10,7 +10,7 @@ end
 SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.HoldType = "smg"
 
-SWEP.Primary.Ammo = "Pistol"
+SWEP.Primary.Ammo = "smg1"
 SWEP.Primary.Delay = 0.075
 SWEP.Primary.Recoil = 0.015
 SWEP.Primary.Cone = 0.024
@@ -26,7 +26,7 @@ SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 0.03
-SWEP.JumpPenalty			 	 	= 2
+SWEP.JumpPenalty			 	 	= 0.2
 SWEP.MaxCone 					 	= 0.06
 
 SWEP.AimPatternX 		= function(t)
@@ -52,7 +52,7 @@ SWEP.IronSightsAng = Vector( 2.6, 1.37, 0 )
 
 SWEP.Kind = WEAPON_HEAVY
 SWEP.AutoSpawnable = true
-SWEP.AmmoEnt = "item_ammo_pistol_ttt"
+SWEP.AmmoEnt = "item_ammo_smg1_ttt"
 SWEP.InLoadoutFor = { nil }
 SWEP.AllowDrop = true
 SWEP.IsSilent = false

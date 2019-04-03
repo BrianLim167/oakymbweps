@@ -29,7 +29,7 @@ SWEP.Primary.SoundEmpty			= Sound( "Weapon_AR2.Empty" )
 SWEP.HeadshotMultiplier 		= 2.5
 SWEP.CrouchBonus 				= 0.7
 SWEP.MovePenalty			 	= 1.75
-SWEP.JumpPenalty			 	= 0.4
+SWEP.JumpPenalty			 	= 0.3
 SWEP.MaxCone 					= 0.095
 SWEP.TracerFrequency				= 3
 

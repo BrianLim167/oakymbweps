@@ -19,24 +19,20 @@ SWEP.Spawnable = true
 SWEP.Kind = WEAPON_PISTOL
 SWEP.WeaponID = AMMO_DEAGLE
 
-if ROLE_SURVIVALIST then 
-	SWEP.CanBuy                = {ROLE_SURVIVALIST}
-end
-
 
 SWEP.Primary.Ammo       = "AlyxGun"
 SWEP.Primary.Recoil		= 0.085
 SWEP.Primary.Damage = 49
 SWEP.Primary.Delay = 0.275
-SWEP.Primary.Cone = 0.018
+SWEP.Primary.Cone = 0.017
 SWEP.Primary.ClipSize = 7
 SWEP.Primary.ClipMax = 35
 SWEP.Primary.DefaultClip = 7
 SWEP.Primary.Automatic = false
 SWEP.HeadshotMultiplier = 2.7
 SWEP.CrouchBonus 				 	= 0.55
-SWEP.MovePenalty			 	 	= 1.5
-SWEP.JumpPenalty			 	 	= 0.5
+SWEP.MovePenalty			 	 	= 1.2
+SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.12
 SWEP.TracerFrequency				= 1
 

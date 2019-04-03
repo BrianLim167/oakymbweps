@@ -10,6 +10,7 @@ function GM:PlayerCanPickupWeapon(ply, wep)
    if not IsValid(wep) or not IsValid(ply) then return end
    if ply:IsSpec() then return false end
 
+   --[[
    if ply:GetRole() == ROLE_JESTER or GetRoundState() == ROUND_WAIT or GetRoundState() == ROUND_PREP then
 	  if wep:GetClass() == "weapon_zm_molotov" then
 	  return false
@@ -18,6 +19,7 @@ function GM:PlayerCanPickupWeapon(ply, wep)
 	  return false
 	  end
    end
+   ]]--
    
    -- Disallow picking up for ammo
    if ply:HasWeapon(wep:GetClass()) then

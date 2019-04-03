@@ -132,6 +132,8 @@ if CLIENT then
    local crosshair_brightness = CreateConVar("ttt_crosshair_brightness", "1.0", FCVAR_ARCHIVE)
    local crosshair_size = CreateConVar("ttt_crosshair_size", "1.0", FCVAR_ARCHIVE)
    local disable_crosshair = CreateConVar("ttt_disable_crosshair", "0", FCVAR_ARCHIVE)
+   local crosshair_static = CreateConVar("ttt_crosshair_static", "0", FCVAR_ARCHIVE)
+   local crosshair_static_gap = CreateConVar("ttt_crosshair_static_gap", "0.005", FCVAR_ARCHIVE)
 
    function SWEP:DrawHUD()
       if self.HUDHelp then
@@ -145,7 +147,13 @@ if CLIENT then
 
       local x = math.floor(ScrW() / 2.0)
       local y = math.floor(ScrH() / 2.0)
-      local scale = math.max(0.05,  45 * self:GetPrimaryCone())
+	  local cone = self:GetPrimaryCone()
+	  if crosshair_static:GetInt() > 0 then
+		cone = crosshair_static_gap:GetFloat()
+	  elseif self:Clip1() == 0 or (self.GetIsReloading and self:GetIsReloading()) then
+		cone = 0.1
+	  end
+      local scale = math.max(0.05,  45 * cone)
 
 	  --[[
       local LastShootTime = self:LastShootTime()

@@ -9,7 +9,7 @@ SWEP.Spawnable                  = true
 SWEP.AdminSpawnable             = false
 if CLIENT then
  
-   SWEP.Slot         = 2
+   SWEP.Slot         = 1
  
    SWEP.ViewModelFlip = false
  
@@ -39,7 +39,7 @@ SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Ammo       = "none"
  
-SWEP.Kind = WEAPON_HEAVY--EQUIP
+SWEP.Kind = WEAPON_PISTOL--EQUIP
 SWEP.CanBuy = {ROLE_DETECTIVE} -- only detectives can buy
 SWEP.LimitedStock = false -- only buyable once
 SWEP.WeaponID = AMMO_GRAPPLE
