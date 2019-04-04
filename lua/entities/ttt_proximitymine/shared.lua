@@ -1,11 +1,11 @@
----- Health dispenser
+---- Proximity mine
 
 if SERVER then AddCSLuaFile("shared.lua") end
 
 if CLIENT then
    -- this entity can be DNA-sampled so we need some display info
    ENT.Icon = "VGUI/ttt/icon_health"
-   ENT.PrintName = "hstation_name"
+   ENT.PrintName = "prox_mine"
 
    local GetPTranslation = LANG.GetParamTranslation
 end
@@ -60,17 +60,17 @@ end
 
 
 function ENT:Explode()
-	self.Dying = 1
-	local effect = EffectData()
-	local pos = self:GetPos()
-    effect:SetStart(pos)
-    effect:SetOrigin(pos)
-	util.Effect("Explosion", effect, true, true)
-	local dmgowner = self:GetPlacer()
-	self:SphereDamage(dmgowner, pos, 300)
-	util.BlastDamage(self, dmgowner, pos, 300, 125)
-	util.EquipmentDestroyed(self:GetPos())
-    self:Remove()
+   self.Dying = 1
+   local effect = EffectData()
+   local pos = self:GetPos()
+   effect:SetStart(pos)
+   effect:SetOrigin(pos)
+   util.Effect("Explosion", effect, true, true)
+   local dmgowner = self:GetPlacer()
+   self:SphereDamage(dmgowner, pos, 300)
+   util.BlastDamage(self, dmgowner, pos, 300, 125)
+   util.EquipmentDestroyed(self:GetPos())
+   self:Remove()
 end
 
 function ENT:SphereDamage(dmgowner, center, radius)
@@ -128,7 +128,7 @@ if SERVER then
 				local victimpos = ply:GetPos()
 				local targetpos = self:GetPos()
 				local distance = victimpos:Distance( targetpos )
-				if distance < 125 then
+				if distance < 125 and (not ply:IsSpec()) then
 					playersnear = playersnear + 1
 					if self.armed == 1 then
 						self:Explode()
