@@ -36,7 +36,7 @@ SWEP.EquipMenuData = {
 
 SWEP.Icon = "VGUI/ttt/icon_nades"
 
-SWEP.CanBuy = { ROLE_DETECTIVE, ROLE_TRAITOR }
+SWEP.CanBuy = { ROLE_DETECTIVE }
 SWEP.LimitedStock = true
 
 function SWEP:GetGrenadeName()
