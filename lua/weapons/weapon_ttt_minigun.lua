@@ -14,7 +14,7 @@ if CLIENT then
    
    SWEP.EquipMenuData = {
    type = "Weapon",
-   desc = "A fucking minigun. Slows you down when you carry it, even in your inventory."
+   desc = "A fucking minigun. Slows you down when you shoot it."
    };
 end
 
@@ -98,7 +98,7 @@ function SWEP:Holster()
 end
 
 function MinigunSpeedMod(ply, speed)
-	if ply:HasWeapon("weapon_ttt_minigun") then
+	if ply:HasWeapon("weapon_ttt_minigun") and ply:GetWeapon("weapon_ttt_minigun").IsShooting then
 		return 0.69
 	end
 end
@@ -106,7 +106,7 @@ hook.Add("TTTPlayerSpeed", "MinigunSpeed", MinigunSpeedMod )
 
 function SWEP:Think()
 	self:ThinkBase()
-	if self.IsShooting == true and IsValid(self.Owner) then --and self.Owner:IsTerror() then
+	if self.IsShooting == true and IsValid(self.Owner) then
 		if self.Owner:KeyReleased( IN_ATTACK) then
 			if self.Owner:EntIndex() then
 				timer.Destroy(self.Owner:EntIndex() .. "_SpinMod")

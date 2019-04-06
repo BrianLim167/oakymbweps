@@ -9,7 +9,7 @@ sound.Add({
 	name = 			"Weapon_aug.shot",
 	channel = 		CHAN_WEAPON,
 	volume = 		1.0,
-	sound = 			"weapons/css_replace/aug-1.wav"
+	sound = 			"tflippy/fnfal_tp.wav"
 })
 sound.Add({
 	name = 			"Weapon_deagle.shot",
@@ -102,18 +102,10 @@ sound.Add({
 	sound = 			"weapons/css_replace/xm1014-1.wav"
 })
 
---USP MATCH--
-sound.Add({
-	name = 			"Weapon_lol.Single",
-	channel = 		CHAN_USER_BASE+10,
-	volume = 		1.0,
-	sound = 			"weapons/lol/zir_unsil-1.wav"
-})
-
 --Locomotive 12G--
 sound.Add({
 	name = 			"TFlippy_Locomotive12G.Shoot",
-	channel = 		CHAN_USER_BASE+10,
+	channel = 		CHAN_WEAPON,
 	volume = 		1.00,
 	level = 		105,
 	pitch =			{130},
@@ -123,7 +115,7 @@ sound.Add({
 --Minigun--
 sound.Add({
 	name = 			"BlackVulcan.TFlippy.Single",
-	channel = 		CHAN_USER_BASE+10,
+	channel = 		CHAN_WEAPON,
 	volume = 		1.0,
 	level = 		100,
 	sound = 		"weapons/minigun/pew.wav"
