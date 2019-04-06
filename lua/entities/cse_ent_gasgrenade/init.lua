@@ -15,8 +15,8 @@ function ENT:Initialize()
 	self.Entity:SetSolid( SOLID_BBOX )
 	self.Entity:DrawShadow( false )
 	
-	// Don't collide with the player
-	// too bad this doesn't actually work.
+	-- Don't collide with the player
+	-- too bad this doesn't actually work.
 	self.Entity:SetCollisionGroup( COLLISION_GROUP_PROJECTILE )
 	
 	local phys = self.Entity:GetPhysicsObject()
@@ -93,12 +93,12 @@ function ENT:Think()
 				end
 			end
 		end
-		if (self.timer+300<CurTime()) then
+		if (self.timer+90<CurTime()) then
 			if IsValid(self.Bastardgas) then
 				self.Bastardgas:Remove()
 			end
 		end
-		if (self.timer+305<CurTime()) then
+		if (self.timer+95<CurTime()) then
 			self.Entity:Remove()
 		end
 		self.Entity:NextThink(CurTime()+0.2)

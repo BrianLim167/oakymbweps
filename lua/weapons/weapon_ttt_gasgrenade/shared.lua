@@ -10,12 +10,7 @@ SWEP.SlotPos            = 0
 
    SWEP.EquipMenuData = {
       type = "Weapon",
-      desc = [[ Does damage over time in an area
-	  Will not kill the victim
-Instead brings them to 1 health
-if they dont leave area	
-Damages All Players  
-]]
+      desc = [[ Stuns and rapidly damages players in an area. ]]
 
    };
 end
