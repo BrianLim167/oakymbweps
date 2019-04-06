@@ -160,7 +160,7 @@ function KARMA.Hurt(attacker, victim, dmginfo)
       print(Format("%s (%f) killed %s (%f) and gets penalised for %f", attacker:Nick(), attacker:GetLiveKarma(), victim:Nick(), victim:GetLiveKarma(), penalty))
 
    end
-      local roletable = {ROLE_INNOCENT, ROLE_SURVIVALIST, ROLE_RESURRECTOR}
+      local roletable = {ROLE_INNOCENT, ROLE_SURVIVALIST, ROLE_RESURRECTOR, ROLE_DETECTIVE}
   
    if attacker:IsPlayer() and table.HasValue( roletable, attacker:GetRole() ) and not table.HasValue( roletable, victim:GetRole() ) then
       local reward = KARMA.GetHurtReward(hurt_amount)
@@ -261,7 +261,7 @@ function KARMA.Killed(attacker, victim, dmginfo)
 
    end
    
-   local roletable = {ROLE_INNOCENT, ROLE_SURVIVALIST, ROLE_RESURRECTOR}
+   local roletable = {ROLE_INNOCENT, ROLE_SURVIVALIST, ROLE_RESURRECTOR, ROLE_DETECTIVE}
    
    if attacker:IsPlayer() and table.HasValue( roletable, attacker:GetRole() ) and not table.HasValue( roletable, victim:GetRole() ) then
          local reward = KARMA.GetKillReward()
