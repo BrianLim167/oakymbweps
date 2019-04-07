@@ -198,7 +198,7 @@ function SWEP:StabKill(tr, spos, sdest)
    -- target appears to die right there, so we could theoretically get to
    -- the ragdoll in here...
 
-   self:Remove()
+   self:RewardKill()
 end
 
 function SWEP:SecondaryAttack()
@@ -303,4 +303,8 @@ if CLIENT then
    end
 end
 
-
+-- Reward player for getting a kill
+function SWEP:RewardKill()
+	self.Owner:AddCredits(4)
+	self:Remove()
+end

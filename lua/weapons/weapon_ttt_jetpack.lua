@@ -159,7 +159,7 @@ function SWEP:Initialize()
 		if IsValid(self.Owner) then self:SetDeathJetting(false) end
 	
 		if not (IsValid(self.Owner) or self:GetDeathJetting()) then
-			if CLIENT then self:StopSound("thruster") end
+			if SERVER then self:StopSound("thruster") end
 			timer.Remove("BurnFuel" .. self:EntIndex())
 			if not timer.Exists("GainFuel" .. self:EntIndex()) then
 				timer.Create("GainFuel" .. self:EntIndex(), 0.25, 0, function()
@@ -171,15 +171,13 @@ function SWEP:Initialize()
 		end
 		
 		if (self:GetDeathJetting() or self.Owner:KeyDown(IN_JUMP)) and self:Clip1() > 0 and self:GetOn() then
-			if IsFirstTimePredicted() then
-				if self:GetDeathJetting() then
-					local phys = self:GetPhysicsObject()
-					if IsValid(phys) then
-						phys:ApplyForceCenter(self:GetUp() * 500)
-					end
-				else
-					self.Owner:SetVelocity(self.Owner:GetUp() * GetConVarNumber("ttt_jetpack_force"))--8.8)
+			if self:GetDeathJetting() then
+				local phys = self:GetPhysicsObject()
+				if IsValid(phys) then
+					phys:ApplyForceCenter(self:GetUp() * 500)
 				end
+			else
+				self.Owner:SetVelocity(self.Owner:GetUp() * GetConVarNumber("ttt_jetpack_force"))--8.8)
 			end
 			if CLIENT then
 				local jetlight = DynamicLight( self:EntIndex() )
@@ -198,7 +196,7 @@ function SWEP:Initialize()
 				end
 			end
 			if not self.Jetting then
-				if CLIENT then
+				if SERVER then
 					local snd = {}
 					snd.name = "thruster"
 					snd.sound = "ambient/gas/cannister_loop.wav"
@@ -222,7 +220,7 @@ function SWEP:Initialize()
 		end
 		
 		if not ((self:GetDeathJetting() or self.Owner:KeyDown(IN_JUMP)) and self:Clip1() > 0 and self:GetOn()) then
-			if CLIENT then self:StopSound("thruster") end
+			if SERVER then self:StopSound("thruster") end
 			timer.Remove("BurnFuel" .. self:EntIndex())
 			if not timer.Exists("GainFuel" .. self:EntIndex()) then
 				timer.Create("GainFuel" .. self:EntIndex(), 0.25, 0, function()
@@ -241,10 +239,10 @@ end
 
 function SWEP:PreDrop(isdeath)
 	if not isdeath then
-		if CLIENT then self:StopSound("thruster") end
+		if SERVER then self:StopSound("thruster") end
 		timer.Remove("BurnFuel" .. self:EntIndex())
 	elseif isdeath and self.Owner:KeyDown(IN_JUMP) and self:Clip1() > 0 and self:GetOn() then
-		if CLIENT then
+		if SERVER then
 			self:StopSound("thruster")
 			--self:EmitSound("thruster")
 		end
@@ -263,7 +261,7 @@ end
 ]]--
 
 function SWEP:OnRemove()
-	if CLIENT then self:StopSound("thruster") end
+	if SERVER then self:StopSound("thruster") end
 	
 	if IsValid(self.Owner) then
 		timer.Remove("GainFuel" .. self:EntIndex())

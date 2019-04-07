@@ -16,9 +16,9 @@ SWEP.Base = "weapon_ttt_brekiy_base"
 SWEP.Kind = WEAPON_HEAVY
 SWEP.WeaponID = AMMO_MAC10
 
-SWEP.Primary.Damage      = 14
+SWEP.Primary.Damage      = 13
 SWEP.Primary.Delay       = 0.0615
-SWEP.Primary.Cone        = 0.019
+SWEP.Primary.Cone        = 0.021
 SWEP.Primary.ClipSize    = 30
 SWEP.Primary.ClipMax     = 60
 SWEP.Primary.DefaultClip = 30
@@ -28,7 +28,7 @@ SWEP.Primary.Recoil      = 0.0225
 SWEP.Primary.Sound       = Sound( "Weapon_mac10.shot" )
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.9
-SWEP.MovePenalty			 	 	= 0.025
+SWEP.MovePenalty			 	 	= 0.08
 SWEP.JumpPenalty			 	 	= 0.3
 SWEP.MaxCone 					 	= 0.07
 

@@ -18,7 +18,7 @@ SWEP.NoSights = false
 SWEP.Primary.Ammo 				= "SMG1"
 SWEP.Primary.Delay 				= 0.125
 SWEP.Primary.Recoil 			= 0.005
-SWEP.Primary.Cone 				= 0.01
+SWEP.Primary.Cone 				= 0.007
 SWEP.Primary.Damage 			= 19
 SWEP.Primary.Automatic 			= true
 SWEP.Primary.ClipSize 			= 30
@@ -43,7 +43,7 @@ SWEP.BloomRecoverRate 	= 0.00056
 SWEP.AimRecoverRate		= 0.55
 SWEP.AimKick 			= 0.045
 SWEP.Primary.ShoveY         = 0.25
-SWEP.Primary.ShoveX         = 0.5
+SWEP.Primary.ShoveX         = 0.3
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false
