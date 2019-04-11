@@ -305,6 +305,6 @@ end
 
 -- Reward player for getting a kill
 function SWEP:RewardKill()
-	self.Owner:AddCredits(4)
+	self.Owner:AddCredits(3)
 	self:Remove()
 end
