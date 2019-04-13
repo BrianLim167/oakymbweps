@@ -1,6 +1,6 @@
 AddCSLuaFile()
 resource.AddFile("materials/VGUI/ttt/lykrast/icon_jetpack.vmt")
-CreateConVar("ttt_jetpack_force",20,{FCVAR_ARCHIVE})
+CreateConVar("ttt_jetpack_force",19,{FCVAR_ARCHIVE})
 
 if( CLIENT ) then
     SWEP.PrintName = "Jet Pack";
@@ -144,6 +144,8 @@ function SWEP:DrawHUD()
 end
 
 function SWEP:Initialize()
+	self.m_bInitialized = true
+
 	self:NetworkVar("Bool", 4, "DeathJetting"	)
 	self:NetworkVar("Bool", 5, "On"				)
 	self:SetDeathJetting(false)
@@ -196,7 +198,7 @@ function SWEP:Initialize()
 				end
 			end
 			if not self.Jetting then
-				if SERVER then
+				if CLIENT then
 					local snd = {}
 					snd.name = "thruster"
 					snd.sound = "ambient/gas/cannister_loop.wav"
@@ -220,7 +222,7 @@ function SWEP:Initialize()
 		end
 		
 		if not ((self:GetDeathJetting() or self.Owner:KeyDown(IN_JUMP)) and self:Clip1() > 0 and self:GetOn()) then
-			if SERVER then self:StopSound("thruster") end
+			if CLIENT then self:StopSound("thruster") end
 			timer.Remove("BurnFuel" .. self:EntIndex())
 			if not timer.Exists("GainFuel" .. self:EntIndex()) then
 				timer.Create("GainFuel" .. self:EntIndex(), 0.25, 0, function()
@@ -237,12 +239,18 @@ function SWEP:Initialize()
    return true
 end
 
+function SWEP:Think()
+	if not self.m_bInitialized then
+		--self:Initialize()
+	end
+end
+
 function SWEP:PreDrop(isdeath)
 	if not isdeath then
-		if SERVER then self:StopSound("thruster") end
+		if CLIENT then self:StopSound("thruster") end
 		timer.Remove("BurnFuel" .. self:EntIndex())
 	elseif isdeath and self.Owner:KeyDown(IN_JUMP) and self:Clip1() > 0 and self:GetOn() then
-		if SERVER then
+		if CLIENT then
 			self:StopSound("thruster")
 			--self:EmitSound("thruster")
 		end

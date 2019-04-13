@@ -84,9 +84,9 @@ CreateConVar("ttt_survivalist_pct", "0.13", FCVAR_NOTIFY)
 CreateConVar("ttt_survivalist_min_players", "2")
 CreateConVar("ttt_survivalist_realmin_players", "2")
 
-CreateConVar("ttt_jester_pct", "0", FCVAR_NOTIFY)
-CreateConVar("ttt_jester_min_players", "999")
-CreateConVar("ttt_jester_realmin_players", "999")
+CreateConVar("ttt_jester_pct", "0.13", FCVAR_NOTIFY)
+CreateConVar("ttt_jester_min_players", "8")
+CreateConVar("ttt_jester_realmin_players", "8")
 
 CreateConVar("ttt_phoenix_pct", "0", FCVAR_NOTIFY)
 CreateConVar("ttt_phoenix_min_players", "999")

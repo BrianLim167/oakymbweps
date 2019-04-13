@@ -133,7 +133,7 @@ function SWEP:PrimaryAttack(worldsnd)
 			timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
 				function()
 					
-					SpinMod = math.Approach( SpinMod, 5,  0.12)	
+					SpinMod = math.Approach( SpinMod, 5,  0.17)	
 				end)
 		end
 		

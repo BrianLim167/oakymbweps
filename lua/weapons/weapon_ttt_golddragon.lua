@@ -34,9 +34,9 @@ end
 
 SWEP.Base = "weapon_ttt_brekiy_base"
 
-SWEP.Primary.Damage      = 9
+SWEP.Primary.Damage      = 11
 SWEP.Primary.Delay       = 0.11
-SWEP.Primary.Cone        = 0.015
+SWEP.Primary.Cone        = 0.012
 SWEP.Primary.ClipSize    = 30
 SWEP.Primary.ClipMax     = 60
 SWEP.Primary.DefaultClip = 30
@@ -45,7 +45,7 @@ SWEP.Primary.Ammo        = "smg1"
 SWEP.Primary.Recoil      = 0.0175
 SWEP.Primary.Sound       = "weapons/ree/kslh/kslh1.wav"
 SWEP.CrouchBonus 				 	= 0.7
-SWEP.MovePenalty			 	 	= 1.5
+SWEP.MovePenalty			 	 	= 0.2
 SWEP.JumpPenalty			 	 	= 0.1
 SWEP.MaxCone 					 	= 0.06
 
