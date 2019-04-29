@@ -19,7 +19,7 @@ SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 6
 SWEP.Primary.ClipMax = 12
 SWEP.Primary.DefaultClip = 6
-SWEP.Primary.Sound = Sound("Weapon_DetRev.Single")
+SWEP.Primary.Sound = Sound("Weapon_revolver.shot")
 SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.55
 SWEP.MovePenalty			 	 	= 1
@@ -58,18 +58,6 @@ SWEP.LimitedStock = false
 SWEP.AllowDrop = true
 SWEP.IsSilent = false
 SWEP.NoSights = false
-
-function SWEP:Precache()
-   util.PrecacheSound( "weapons/det_revolver/revolver-fire.wav" )
-end
-
--- Give the primary sound an alias
-sound.Add ( {
-   name = "Weapon_DetRev.Single",
-   channel = CHAN_USER_BASE + 10,
-   volume = 0.7,
-   sound = "weapons/det_revolver/revolver-fire.wav"
-} )
 
 -- Equipment menu information is only needed on the client
 if CLIENT then

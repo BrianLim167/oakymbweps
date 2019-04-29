@@ -30,7 +30,7 @@ SWEP.Kind = WEAPON_EQUIP1
 SWEP.Primary.Delay	   = 0.08
 SWEP.Primary.Recoil	  = 0.00408
 SWEP.Primary.Automatic   = true
-SWEP.ViewModelFOV  = 50
+SWEP.ViewModelFOV  = 45
 SWEP.ViewModelFlip = false
 SWEP.CSMuzzleFlashes = true
 SWEP.Primary.ClipSize	= 200
@@ -43,7 +43,7 @@ SWEP.MovePenalty			 	 	= 1.2
 SWEP.JumpPenalty			 	 	= 0.2
 SWEP.MaxCone 					 	= 0.07
 
-SWEP.BloomRecoverRate 	= 0.001
+SWEP.BloomRecoverRate 	= 0.00125
 SWEP.AimRecoverRate		= 0.35
 SWEP.AimKick				= 0.35
 SWEP.Primary.ShoveY         = 0.1
@@ -67,7 +67,6 @@ SWEP.Secondary.Sound = Sound("Default.Zoom")
 
 local SpinMod = 1
 SWEP.IsShooting = false
-SWEP.SpinTime = 0.2
 
 function SWEP:Deploy()
 	self:SendWeaponAnim(ACT_VM_DRAW)
@@ -119,8 +118,8 @@ end
 
 function SWEP:PrimaryAttack(worldsnd)	
 
-		self:SetNextSecondaryFire( CurTime() + self.SpinTime/SpinMod )
-		self:SetNextPrimaryFire( CurTime() + self.SpinTime/SpinMod )   
+		self:SetNextSecondaryFire( CurTime() + self.Primary.Delay/SpinMod )
+		self:SetNextPrimaryFire( CurTime() + self.Primary.Delay/SpinMod )   
 
 		if not self:CanPrimaryAttack() then return end
 		
@@ -133,7 +132,7 @@ function SWEP:PrimaryAttack(worldsnd)
 			timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
 				function()
 					
-					SpinMod = math.Approach( SpinMod, 5,  0.17)	
+					SpinMod = math.Approach( SpinMod, 2.5,  0.17)	
 				end)
 		end
 		
