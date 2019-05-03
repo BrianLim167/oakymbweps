@@ -754,7 +754,7 @@ local function CleanUp()
    end
 
    -- a different kind of cleanup
-   util.SafeRemoveHook("PlayerSay", "ULXMeCheck")
+   hook.Remove("PlayerSay", "ULXMeCheck")
 end
 
 local function SpawnEntities()

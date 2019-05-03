@@ -171,3 +171,24 @@ sound.Add({
 	volume = 		1.0,
 	sound = 		"weapons/minigun/mini_chain.mp3"
 })
+sound.Add({
+	name = 			"Weapon_plasma.shot",
+	channel = 		CHAN_WEAPON,
+	level = 		125,
+	volume = 		1.0,
+	sound = 		"weapons/plasma/plasma-1.wav"
+})
+sound.Add({
+	name = 			"Weapon_plasma.overheat",
+	channel = 		CHAN_WEAPON,
+	level = 		75,
+	volume = 		1.0,
+	sound = 		"weapons/plasma/plasma_overheat.wav"
+})
+sound.Add({
+	name = 			"Weapon_plasma.hit",
+	channel = 		CHAN_WEAPON,
+	level = 		95,
+	volume = 		1.0,
+	sound = 		"weapons/plasma/plasma_hit.wav"
+})
