@@ -23,11 +23,11 @@ SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 1.3
 SWEP.Primary.Recoil = 0.1
 SWEP.Primary.Cone = 0.01
-SWEP.Primary.Damage = 60
+SWEP.Primary.Damage = 49
 SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 10
 SWEP.Primary.DefaultClip = 10
-SWEP.Primary.Sound = Sound( "Weapon_m4s.shot")
+SWEP.Primary.Sound = Sound( "Weapon_scoutsil.shot")
 SWEP.Secondary.Sound = Sound( "Default.Zoom" )
 SWEP.HeadshotMultiplier = 4
 SWEP.Primary.NumShots	= 1
@@ -55,7 +55,7 @@ SWEP.AmmoEnt = "item_ammo_357_ttt"
 --- Model settings
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 70
+SWEP.ViewModelFOV = 54
 SWEP.ViewModel = "models/weapons/cstrike/c_snip_scout.mdl"
 SWEP.WorldModel = "models/weapons/w_snip_scout.mdl"
 

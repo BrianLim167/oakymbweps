@@ -1694,7 +1694,7 @@ function GM:ScalePlayerDamage( ply, hitgroup, dmginfo )
    dmginfo:ScaleDamage(0)
    end
    
-   	if ply:IsPlayer() and dmginfo:GetAttacker():IsPlayer() and dmginfo:GetAttacker():GetRole() == ROLE_JESTER then
+   if ply:IsPlayer() and dmginfo:GetAttacker():IsPlayer() and dmginfo:GetAttacker():GetRole() == ROLE_JESTER then
 	dmginfo:ScaleDamage(0)
 	end
 	
