@@ -3,11 +3,9 @@ if SERVER then
 end
  
 if ( CLIENT ) then
-	SWEP.PrintName = "Plasmagun" 
+	SWEP.PrintName = "Plasma Gun" 
 	SWEP.Author = "brekiy"
 	SWEP.Slot = 2
-	SWEP.Slotpos = 5
-	SWEP.DrawAmmo = false
 	SWEP.SlotPos = 5
 	SWEP.Purpose = "pbbbbbbt"
 	SWEP.Instructions = "pbbbbbbt"
@@ -19,7 +17,7 @@ SWEP.Kind = WEAPON_HEAVY
 SWEP.EquipMenuData = {
   name = "Plasmagun",
   type = "item_weapon",
-  desc = "Shoots hot plasma bolts that can light things on fire.\nDon't let it overheat or you'll get roasted."
+  desc = "Shoots hot plasma bolts that have a bit of splash damage and can light things on fire.\nDon't let it overheat or you'll get roasted."
 };
 SWEP.Icon = "vgui/ttt/icon_polter"
 
@@ -47,17 +45,19 @@ SWEP.Category			= "Explosives"
 SWEP.HoldType			= "ar2"
 
 SWEP.Primary.Recoil			= 0
-SWEP.Primary.Delay 			= 0.15
+SWEP.Primary.Delay 			= 0.125
 SWEP.Primary.Damage			= 15
-SWEP.Primary.ClipSize		= -1
+SWEP.Primary.ClipSize		= 100
+SWEP.Primary.DefaultClip = 100
+SWEP.Primary.ClipMax = 100
 SWEP.Primary.Cone           = 0.2
 SWEP.Primary.Automatic		= true
-SWEP.Primary.Ammo			= none
-SWEP.Primary.DefaultClip    = -1
+SWEP.Primary.Ammo			= "AirboatGun"
 SWEP.Primary.Sound         = Sound( "Weapon_plasma.shot" )
-SWEP.Primary.ShoveX = 0.25
-SWEP.Primary.ShoveY = 0.35
+SWEP.Primary.ShoveX = 0.15
+SWEP.Primary.ShoveY = 0.25
 SWEP.OverheatSound = Sound("Weapon_plasma.overheat")
+SWEP.OverheatFinishSound = Sound("Weapon_plasma.overheat_finish")
 
 SWEP.Secondary.ClipSize    = -1
 SWEP.Secondary.DefaultClip = -1
@@ -111,18 +111,18 @@ function SWEP:Think()
 end
 
 function SWEP:PrimaryAttackBase()
-	if not IsFirstTimePredicted() then return end
-	if self.InCooldown then return end
+	if (not IsFirstTimePredicted()) or (not self:CanPrimaryAttack()) or self.InCooldown then return end
 	if self.CurHeat >= self.MaxHeat then self:Overheat() return end
 	self.CurHeat = self.CurHeat + self.BuildupHeat
 	self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 	self.Owner:SetAnimation(PLAYER_ATTACK1)
-	
+	self:TakePrimaryAmmo(1)
 	if SERVER then
 		local pos = self.Owner:GetShootPos()
-		local spr = Angle(math.random(-self.Primary.Cone,self.Primary.Cone),
-											math.random(-self.Primary.Cone,self.Primary.Cone),
-											math.random(-self.Primary.Cone,self.Primary.Cone))
+		local heatCone = self.Primary.Cone * (self.CurHeat / 4 + 1)
+		local spr = Angle(math.random(-heatCone,heatCone),
+											math.random(-heatCone,heatCone),
+											math.random(-heatCone,heatCone))
 		local ang = self.Owner:GetAimVector():Angle() + spr
 		local ent = ents.Create("ttt_plasma")
 		ent:SetAngles(ang)

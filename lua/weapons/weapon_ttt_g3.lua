@@ -12,7 +12,7 @@ SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 0.55
-SWEP.Primary.Recoil = 0.025
+SWEP.Primary.Recoil = 0.1
 SWEP.Primary.Cone = 0.025
 SWEP.Primary.Damage = 49
 SWEP.Primary.Automatic = true
@@ -42,7 +42,7 @@ SWEP.Primary.ShoveX         = 0.2
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false
-SWEP.ViewModelFOV = 60
+SWEP.ViewModelFOV = 54
 SWEP.ViewModel = Model( "models/weapons/cstrike/c_snip_g3sg1.mdl" )
 SWEP.WorldModel = Model( "models/weapons/w_snip_g3sg1.mdl" )
 

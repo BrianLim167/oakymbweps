@@ -6,7 +6,7 @@ if true or SERVER then
 end
 
 if CLIENT then
-   SWEP.PrintName = "M61 Vulcan"
+   SWEP.PrintName = "Minigun"
    SWEP.Author = "TFlippy"
    
    SWEP.Slot = 6
@@ -27,10 +27,10 @@ SWEP.IsSilent = false
 SWEP.NoSights = true
 SWEP.Kind = WEAPON_EQUIP1
 
-SWEP.Primary.Delay	   = 0.08
+SWEP.Primary.Delay	   = 0.0775
 SWEP.Primary.Recoil	  = 0.00408
 SWEP.Primary.Automatic   = true
-SWEP.ViewModelFOV  = 45
+SWEP.ViewModelFOV  = 40
 SWEP.ViewModelFlip = false
 SWEP.CSMuzzleFlashes = true
 SWEP.Primary.ClipSize	= 200
@@ -114,31 +114,43 @@ function SWEP:Think()
 			self.IsShooting = false 
 		end
 	end
-end		
+end
 
 function SWEP:PrimaryAttack(worldsnd)	
 
-		self:SetNextSecondaryFire( CurTime() + self.Primary.Delay/SpinMod )
-		self:SetNextPrimaryFire( CurTime() + self.Primary.Delay/SpinMod )   
+	if not self:CanPrimaryAttack() then return end	
+	self:SetNextSecondaryFire( CurTime() + self.Primary.Delay/SpinMod )
+	self:SetNextPrimaryFire( CurTime() + self.Primary.Delay/SpinMod )   
+	
+	if SERVER then
+		self.Owner:LagCompensation(true)
+	end
+	
+	if not self.IsShooting == true then
+		self.IsShooting = true
+		timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
+			function()
+				
+				SpinMod = math.Approach( SpinMod, 2,  0.17)	
+			end)
+	end
+	
+	self:PrimaryAttackBase(worldsnd)
+	
+	
 
-		if not self:CanPrimaryAttack() then return end
+	if SERVER then
+		self.Owner:LagCompensation(false)
+		--[[
+		local fx = EffectData()
+		fx:SetEntity(self)
+		fx:SetAttachment(2)
+		fx:SetOrigin(self:GetAttachment(2)["Pos"])
+		-- print(self.Owner:GetPos(), self:GetAttachment(2)["Pos"])
+		fx:SetNormal(self:GetAttachment(2)["Ang"]:Forward())
+		util.Effect( "EjectBrass_556", fx )
+		self.BaseClass.ShootEffects( self )
+		]]
 		
-		if SERVER then
-			self.Owner:LagCompensation(true)
-		end
-		
-		if not self.IsShooting == true then
-			self.IsShooting = true
-			timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
-				function()
-					
-					SpinMod = math.Approach( SpinMod, 2.5,  0.17)	
-				end)
-		end
-		
-		self:PrimaryAttackBase(worldsnd)
-		
-		if SERVER then
-			self.Owner:LagCompensation(false)
-		end
+	end
 end
