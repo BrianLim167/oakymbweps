@@ -9,6 +9,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/ak47-1.ogg"
 })
 sound.Add({
@@ -16,6 +17,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/aug-1.ogg"
 })
 sound.Add({
@@ -23,6 +25,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/deagle-1.ogg"
 })
 sound.Add({
@@ -30,6 +33,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/fiveseven-1.ogg"
 })
 sound.Add({
@@ -37,6 +41,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		120,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/g3sg1-1.ogg"
 })
 sound.Add({
@@ -44,6 +49,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/awps-1.ogg"
 })
 sound.Add({
@@ -51,6 +57,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/glock18-1.ogg"
 })
 sound.Add({
@@ -58,6 +65,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/m249-1.ogg"
 })
 sound.Add({
@@ -65,6 +73,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/m4a1-1.ogg"
 })
 sound.Add({
@@ -72,6 +81,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		70,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/m4a1s-1.ogg"
 })
 sound.Add({
@@ -79,6 +89,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		120,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/scout-1.ogg"
 })
 sound.Add({
@@ -86,6 +97,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/scouts-1.ogg"
 })
 sound.Add({
@@ -93,6 +105,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/mac10-1.ogg"
 })
 sound.Add({
@@ -100,6 +113,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/p90-1.ogg"
 })
 sound.Add({
@@ -107,6 +121,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/p228-1.ogg"
 })
 sound.Add({
@@ -114,6 +129,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		70,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/tmp-1.ogg"
 })
 sound.Add({
@@ -121,6 +137,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/ump45-1.ogg"
 })
 sound.Add({
@@ -128,6 +145,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		60,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/usps-1.ogg"
 })
 sound.Add({
@@ -135,6 +153,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/css_replace/xm1014-1.ogg"
 })
 sound.Add({
@@ -142,6 +161,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		90,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/det_revolver/revolver-1.ogg"
 })
 sound.Add({
@@ -149,6 +169,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 			"weapons/ree/kslh/kslh-1.ogg"
 })
 sound.Add({
@@ -156,6 +177,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.00,
+	pitch = 		{97, 103},
 	sound = 			"weapons/locomotive12g/shorty-1.ogg"
 })
 sound.Add({
@@ -163,6 +185,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 		"weapons/minigun/pew.ogg"
 })
 sound.Add({
@@ -176,12 +199,13 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		100,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 		"weapons/plasma/plasma-1.wav"
 })
 sound.Add({
 	name = 			"Weapon_plasma.overheat",
 	channel = 		CHAN_WEAPON,
-	level = 		75,
+	level = 		85,
 	volume = 		1.0,
 	sound = 		"weapons/plasma/plasma_overheat.ogg"
 })
@@ -190,6 +214,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		75,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 		"weapons/plasma/plasma_hit-1.ogg"
 })
 sound.Add({
@@ -197,6 +222,7 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		75,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 		"weapons/plasma/plasma_hit-2.ogg"
 })
 sound.Add({
@@ -204,5 +230,6 @@ sound.Add({
 	channel = 		CHAN_WEAPON,
 	level = 		75,
 	volume = 		1.0,
+	pitch = 		{97, 103},
 	sound = 		"weapons/plasma/plasma_hit-3.ogg"
 })

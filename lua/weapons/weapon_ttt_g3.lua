@@ -12,7 +12,7 @@ SWEP.HoldType = "ar2"
 
 SWEP.Primary.Ammo = "357"
 SWEP.Primary.Delay = 0.55
-SWEP.Primary.Recoil = 0.1
+SWEP.Primary.Recoil = 0.035
 SWEP.Primary.Cone = 0.025
 SWEP.Primary.Damage = 49
 SWEP.Primary.Automatic = true
@@ -36,9 +36,9 @@ SWEP.AimPatternY 		= function(t)
 	end
 SWEP.BloomRecoverRate 	= 0.0025
 SWEP.AimRecoverRate		= 0.075
-SWEP.AimKick			= 0.01
+SWEP.AimKick			= 0.6
 SWEP.Primary.ShoveY         = 0.3
-SWEP.Primary.ShoveX         = 0.2
+SWEP.Primary.ShoveX         = 0.25
 
 SWEP.UseHands = true
 SWEP.ViewModelFlip = false

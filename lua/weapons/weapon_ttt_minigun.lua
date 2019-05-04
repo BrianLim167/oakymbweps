@@ -41,7 +41,7 @@ SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1.2
 SWEP.JumpPenalty			 	 	= 0.2
-SWEP.MaxCone 					 	= 0.07
+SWEP.MaxCone 					 	= 0.085
 
 SWEP.BloomRecoverRate 	= 0.00125
 SWEP.AimRecoverRate		= 0.35
@@ -56,8 +56,8 @@ SWEP.Primary.Damage	  = 15
 SWEP.Primary.Cone	= 0.012
 SWEP.Primary.NumShots = 1
 
-SWEP.IronSightsPos = Vector(-3.80, 1.00, 2.00)
-SWEP.IronSightsAng = Vector(0.12, -0.02, 0.00)
+SWEP.IronSightsPos = Vector(-2, -1.00, -2.00)
+SWEP.IronSightsAng = Vector(5.00, 0.00, 0.00)
 
 SWEP.UseHands	= false
 SWEP.ViewModel	= "models/weapons/v_minigunvulcan.mdl"
@@ -131,7 +131,7 @@ function SWEP:PrimaryAttack(worldsnd)
 		timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
 			function()
 				
-				SpinMod = math.Approach( SpinMod, 2,  0.17)	
+				SpinMod = math.Approach( SpinMod, 1.5,  0.17)	
 			end)
 	end
 	
