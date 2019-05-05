@@ -6,7 +6,7 @@ if true or SERVER then
 end
 
 if CLIENT then
-   SWEP.PrintName = "M61 Vulcan"
+   SWEP.PrintName = "Minigun"
    SWEP.Author = "TFlippy"
    
    SWEP.Slot = 6
@@ -27,10 +27,10 @@ SWEP.IsSilent = false
 SWEP.NoSights = true
 SWEP.Kind = WEAPON_EQUIP1
 
-SWEP.Primary.Delay	   = 0.08
+SWEP.Primary.Delay	   = 0.0775
 SWEP.Primary.Recoil	  = 0.00408
 SWEP.Primary.Automatic   = true
-SWEP.ViewModelFOV  = 45
+SWEP.ViewModelFOV  = 50
 SWEP.ViewModelFlip = false
 SWEP.CSMuzzleFlashes = true
 SWEP.Primary.ClipSize	= 200
@@ -41,7 +41,7 @@ SWEP.HeadshotMultiplier = 2
 SWEP.CrouchBonus 				 	= 0.7
 SWEP.MovePenalty			 	 	= 1.2
 SWEP.JumpPenalty			 	 	= 0.2
-SWEP.MaxCone 					 	= 0.07
+SWEP.MaxCone 					 	= 0.085
 
 SWEP.BloomRecoverRate 	= 0.00125
 SWEP.AimRecoverRate		= 0.35
@@ -56,8 +56,8 @@ SWEP.Primary.Damage	  = 15
 SWEP.Primary.Cone	= 0.012
 SWEP.Primary.NumShots = 1
 
-SWEP.IronSightsPos = Vector(-3.80, 1.00, 2.00)
-SWEP.IronSightsAng = Vector(0.12, -0.02, 0.00)
+SWEP.IronSightsPos = Vector(-2, -1.00, -2.00)
+SWEP.IronSightsAng = Vector(5.00, 0.00, 0.00)
 
 SWEP.UseHands	= false
 SWEP.ViewModel	= "models/weapons/v_minigunvulcan.mdl"
@@ -114,31 +114,67 @@ function SWEP:Think()
 			self.IsShooting = false 
 		end
 	end
-end		
+end
 
 function SWEP:PrimaryAttack(worldsnd)	
 
-		self:SetNextSecondaryFire( CurTime() + self.Primary.Delay/SpinMod )
-		self:SetNextPrimaryFire( CurTime() + self.Primary.Delay/SpinMod )   
+	if not self:CanPrimaryAttack() then return end	
+	self:SetNextSecondaryFire( CurTime() + self.Primary.Delay/SpinMod )
+	self:SetNextPrimaryFire( CurTime() + self.Primary.Delay/SpinMod )   
+	
+	if SERVER then
+		self.Owner:LagCompensation(true)
+	end
+	
+	if not self.IsShooting == true then
+		self.IsShooting = true
+		timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
+			function()
+				
+				SpinMod = math.Approach( SpinMod, 1.5,  0.17)	
+			end)
+	end
+	
+	self:PrimaryAttackBase(worldsnd)
+	
+	
 
-		if not self:CanPrimaryAttack() then return end
+	if SERVER then
+		self.Owner:LagCompensation(false)
+		--[[
+		local fx = EffectData()
+		fx:SetEntity(self)
+		fx:SetAttachment(2)
+		fx:SetOrigin(self:GetAttachment(2)["Pos"])
+		-- print(self.Owner:GetPos(), self:GetAttachment(2)["Pos"])
+		fx:SetNormal(self:GetAttachment(2)["Ang"]:Forward())
+		util.Effect( "EjectBrass_556", fx )
+		self.BaseClass.ShootEffects( self )
+		]]
 		
-		if SERVER then
-			self.Owner:LagCompensation(true)
-		end
-		
-		if not self.IsShooting == true then
-			self.IsShooting = true
-			timer.Create(self.Owner:EntIndex() .. "_SpinMod", 0.25, 20,
-				function()
-					
-					SpinMod = math.Approach( SpinMod, 2.5,  0.17)	
-				end)
-		end
-		
-		self:PrimaryAttackBase(worldsnd)
-		
-		if SERVER then
-			self.Owner:LagCompensation(false)
-		end
+	end
+end
+
+function SWEP:GetViewModelPosition( EyePos, EyeAng )
+	local Mul = 1.0
+
+	local Offset = self.IronSightsPos
+
+	if ( self.IronSightsAng ) then
+		EyeAng = EyeAng * 1
+
+		EyeAng:RotateAroundAxis( EyeAng:Right(), 	self.IronSightsAng.x * Mul )
+		EyeAng:RotateAroundAxis( EyeAng:Up(), 		self.IronSightsAng.y * Mul )
+		EyeAng:RotateAroundAxis( EyeAng:Forward(),	self.IronSightsAng.z * Mul )
+	end
+
+	local Right 	= EyeAng:Right()
+	local Up 		= EyeAng:Up()
+	local Forward 	= EyeAng:Forward()
+
+	EyePos = EyePos + Offset.x * Right * Mul
+	EyePos = EyePos + Offset.y * Forward * Mul
+	EyePos = EyePos + Offset.z * Up * Mul
+
+	return EyePos, EyeAng
 end

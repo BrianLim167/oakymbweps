@@ -13,8 +13,8 @@ function ENT:Initialize()
 	util.SpriteTrail(self, 0, Color(100, 150, 255), false, 20, 0, 0.2, 0.5, "trails/physbeam.vmt")
   m_entLight = ents.Create("light_dynamic")
 	m_entLight:SetColor(Color(100,150,255,255))
-	m_entLight:SetKeyValue("brightness", "5")
-	m_entLight:SetKeyValue("distance", "150")
+	m_entLight:SetKeyValue("brightness", "4")
+	m_entLight:SetKeyValue("distance", "100")
 	m_entLight:SetPos(self:GetPos())
 	m_entLight:SetParent(self.Entity)
 	m_entLight:Spawn()
@@ -32,14 +32,19 @@ function ENT:Initialize()
 end
 
 function ENT:PhysicsCollide(data, physobj)
+	local hitsounds = {
+		"Weapon_plasma.hit1",
+		"Weapon_plasma.hit2",
+		"Weapon_plasma.hit3"
+	}
 	util.Decal("SmallScorch", data.HitPos + data.HitNormal , data.HitPos - data.HitNormal)
-	util.BlastDamage(self, self:GetOwner(), self:GetPos(), 20, 15)
-	self:EmitSound("Weapon_plasma.hit")
-	for k, v in pairs (ents.FindInSphere( self:GetPos(), 25 )) do
+	util.BlastDamage(self, self:GetOwner(), self:GetPos(), 25, 15)
+	self:EmitSound(table.Random(hitsounds))
+	for k, v in pairs (ents.FindInSphere( self:GetPos(), 15 )) do
 		if v:IsPlayer() and v:Alive() and (not v:IsSpec()) then
-			v:Ignite(1)
+			v:Ignite(2)
 		elseif v:IsWeapon() == 0 then
-			v:Ignite(1)
+			v:Ignite(2)
 		end
 	end
   self:Remove()

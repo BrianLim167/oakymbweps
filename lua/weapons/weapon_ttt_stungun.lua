@@ -25,7 +25,7 @@ SWEP.LimitedStock = false
 
 SWEP.Primary.Damage = 12
 SWEP.Primary.Delay = 0.1
-SWEP.Primary.Cone = 0.012
+SWEP.Primary.Cone = 0.013
 SWEP.Primary.ClipSize = 25
 SWEP.Primary.ClipMax = 60
 SWEP.Primary.DefaultClip	= 25
