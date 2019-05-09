@@ -67,7 +67,7 @@ SWEP.Secondary.Delay       = 0.5
 
 SWEP.CurHeat = 0
 SWEP.MaxHeat = 30
-SWEP.BuildupHeat = 1.5
+SWEP.BuildupHeat = 1.25
 SWEP.InCooldown = false
 SWEP.IsShooting = false
 SWEP.CooldownRate = 1
