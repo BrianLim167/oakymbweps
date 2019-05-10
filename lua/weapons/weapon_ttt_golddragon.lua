@@ -3,7 +3,6 @@ if SERVER then
 	resource.AddFile( "sound/weapons/ree/kslh/ak47_boltpull.wav" )
 	resource.AddFile( "sound/weapons/ree/kslh/ak47_clipin.wav" )
 	resource.AddFile( "sound/weapons/ree/kslh/ak47_clipout.wav" )
-	resource.AddFile( "sound/weapons/ree/kslh/kslh1.wav" )
 	resource.AddFile( "models/weapons/v_rif_ree_kslh.mdl" )
 	resource.AddFile( "models/weapons/w_rif_ree_kslh47.mdl" )
 	resource.AddFile( "materials/vgui/ttt/lykrast/icon_ap_golddragon.vmt" )
@@ -92,7 +91,7 @@ function SWEP:IgniteTarget(att, path, dmginfo)
 
    if SERVER then
 
-      local dur = ent:IsPlayer() and 6 or 9
+      local dur = ent:IsPlayer() and 5 or 8
 
       -- disallow if prep or post round
       if ent:IsPlayer() and (not GAMEMODE:AllowPVP()) then return end
