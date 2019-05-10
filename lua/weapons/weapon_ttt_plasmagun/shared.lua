@@ -42,20 +42,18 @@ SWEP.Category      = "Explosives"
 
 SWEP.HoldType      = "ar2"
 
-SWEP.Primary.Recoil      = 0
-SWEP.Primary.Delay       = 0.125
-SWEP.Primary.Damage      = 15
-SWEP.Primary.ClipSize    = 100
-SWEP.Primary.DefaultClip = 100
-SWEP.Primary.ClipMax = 100
-SWEP.Primary.Cone           = 0.2
-SWEP.Primary.Automatic    = true
-SWEP.Primary.Ammo      = "AirboatGun"
-SWEP.Primary.Sound         = Sound( "Weapon_plasma.shot" )
+SWEP.Primary.Recoil = 0
+SWEP.Primary.Delay = 0.125
+SWEP.Primary.Damage = 15
+SWEP.Primary.ClipSize = 150
+SWEP.Primary.DefaultClip = 150
+SWEP.Primary.ClipMax = 150
+SWEP.Primary.Cone = 0.2
+SWEP.Primary.Automatic = true
+SWEP.Primary.Ammo = "AirboatGun"
+SWEP.Primary.Sound = Sound( "Weapon_plasma.shot" )
 SWEP.Primary.ShoveX = 0.15
 SWEP.Primary.ShoveY = 0.25
-SWEP.OverheatSound = Sound("Weapon_plasma.overheat")
-SWEP.OverheatFinishSound = Sound("Weapon_plasma.overheat_finish")
 
 SWEP.Secondary.ClipSize    = -1
 SWEP.Secondary.DefaultClip = -1
@@ -63,9 +61,11 @@ SWEP.Secondary.Automatic   = false
 SWEP.Secondary.Ammo        = "none"
 SWEP.Secondary.Delay       = 0.5
 
+SWEP.OverheatSound = Sound("Weapon_plasma.overheat")
+SWEP.OverheatFinishSound = Sound("Weapon_plasma.overheat_finish")
 SWEP.CurHeat = 0
 SWEP.MaxHeat = 30
-SWEP.BuildupHeat = 1.5
+SWEP.BuildupHeat = 1.25
 SWEP.InCooldown = false
 SWEP.IsShooting = false
 SWEP.CooldownRate = 1
@@ -129,7 +129,7 @@ function SWEP:PrimaryAttackBase()
     ent:Spawn()
     local phys = ent:GetPhysicsObject()
     if IsValid(phys) then
-      phys:SetVelocity(ang:Forward() * 1500)
+      phys:SetVelocity(ang:Forward() * 1750)
     end
   end
   if not worldsnd then
