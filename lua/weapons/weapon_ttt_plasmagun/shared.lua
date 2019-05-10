@@ -129,7 +129,7 @@ function SWEP:PrimaryAttackBase()
     ent:Spawn()
     local phys = ent:GetPhysicsObject()
     if IsValid(phys) then
-      phys:SetVelocity(ang:Forward() * 1500)
+      phys:SetVelocity(ang:Forward() * 1750)
     end
   end
   if not worldsnd then
