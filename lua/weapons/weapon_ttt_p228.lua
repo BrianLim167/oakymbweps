@@ -14,7 +14,7 @@ SWEP.Primary.Ammo = "Pistol"
 SWEP.Primary.Delay = 0.125
 SWEP.Primary.Recoil = 0.00625
 SWEP.Primary.Cone = 0.013
-SWEP.Primary.Damage = 15
+SWEP.Primary.Damage = 17
 SWEP.Primary.Automatic = false
 SWEP.Primary.ClipSize = 12
 SWEP.Primary.ClipMax = 60
@@ -36,7 +36,7 @@ SWEP.BloomRecoverRate 	= 0.00075
 SWEP.AimRecoverRate		= 0.175
 SWEP.AimKick			= 1.1
 SWEP.Primary.ShoveY         = 0.2
-SWEP.Primary.ShoveX         = 0.4
+SWEP.Primary.ShoveX         = 0.35
 
 -- Model properties
 SWEP.UseHands = true
