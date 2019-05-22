@@ -23,9 +23,9 @@ SWEP.Base                  = "weapon_ttt_brekiy_base"
 SWEP.ShortLightBrightness = -10
 SWEP.LongLightBrightness = -50
 
-SWEP.Primary.Recoil		   = 0.0115
-SWEP.Primary.Damage        = 17
-SWEP.Primary.Delay         = 0.15
+SWEP.Primary.Recoil = 0.0115
+SWEP.Primary.Damage = 18
+SWEP.Primary.Delay  = 0.125
 SWEP.Primary.Cone          = 0.006
 SWEP.Primary.ClipSize      = 20
 SWEP.Primary.Automatic     = true
@@ -35,11 +35,11 @@ SWEP.Primary.Ammo          = "Pistol"
 SWEP.Primary.Sound         = Sound( "Weapon_usp.shot" )
 SWEP.Primary.SoundLevel    = 50
 SWEP.HeadshotMultiplier    = 2
-SWEP.CrouchBonus 				 	= 0.55
-SWEP.MovePenalty			 	 	= 0.175
-SWEP.JumpPenalty			 	 	= 0.02
-SWEP.MaxCone 					 	= 0.06
-SWEP.Tracer							= "None"
+SWEP.CrouchBonus = 0.55
+SWEP.MovePenalty = 0.175
+SWEP.JumpPenalty = 0.02
+SWEP.MaxCone = 0.06
+SWEP.Tracer = "None"
 
 SWEP.AimPatternX 		= function(t)
 		return 0.2 * math.sin( 2 * t )
