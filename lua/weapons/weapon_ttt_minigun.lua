@@ -52,7 +52,7 @@ SWEP.Primary.ShoveX         = 0.3
 SWEP.CanBuy = { ROLE_TRAITOR }
 SWEP.LimitedStock = true
 
-SWEP.Primary.Damage	  = 15
+SWEP.Primary.Damage	  = 12
 SWEP.Primary.Cone	= 0.012
 SWEP.Primary.NumShots = 1
 
