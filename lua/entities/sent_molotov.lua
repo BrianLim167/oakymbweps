@@ -56,7 +56,7 @@ function ENT:Explosion()
 
 	local physExplo = ents.Create( "env_physexplosion" )
 	physExplo:SetOwner( self.Owner )
-	physExplo:SetPhysicsAttacker(self.GetOwner)
+	physExplo:SetPhysicsAttacker(self.Owner)
 	physExplo:SetPos( self:GetPos() )
 	physExplo:SetKeyValue( "Magnitude", "100" )	-- Power of the Physicsexplosion, originally 500
 	physExplo:SetKeyValue( "radius", "100" )	-- Radius of the explosion, originally 450
@@ -66,7 +66,7 @@ function ENT:Explosion()
 
 	local ar2Explo = ents.Create( "env_ar2explosion" )
 	ar2Explo:SetOwner( self.Owner )
-	ar2Explo:SetPhysicsAttacker(self.GetOwner)
+	ar2Explo:SetPhysicsAttacker(self.Owner)
 	ar2Explo:SetPos( self:GetPos() )
 	ar2Explo:SetKeyValue( "material", "effects/muzzleflash"..math.random( 1, 4 ) )
 	ar2Explo:Spawn()
@@ -75,7 +75,7 @@ function ENT:Explosion()
 
 	for i = 1, 25 do
 		local fire = ents.Create( "env_fire" )
-		fire:SetPhysicsAttacker(self.GetOwner)
+		fire:SetPhysicsAttacker(self.Owner)
 		fire:SetPos( self:GetPos() + Vector( math.random( -100, 100 ), math.random( -100, 100 ), 0 ) )
 		fire:SetKeyValue( "health", math.random( 10, 15 ) )
 		fire:SetKeyValue( "firesize", "96" )

@@ -82,7 +82,7 @@ if CLIENT then
    SWEP.CSMuzzleFlashes = true
 end
 
-SWEP.Base = "weapon_base"
+--SWEP.Base = "weapon_base"
 
 --SWEP.Category           = "TTT"
 SWEP.Spawnable          = false

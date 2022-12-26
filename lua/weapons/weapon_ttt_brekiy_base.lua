@@ -438,6 +438,8 @@ function SWEP:ShootBulletBase( dmg, recoil, numbul, cone )
 		if CLIENT then
 			self.AimY = self.AimY + self.AimPatternY(self.AimPunch+1) - self.AimPatternY(self.AimPunch)
 			self.AimX = self.AimX + self.AimPatternX(self.AimPunch+1) - self.AimPatternX(self.AimPunch)
+			--self.Owner:PrintMessage( HUD_PRINTTALK, self.AimPunch )
+			--self.Owner:PrintMessage( HUD_PRINTTALK, self.AimPatternX(self.AimPunch) )
 		end
 		
 		self.Owner:ViewPunch( Angle(self.Primary.ShoveY*math.Rand(-1,1), self.Primary.ShoveX*math.Rand(-1,1), 0) )
@@ -641,4 +643,7 @@ function SWEP:ThinkBase()
 	end
 		
 	--local inaccMult = 1 + self.Owner:GetWalkSpeed() * 0.75
+end
+
+function SWEP:PreDrop()
 end

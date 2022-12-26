@@ -2,6 +2,8 @@
 
 AddCSLuaFile()
 
+DEFINE_BASECLASS "weapon_tttbase"
+
 SWEP.HoldReady             = "grenade"
 SWEP.HoldNormal            = "slam"
 
