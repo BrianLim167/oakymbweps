@@ -64,8 +64,8 @@ function PopulateWeaponsShop(shop, role)
    for k,v in pairs( shop ) do 
       if v.name then
          swep = weapons.GetStored(v.name)
-         if not ( swep and swep.CanBuy and  table.HasValue(swep.CanBuy, role) ) then
-            table.insert(weapons.GetStored(v.name).CanBuy, role )
+         if swep and swep.CanBuy and not table.HasValue(swep.CanBuy, role) then
+            table.insert(swep.CanBuy, role)
          end
       end
    end
